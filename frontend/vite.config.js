@@ -5,6 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5002,
+    hot: true,
+    watch: {
+      usePolling: true,
+    },
     proxy: {
       // Проксируем запросы к API
       '/api': {
@@ -15,6 +19,18 @@ export default defineConfig({
         target: 'ws://localhost:5001',
         ws: true,
         rewriteWsOrigin: true,
+      },
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: [
+          'import',
+          'mixed-decls',
+          'color-functions',
+          'global-builtin',
+        ],
       },
     },
   },
