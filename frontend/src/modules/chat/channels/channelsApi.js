@@ -1,10 +1,23 @@
-import { baseApi } from '../../../shared/api.js';
 
-export const channelApi = baseApi.injectEndpoints({
+  import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+const baseUrl = '/api/v1/';
+
+export const channelApi = createApi({
   reducerPath: 'channelApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl,
+    prepareHeaders: (headers, { getState }) => {
+    const token = getState().auth.token;
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   tagTypes: ['Channel'],
   endpoints: (builder) => ({
-    getChannel: builder.query({
+    getChannels: builder.query({
       query: () => '/channels',
       providesTags: ['Channel'],
     }),

@@ -1,10 +1,10 @@
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field , ErrorMessage} from 'formik';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import { useVerifyTokenMutation } from '../auth/authApi.js';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../auth/authSlice.js';
+import { setCredentials} from '../auth/authSlice.js';
 import { Button } from '../../../components/uikit/ui-button.jsx';
 
 export const FormLogin = () => {
@@ -45,15 +45,16 @@ export const FormLogin = () => {
   const handleLogin = async (name, password) => {
     try {
       setShowError(false);
-      const response = await login({
+      const user = await login({
         username: name,
         password: password,
       }).unwrap();
-      dispatch(setCredentials(response.token));
+
+      dispatch(setCredentials(user));
       navigate('/');
     } catch (err) {
       setShowError(true);
-      // console.error('Ошибка соединения', err);
+      console.error('Ошибка соединения', err);
     }
   };
 
@@ -63,7 +64,7 @@ export const FormLogin = () => {
         initialValues={{ nickName: '', password: '' }}
         onSubmit={(values) => handleLogin(values.nickName, values.password)}
       >
-        {({ touched }) => (
+        {() => (
           <Form className="d-flex flex-column w-100 text-center m-5">
             <h1>Войти</h1>
             <Field
