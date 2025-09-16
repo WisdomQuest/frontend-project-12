@@ -1,6 +1,6 @@
 import { useGetChannelsQuery, useAddChannelMutation } from './channelsApi';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentChannel, showChannelModal } from './channelsSlice';
+import { setCurrentChannel} from './channelsSlice';
 import ChannelItem from './ChannelItem';
 import AddChanellModal from './modal/addChanellModal';
 import { useState } from 'react';

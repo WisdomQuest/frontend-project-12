@@ -1,10 +1,11 @@
-import { useDispatch } from 'react-redux';
-import { useRemoveChannelMutation, useEditChannelMutation } from './channelsApi';
-import { showChannelModal } from './channelsSlice';
+import {
+  useRemoveChannelMutation,
+  useEditChannelMutation,
+} from './channelsApi';
+
 import { Dropdown } from 'bootstrap';
 
 const ChannelItem = ({ channel, isActive, onSelect }) => {
-  const dispatch = useDispatch();
   const [removeChannel] = useRemoveChannelMutation();
   const [editChannel] = useEditChannelMutation();
 
@@ -12,8 +13,8 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
     onSelect(channel.id);
   };
 
-  const handleEdit = async(values) => {
-        try {
+  const handleEdit = async (values) => {
+    try {
       await editChannel({
         name: values.chatName,
         removable: true,
@@ -25,7 +26,6 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
   };
 
   const handleRemove = async (e) => {
-    // e.stopPropagation();
     try {
       await removeChannel(channel.id).unwrap();
     } catch (error) {
@@ -52,7 +52,7 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <span class="visually-hidden">Toggle Dropdown</span>
+              <span className="visually-hidden">Toggle Dropdown</span>
             </button>
             <div className="dropdown-menu">
               <button className="dropdown-item" href="#" onClick={handleEdit}>
