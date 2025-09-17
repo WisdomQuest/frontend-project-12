@@ -37,4 +37,6 @@ export const {
   resetChannels,
 } = channelsSlice.actions;
 
+export const SelectCurrentChannelId = (state) => state.channels.currentChannelId;
+
 export default channelsSlice.reducer;

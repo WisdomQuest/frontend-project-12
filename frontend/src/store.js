@@ -5,6 +5,7 @@ import { authApi } from './modules/login/auth/authApi';
 import { regApi } from './modules/registration/regApi';
 // import { baseApi } from './shared/api';
 import { channelApi } from './modules/chat/channels/channelsApi';
+import { messagesApi } from './modules/chat/messages/messagesApi';
 
 export const store = configureStore({
   reducer: {
@@ -14,7 +15,8 @@ export const store = configureStore({
     [channelApi.reducerPath]: channelApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [regApi.reducerPath]: regApi.reducer,
+    [messagesApi.reducerPath]: messagesApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware, regApi.middleware, channelApi.middleware),
+    getDefaultMiddleware().concat(authApi.middleware, regApi.middleware, channelApi.middleware, messagesApi.middleware),
 });

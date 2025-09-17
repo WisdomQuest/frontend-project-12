@@ -2,10 +2,14 @@ import {
   useRemoveChannelMutation,
   useEditChannelMutation,
 } from './channelsApi';
-
 import { Dropdown } from 'bootstrap';
+import cn from 'classnames';
+import { useSelector } from 'react-redux';
+import { SelectCurrentChannelId } from './channelsSlice';
 
-const ChannelItem = ({ channel, isActive, onSelect }) => {
+const ChannelItem = ({ channel, onSelect }) => {
+  const currentChannelId = useSelector(SelectCurrentChannelId);
+
   const [removeChannel] = useRemoveChannelMutation();
   const [editChannel] = useEditChannelMutation();
 
@@ -25,20 +29,25 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
     }
   };
 
-  const handleRemove = async (e) => {
+  const handleRemove = async () => {
     try {
       await removeChannel(channel.id).unwrap();
     } catch (error) {
-      console.error('Failed to remove channel:', error);
+      console.error('Ошибка при удалении канала:', error);
     }
   };
 
+  const isActiveButton = channel.id == currentChannelId;
+
   return (
-    <li className={`channel-item ${isActive ? 'active' : ''}`}>
+    <li className="nav-item">
       <div className="btn-group w-100 d-flex">
         <button
           type="button"
-          className="btn btn-secondary w-100 text-start overflow-hidden"
+          className={cn('btn', 'w-100', 'text-start', 'rounded-0', {
+            'btn-secondary': isActiveButton,
+            'text-truncate': !isActiveButton,
+          })}
           onClick={handleSelect}
         >
           <span className="me-1"># </span>
@@ -48,7 +57,9 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
           <div className=" btn-group">
             <button
               type="button"
-              className="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+              className={cn('btn  dropdown-toggle dropdown-toggle-split', {
+                'btn-secondary': isActiveButton,
+              })}
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >

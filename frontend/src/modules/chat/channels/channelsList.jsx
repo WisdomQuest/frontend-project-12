@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel} from './channelsSlice';
 import ChannelItem from './ChannelItem';
 import AddChanellModal from './modal/addChanellModal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { SelectCurrentChannelId } from './channelsSlice';
 
 export const ChannelList = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,13 @@ export const ChannelList = () => {
   const [addChannel] = useAddChannelMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { currentChannelId } = useSelector((state) => state.channels);
+  const  currentChannelId  = useSelector(SelectCurrentChannelId);
+
+  useEffect(() => {
+    if (channels.length > 0 && !currentChannelId) {
+      dispatch(setCurrentChannel(channels[0].id));
+    }
+  }, [channels, currentChannelId, dispatch]);
 
   const handleChannelSelect = (channelId) => {
     dispatch(setCurrentChannel(channelId));
@@ -34,7 +41,6 @@ export const ChannelList = () => {
       }).unwrap();
     } catch (error) {
       console.error('Ошибка при создании чата:', error);
-      throw error;
     }
   };
 
@@ -67,7 +73,7 @@ export const ChannelList = () => {
           <ChannelItem
             key={channel.id}
             channel={channel}
-            isActive={currentChannelId === channel.id}
+            // isActive={currentChannelId === channel.id}
             onSelect={handleChannelSelect}
           />
         ))}
