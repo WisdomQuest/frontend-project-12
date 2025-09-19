@@ -5,10 +5,8 @@ export const singUpValidationSchema = Yup.object().shape({
     .min(3, 'от 3 до 20 символов')
     .max(20, 'от 3 до 20 символов')
     .required('Обязательное поле'),
-  password: Yup.string()
-    .min(6, 'мин 6 символов')
-    .required('Обязательное поле'),
+  password: Yup.string().min(6, 'мин 6 символов').required('Обязательное поле'),
   passwordConfirm: Yup.string()
+    .required('Обязательное поле')
     .oneOf([Yup.ref('password')], 'Введенные пароли не совпадают'),
 });
-

@@ -4,17 +4,19 @@ import {
 } from './channelsApi';
 import { Dropdown } from 'bootstrap';
 import cn from 'classnames';
-import { useSelector } from 'react-redux';
-import { SelectCurrentChannelId } from './channelsSlice';
+import { useDispatch } from 'react-redux';
+import {resetChannels} from './channelsSlice.js';
 
-const ChannelItem = ({ channel, onSelect }) => {
-  const currentChannelId = useSelector(SelectCurrentChannelId);
+
+
+const ChannelItem = ({ channel, isActive, onSelect }) => {
+  const dispatch = useDispatch();
 
   const [removeChannel] = useRemoveChannelMutation();
   const [editChannel] = useEditChannelMutation();
 
   const handleSelect = () => {
-    onSelect(channel.id);
+    onSelect({ id: channel.id, name: channel.name });
   };
 
   const handleEdit = async (values) => {
@@ -31,13 +33,15 @@ const ChannelItem = ({ channel, onSelect }) => {
 
   const handleRemove = async () => {
     try {
-      await removeChannel(channel.id).unwrap();
+      await removeChannel(channel.id)
+        .unwrap()
+        .then(() => {
+          dispatch(resetChannels(channel));
+        });
     } catch (error) {
       console.error('Ошибка при удалении канала:', error);
     }
   };
-
-  const isActiveButton = channel.id == currentChannelId;
 
   return (
     <li className="nav-item">
@@ -45,8 +49,8 @@ const ChannelItem = ({ channel, onSelect }) => {
         <button
           type="button"
           className={cn('btn', 'w-100', 'text-start', 'rounded-0', {
-            'btn-secondary': isActiveButton,
-            'text-truncate': !isActiveButton,
+            'btn-secondary': isActive,
+            'text-truncate': !isActive,
           })}
           onClick={handleSelect}
         >
@@ -58,7 +62,7 @@ const ChannelItem = ({ channel, onSelect }) => {
             <button
               type="button"
               className={cn('btn  dropdown-toggle dropdown-toggle-split', {
-                'btn-secondary': isActiveButton,
+                'btn-secondary': isActive,
               })}
               data-bs-toggle="dropdown"
               aria-expanded="false"

@@ -1,28 +1,31 @@
 import { useGetChannelsQuery, useAddChannelMutation } from './channelsApi';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentChannel} from './channelsSlice';
 import ChannelItem from './ChannelItem';
 import AddChanellModal from './modal/addChanellModal';
 import { useState, useEffect } from 'react';
-import { SelectCurrentChannelId } from './channelsSlice';
+import { SelectCurrentChannelId, setCurrentChannel } from './channelsSlice';
+import { io } from 'socket.io-client';
 
 export const ChannelList = () => {
   const dispatch = useDispatch();
+  const socket = io('http://localhost:5002');
 
-  const { data: channels = [], isLoading, error } = useGetChannelsQuery();
+  const { data: channels = [], isLoading, refetch } = useGetChannelsQuery();
   const [addChannel] = useAddChannelMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const  currentChannelId  = useSelector(SelectCurrentChannelId);
+  const currentChannelId = useSelector(SelectCurrentChannelId);
 
   useEffect(() => {
     if (channels.length > 0 && !currentChannelId) {
-      dispatch(setCurrentChannel(channels[0].id));
+      dispatch(
+        setCurrentChannel({ id: channels[0].id, name: channels[0].name })
+      );
     }
   }, [channels, currentChannelId, dispatch]);
 
-  const handleChannelSelect = (channelId) => {
-    dispatch(setCurrentChannel(channelId));
+  const handleChannelSelect = (channel) => {
+    dispatch(setCurrentChannel({ id: channel.id, name: channel.name }));
   };
 
   const handleOpenModal = () => {
@@ -33,19 +36,23 @@ export const ChannelList = () => {
     setIsModalOpen(false);
   };
 
+  socket.on('newChannel', () => {
+    refetch();
+  });
+
   const handleAddChannel = async (values) => {
     try {
-      await addChannel({
+      const channel = await addChannel({
         name: values.chatName,
         removable: true,
       }).unwrap();
+      dispatch(setCurrentChannel(channel));
     } catch (error) {
       console.error('Ошибка при создании чата:', error);
     }
   };
 
   if (isLoading) return <div>Загрузка...</div>;
-  if (error) return <div>Произошла ошибка</div>;
 
   return (
     <div className=" bg-info-subtle h-100 border border-primary col">
@@ -73,7 +80,7 @@ export const ChannelList = () => {
           <ChannelItem
             key={channel.id}
             channel={channel}
-            // isActive={currentChannelId === channel.id}
+            isActive={currentChannelId === channel.id}
             onSelect={handleChannelSelect}
           />
         ))}

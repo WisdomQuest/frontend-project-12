@@ -2,7 +2,7 @@ import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import { useVerifyTokenMutation } from '../auth/authApi.js';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials} from '../auth/authSlice.js';
 import { Button } from '../../../components/uikit/ui-button.jsx';
@@ -18,10 +18,6 @@ export const FormLogin = () => {
 
   const nickNameRef = useRef(null);
   const passwordRef = useRef(null);
-
-  useEffect(() => {
-    nickNameRef.current?.focus();
-  }, [isLoading]);
 
   const handleKeyPress = (e, fieldName) => {
     if (e.key === 'Enter') {
@@ -71,6 +67,7 @@ export const FormLogin = () => {
               name="nickName"
               innerRef={nickNameRef}
               className="mb-3 required"
+              autoFocus={true}
               placeholder="Ваш ник"
               type="text"
               onKeyPress={(e) => handleKeyPress(e, 'nickName')}

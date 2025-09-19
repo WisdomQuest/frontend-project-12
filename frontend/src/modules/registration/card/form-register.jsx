@@ -18,9 +18,9 @@ export const FormRegister = () => {
   const passwordRef = useRef(null);
   const passwordConfirmRef = useRef(null);
 
-  useEffect(() => {
-    nickNameRef.current?.focus();
-  }, [isLoading]);
+  // useEffect(() => {
+  //   nickNameRef.current?.focus();
+  // }, [isLoading]);
 
   const handleKeyPress = () => {};
 
@@ -35,7 +35,7 @@ export const FormRegister = () => {
     } catch (err) {
       if (err.status === 409) {
         setFieldError(
-          'passwordConfirm',
+          'userNameExists',
           'Пользователь с таким именем уже существует'
         );
       } else {
@@ -47,7 +47,12 @@ export const FormRegister = () => {
   return (
     <div>
       <Formik
-        initialValues={{ nickName: '', password: '', passwordConfirm: '' }}
+        initialValues={{
+          nickName: '',
+          password: '',
+          passwordConfirm: '',
+          userNameExists: '',
+        }}
         onSubmit={handleRegister}
         validationSchema={singUpValidationSchema}
       >
@@ -58,6 +63,7 @@ export const FormRegister = () => {
               name="nickName"
               innerRef={nickNameRef}
               className="mb-3"
+              autoFocus={true}
               placeholder="Ваш ник"
               type="text"
               onKeyPress={(e) => handleKeyPress(e, 'nickName')}
@@ -83,7 +89,17 @@ export const FormRegister = () => {
             <ErrorMessage
               name="passwordConfirm"
               component="div"
-              className="invalid bg-danger text-white rounded "
+              className="invalid bg-danger text-white rounded p-2 mt-2"
+            />
+            <ErrorMessage
+              name="userNameExists"
+              render={(msg) =>
+                msg ? (
+                  <div className="invalid bg-danger text-white rounded p-2 mt-2">
+                    {msg}
+                  </div>
+                ) : null
+              }
             />
 
             <Button

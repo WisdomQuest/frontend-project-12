@@ -4,18 +4,26 @@ import {
   selectCurrentToken,
 } from '../../modules/login/auth/authSlice.js';
 import { Button } from '../uikit/ui-button.jsx';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAuthenticated = !!useSelector(selectCurrentToken);
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate('/');
+  };
+
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    navigate('/');
   };
 
   return (
     <div className="d-flex justify-content-between align-items-center no-wrap bg-white shadow">
-      <h1>Hexlet Chat</h1>
+      <a href="/" onClick={handleLogoClick} className="navbar-brand">Hexlet Chat</a>
       {isAuthenticated && (
         <Button className="mb-3, w-100, btn-primary " onClick={handleLogout}>
           Выйти

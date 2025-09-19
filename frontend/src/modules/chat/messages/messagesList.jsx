@@ -3,10 +3,15 @@ import { Formik, Form, Field } from 'formik';
 import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../login/auth/authSlice';
-import { SelectCurrentChannelId } from '../channels/channelsSlice';
+import { SelectCurrentChannel } from '../channels/channelsSlice';
+import { io } from 'socket.io-client';
 export const MessageList = () => {
-  const { data: messages = []} = useGetMessagesQuery();
-  const currentChannelId = useSelector(SelectCurrentChannelId);
+  const { data: messages = [] } = useGetMessagesQuery();
+  const socket = io('http://localhost:5002');
+
+  const { id: currentChannelId, name: currentChannelName } =
+    useSelector(SelectCurrentChannel);
+
   const currentUser = useSelector(selectCurrentUser);
   const [addMessage, { isLoading }] = useAddMessageMutation();
 
@@ -14,17 +19,20 @@ export const MessageList = () => {
 
   useEffect(() => {
     messageRef.current?.focus();
-  }, []);
+  }, [currentChannelId]);
 
-  const handleAddMessage = async (values) => {
+  socket.on('newMessage', (payload) => {
+    console.log(payload); // => { body: "new message", channelId: 7, id: 8, username: "admin" }
+  });
+
+  const handleAddMessage = async (values, { resetForm }) => {
     try {
-       await addMessage({
-        body: values,
+      await addMessage({
+        body: values.message,
         channelId: currentChannelId,
         username: currentUser,
       }).unwrap();
-      messageRef.current.value = '';
-      console.log(messageRef.current.value);
+      resetForm();
     } catch (error) {
       console.error('Ошибка при создании сообщения:', error);
     }
@@ -36,7 +44,15 @@ export const MessageList = () => {
 
   return (
     <div className=" bg-warning-subtle col-10 d-flex flex-column">
-      <div className="mb-4 p-3 shadow-sm small">header </div>
+      <div className="mb-4 p-3 shadow-sm small">
+        <p className="m-0">
+          <b>{currentChannelName}</b>
+        </p>
+        <span className="text-muted">
+          {' '}
+          {currentChanellMessages.length} сообщений
+        </span>
+      </div>
       <div className="chat-messages overflow-auto px-5">
         {currentChanellMessages.map((message) => (
           <div key={message.id} className="text-break mb-2">
@@ -48,10 +64,10 @@ export const MessageList = () => {
       <div className="mt-auto px-5 py-3">
         <Formik
           initialValues={{ message: '' }}
-          onSubmit={(values) => handleAddMessage(values.message)}
+          onSubmit={handleAddMessage}
           className="py-1 border rounded-2"
         >
-          {() => (
+          {({ values }) => (
             <Form className=" w-100 text-center m-5 input-group">
               <Field
                 name="message"
@@ -62,7 +78,7 @@ export const MessageList = () => {
               />
               <button
                 type="submit"
-                disabled={isLoading || !messageRef.current?.value}
+                disabled={isLoading || !values.message.trim()}
                 className="btn btn-outline-secondary"
               >
                 <svg
