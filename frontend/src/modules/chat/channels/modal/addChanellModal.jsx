@@ -1,21 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { ChannelsValidationSchema } from '../../../../validation-shemas';
 
-const AddChanellModal = ({ isOpen, onClose, onSubmit }) => {
+const AddChanellModal = ({ isOpen, onClose, onSubmit, channelsName }) => {
   if (!isOpen) return null;
-
-  const initialValues = {
-    chatName: '',
-  };
-
-  const validationSchema = Yup.object({
-    chatName: Yup.string()
-      .required('Обязательное поле')
-      .min(3, 'от 3 до 20 символов')
-      .max(20, 'от 3 до 20 символов'),
-  });
-
-
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
@@ -48,8 +35,10 @@ const AddChanellModal = ({ isOpen, onClose, onSubmit }) => {
           </div>
 
           <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
+            initialValues={{
+              chatName: '',
+            }}
+            validationSchema={() => ChannelsValidationSchema(channelsName)}
             onSubmit={handleSubmit}
           >
             {({ isSubmitting, errors, touched, resetForm }) => (

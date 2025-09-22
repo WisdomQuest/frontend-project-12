@@ -5,9 +5,6 @@ const initialState = {
     name: null,
     id: null
   },
-  // showChannelModal: false,
-  // channelModalType: null,
-  // channelModalData: null,
 };
 
 const channelsSlice = createSlice({
@@ -17,16 +14,6 @@ const channelsSlice = createSlice({
     setCurrentChannel: (state, action) => {
       state.currentChannel = action.payload;
     },
-    // showChannelModal: (state, action) => {
-    //   state.showChannelModal = true;
-    //   state.channelModalType = action.payload.type;
-    //   state.channelModalData = action.payload.data || null;
-    // },
-    // hideChannelModal: (state) => {
-    //   state.showChannelModal = false;
-    //   state.channelModalType = null;
-    //   state.channelModalData = null;
-    // },
     resetChannels: (state) => {
       state.currentChannel = { id: null, name: null };
     },
@@ -35,8 +22,6 @@ const channelsSlice = createSlice({
 
 export const {
   setCurrentChannel,
-  showChannelModal,
-  hideChannelModal,
   resetChannels,
 } = channelsSlice.actions;
 

@@ -5,9 +5,7 @@ import {
 import { Dropdown } from 'bootstrap';
 import cn from 'classnames';
 import { useDispatch } from 'react-redux';
-import {resetChannels} from './channelsSlice.js';
-
-
+import { resetChannels } from './channelsSlice.js';
 
 const ChannelItem = ({ channel, isActive, onSelect }) => {
   const dispatch = useDispatch();
@@ -27,7 +25,6 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
       }).unwrap();
     } catch (error) {
       console.error('Ошибка при переименовании канала:', error);
-      throw error;
     }
   };
 

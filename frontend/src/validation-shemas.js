@@ -10,3 +10,11 @@ export const singUpValidationSchema = Yup.object().shape({
     .required('Обязательное поле')
     .oneOf([Yup.ref('password')], 'Введенные пароли не совпадают'),
 });
+
+export const ChannelsValidationSchema = (channelsName=[]) => Yup.object().shape({
+  chatName: Yup.string()
+    .required('Обязательное поле')
+    .min(3, 'от 3 до 20 символов')
+    .max(20, 'от 3 до 20 символов')
+    .notOneOf(channelsName, 'Канал с таким именем уже существует'),
+});
