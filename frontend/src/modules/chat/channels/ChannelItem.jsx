@@ -4,17 +4,26 @@ import {
 } from './channelsApi';
 import { Dropdown } from 'bootstrap';
 import cn from 'classnames';
-import { useDispatch } from 'react-redux';
-import { resetChannels } from './channelsSlice.js';
+import { useState } from 'react';
+import { DeleteChanellModal } from './modal/deleteChannelModal.jsx';
 
 const ChannelItem = ({ channel, isActive, onSelect }) => {
-  const dispatch = useDispatch();
+
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
 
   const [removeChannel] = useRemoveChannelMutation();
   const [editChannel] = useEditChannelMutation();
 
   const handleSelect = () => {
     onSelect({ id: channel.id, name: channel.name });
+  };
+
+  const handleOpenModalDelete = () => {
+    setIsShowDeleteModal(true);
+  };
+
+  const handleCloseModalDelete = () => {
+    setIsShowDeleteModal(false);
   };
 
   const handleEdit = async (values) => {
@@ -32,9 +41,6 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
     try {
       await removeChannel(channel.id)
         .unwrap()
-        .then(() => {
-          dispatch(resetChannels(channel));
-        });
     } catch (error) {
       console.error('Ошибка при удалении канала:', error);
     }
@@ -71,13 +77,22 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
                 Переименовать
               </button>
 
-              <button className="dropdown-item" href="#" onClick={handleRemove}>
+              <button
+                className="dropdown-item"
+                href="#"
+                onClick={handleOpenModalDelete}
+              >
                 Удалить
               </button>
             </div>
           </div>
         )}
       </div>
+      <DeleteChanellModal
+        isOpen={isShowDeleteModal}
+        onClose={handleCloseModalDelete}
+        onSubmit={handleRemove}
+      />
     </li>
   );
 };

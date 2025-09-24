@@ -4,20 +4,17 @@ import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../login/auth/authSlice';
 import { SelectCurrentChannel } from '../channels/channelsSlice';
-import { useSocket } from '../hooks/useSocket';
 import { ArrowIcon } from "../.././../assets/ArrowIcon";
 
 
 export const MessageList = () => {
-  const { data: messages = [], refetch } = useGetMessagesQuery();
+  const { data: messages = [], } = useGetMessagesQuery();
 
   const { id: currentChannelId, name: currentChannelName } =
     useSelector(SelectCurrentChannel);
 
   const currentUser = useSelector(selectCurrentUser);
   const [addMessage, { isLoading }] = useAddMessageMutation();
-
-  useSocket('newMessage', refetch);
 
   const messageRef = useRef(null);
 

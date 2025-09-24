@@ -1,38 +1,41 @@
 import { io } from 'socket.io-client';
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 export const useSocket = (action, refetch) => {
-  const [socket, setSocket] = useState(null);
+  const socketRef = useRef(null);
+  const isInitializedRef = useRef(false);
+
+  // Стабильная версия refetch с логированием
+  const stableRefetch = useCallback((data) => {
+    refetch(data);
+  }, [refetch]);
 
   useEffect(() => {
-    if (!socket) {
-    const newSocket = io('http://localhost:5002', {
-      transports: ['websocket', 'polling'],
-    });
+    if (!isInitializedRef.current) {
+      isInitializedRef.current = true;
 
-    setSocket(newSocket);
+      socketRef.current = io('http://localhost:5002', {
+        transports: ['websocket', 'polling'],
+      });
+    }
+
+    const currentSocket = socketRef.current;
+
+    currentSocket.on(action, stableRefetch);
 
     return () => {
-      newSocket.close();
+      currentSocket.off(action, stableRefetch);
     };
-  }
-  }, [socket]);
+  }, [action, stableRefetch]);
 
-  // Слушатель сообщений
+  // Закрываем соединение при размонтировании
   useEffect(() => {
-    if (!socket) return;
-
-    const handlenewChannel = () => {
-      refetch();
-    };
-
-    socket.on(action, handlenewChannel);
-
-    // Очистка слушателей
     return () => {
-      socket.off(action, handlenewChannel);
+      if (socketRef.current && isInitializedRef.current) {
+        socketRef.current.close();
+        socketRef.current = null;
+        isInitializedRef.current = false;
+      }
     };
-  }, [socket, refetch, action]);
-
-  return socket;
+  }, []);
 };

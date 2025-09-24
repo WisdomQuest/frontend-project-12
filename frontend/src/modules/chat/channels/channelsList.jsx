@@ -1,16 +1,15 @@
 import { useGetChannelsQuery, useAddChannelMutation } from './channelsApi';
 import { useSelector, useDispatch } from 'react-redux';
 import ChannelItem from './ChannelItem';
-import AddChanellModal from './modal/addChanellModal';
+import AddChanellModal from './modal/addChannelModal';
 import { useState, useEffect } from 'react';
 import { SelectCurrentChannelId, setCurrentChannel } from './channelsSlice';
-import { useSocket } from '../hooks/useSocket';
 import { PlusSquareIcon } from '../.././../assets/PlusSquareIcon';
 
 export const ChannelList = () => {
   const dispatch = useDispatch();
 
-  const { data: channels = [], isLoading, refetch } = useGetChannelsQuery();
+  const { data: channels = [], isLoading } = useGetChannelsQuery();
   const [addChannel] = useAddChannelMutation();
 
   const channelsName = channels.map((channel) => channel.name);
@@ -26,8 +25,6 @@ export const ChannelList = () => {
       );
     }
   }, [channels, currentChannelId, dispatch]);
-
-  useSocket('newChannel', refetch);
 
   const handleChannelSelect = (channel) => {
     dispatch(setCurrentChannel({ id: channel.id, name: channel.name }));

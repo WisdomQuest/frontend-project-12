@@ -17,12 +17,19 @@ const channelsSlice = createSlice({
     resetChannels: (state) => {
       state.currentChannel = { id: null, name: null };
     },
+    handleChannelRemoval: (state, action) => {
+      const removedChannelId = action.payload;
+      if (state.currentChannel.id === removedChannelId) {
+        state.currentChannel = { id: null, name: null };
+      }
+    },
   },
 });
 
 export const {
   setCurrentChannel,
   resetChannels,
+  handleChannelRemoval,
 } = channelsSlice.actions;
 
 export const SelectCurrentChannelId = (state) => state.channels.currentChannel.id;
