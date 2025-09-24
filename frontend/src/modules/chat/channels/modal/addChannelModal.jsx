@@ -10,7 +10,7 @@ const AddChanellModal = ({ isOpen, onClose, onSubmit, channelsName }) => {
       resetForm();
       onClose();
     } catch (error) {
-      console.error('Ошибка создания чата:', error);
+      console.error('Ошибка создания канала:', error);
     } finally {
       setSubmitting(false);
     }
@@ -47,7 +47,6 @@ const AddChanellModal = ({ isOpen, onClose, onSubmit, channelsName }) => {
                   <div className="mb-3">
                     <Field
                       type="text"
-                      id="chatName"
                       name="chatName"
                       autoFocus={true}
                       className={`form-control ${

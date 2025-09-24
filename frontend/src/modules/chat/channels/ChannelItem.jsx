@@ -5,18 +5,15 @@ import {
 import { Dropdown } from 'bootstrap';
 import cn from 'classnames';
 import { useState } from 'react';
-import { DeleteChanellModal } from './modal/deleteChannelModal.jsx';
+import { DeleteChannelModal } from './modal/deleteChannelModal.jsx';
+import { EditChannelModal } from './modal/editChannelModal.jsx';
 
-const ChannelItem = ({ channel, isActive, onSelect }) => {
-
+const ChannelItem = ({ channel, isActive, onSelect, channelsName }) => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [isShowEditModal, setIsShowEditModal] = useState(false);
 
   const [removeChannel] = useRemoveChannelMutation();
   const [editChannel] = useEditChannelMutation();
-
-  const handleSelect = () => {
-    onSelect({ id: channel.id, name: channel.name });
-  };
 
   const handleOpenModalDelete = () => {
     setIsShowDeleteModal(true);
@@ -26,12 +23,38 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
     setIsShowDeleteModal(false);
   };
 
+  const handleOpenModalEdit = () => {
+    setIsShowEditModal(true);
+  };
+
+  const handleCloseModalEdit = () => {
+    setIsShowEditModal(false);
+  };
+
+  // const [showModal, setShowModal] = useState(false);
+
+  // const [removeChannel] = useRemoveChannelMutation();
+  // const [editChannel] = useEditChannelMutation();
+
+  // const handleOpenModal = () => {
+  //   setShowModal(true);
+  // };
+
+  // const handleCloseModal = () => {
+  //   setShowModal(false);
+  // };
+
+  const handleSelect = () => {
+    onSelect({ id: channel.id, name: channel.name });
+  };
+
   const handleEdit = async (values) => {
     try {
       await editChannel({
         name: values.chatName,
-        removable: true,
+        id: channel.id,
       }).unwrap();
+      handleCloseModalEdit()
     } catch (error) {
       console.error('Ошибка при переименовании канала:', error);
     }
@@ -39,8 +62,7 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
 
   const handleRemove = async () => {
     try {
-      await removeChannel(channel.id)
-        .unwrap()
+      await removeChannel(channel.id).unwrap();
     } catch (error) {
       console.error('Ошибка при удалении канала:', error);
     }
@@ -73,7 +95,7 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
               <span className="visually-hidden">Toggle Dropdown</span>
             </button>
             <div className="dropdown-menu">
-              <button className="dropdown-item" href="#" onClick={handleEdit}>
+              <button className="dropdown-item" href="#" onClick={handleOpenModalEdit}>
                 Переименовать
               </button>
 
@@ -88,11 +110,21 @@ const ChannelItem = ({ channel, isActive, onSelect }) => {
           </div>
         )}
       </div>
-      <DeleteChanellModal
+
+      <DeleteChannelModal
         isOpen={isShowDeleteModal}
         onClose={handleCloseModalDelete}
         onSubmit={handleRemove}
       />
+
+      <EditChannelModal 
+        isOpen={isShowEditModal}
+        onClose={handleCloseModalEdit}
+        onSubmit={handleEdit}
+        channelName={channel.name}
+        channelsName={channelsName}
+        />
+        
     </li>
   );
 };

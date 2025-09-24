@@ -1,12 +1,12 @@
 import { Button, Modal } from 'react-bootstrap';
-export const DeleteChanellModal = ({ isOpen, onClose, onSubmit }) => {
+export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   const handleSubmit = async () => {
     try {
       await onSubmit();
     } catch (error) {
-      console.error('Ошибка создания чата:', error);
+      console.error('Ошибка удаления канала:', error);
     }
   };
 

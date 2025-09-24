@@ -16,5 +16,5 @@ export const ChannelsValidationSchema = (channelsName=[]) => Yup.object().shape(
     .required('Обязательное поле')
     .min(3, 'от 3 до 20 символов')
     .max(20, 'от 3 до 20 символов')
-    .notOneOf(channelsName, 'Канал с таким именем уже существует'),
+    .notOneOf(channelsName, 'Должно быть уникальным'),
 });

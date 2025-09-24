@@ -70,6 +70,7 @@ export const ChannelList = () => {
             channel={channel}
             isActive={currentChannelId === channel.id}
             onSelect={handleChannelSelect}
+            channelsName={channelsName}
           />
         ))}
       </ul>
