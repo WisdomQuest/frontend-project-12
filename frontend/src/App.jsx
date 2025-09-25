@@ -5,12 +5,14 @@ import { Chat } from './modules/chat';
 import { store } from './store.js';
 import { NotFound } from './modules/pageNotFound.jsx';
 import { Registration } from './modules/registration';
+import { Header } from './components/header/header.jsx';
 
 
 const App = () => {
   return (
     <BrowserRouter>
       <Provider store={store}>
+        <Header />
         <Routes>
           <Route path="/" element={<Chat />} />
           <Route path="/login" element={<Login />} />

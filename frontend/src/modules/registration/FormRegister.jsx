@@ -1,12 +1,11 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import cn from 'classnames';
-import { useRef, useEffect } from 'react';
-import { Button } from '../../../components/uikit/ui-button.jsx';
-import { useRegisterMutation } from '../regApi.js';
+import { useRef } from 'react';
+import { useRegisterMutation } from './regApi.js';
 import { useNavigate } from 'react-router-dom';
-import { singUpValidationSchema } from '../../../validation-shemas.js';
+import Button from 'react-bootstrap/Button';
+import { singUpValidationSchema } from '../../validationShemas.js';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../../login/auth/authSlice.js';
+import { setCredentials } from '../login/auth/authSlice.js';
 
 export const FormRegister = () => {
   const [register, { isLoading }] = useRegisterMutation();
@@ -17,10 +16,6 @@ export const FormRegister = () => {
   const nickNameRef = useRef(null);
   const passwordRef = useRef(null);
   const passwordConfirmRef = useRef(null);
-
-  // useEffect(() => {
-  //   nickNameRef.current?.focus();
-  // }, [isLoading]);
 
   const handleKeyPress = () => {};
 
@@ -68,7 +63,11 @@ export const FormRegister = () => {
               type="text"
               onKeyPress={(e) => handleKeyPress(e, 'nickName')}
             />
-            <ErrorMessage name="nickName" />
+            <ErrorMessage
+              name="nickName"
+              component="div"
+              className="invalid bg-danger text-white rounded p-2 mt-2"
+            />
             <Field
               name="password"
               innerRef={passwordRef}
@@ -77,7 +76,11 @@ export const FormRegister = () => {
               type="password"
               onKeyPress={(e) => handleKeyPress(e, 'password')}
             />
-            <ErrorMessage name="password" />
+            <ErrorMessage
+              name="password"
+              component="div"
+              className="invalid bg-danger text-white rounded p-2 mt-2"
+            />
             <Field
               name="passwordConfirm"
               innerRef={passwordConfirmRef}
@@ -103,9 +106,9 @@ export const FormRegister = () => {
             />
 
             <Button
-              className={cn('mb-3, w-100, btn-primary', {
-                disabled: isLoading,
-              })}
+              variant="outline-primary"
+              type="submit"
+              disabled={isLoading}
             >
               Войти
             </Button>

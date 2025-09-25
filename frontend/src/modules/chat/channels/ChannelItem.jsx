@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { DeleteChannelModal } from './modal/deleteChannelModal.jsx';
 import { EditChannelModal } from './modal/editChannelModal.jsx';
 
-const ChannelItem = ({ channel, isActive, onSelect, channelsName }) => {
+const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
 
@@ -54,7 +54,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsName }) => {
         name: values.chatName,
         id: channel.id,
       }).unwrap();
-      handleCloseModalEdit()
+      handleCloseModalEdit();
     } catch (error) {
       console.error('Ошибка при переименовании канала:', error);
     }
@@ -95,16 +95,19 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsName }) => {
               <span className="visually-hidden">Toggle Dropdown</span>
             </button>
             <div className="dropdown-menu">
-              <button className="dropdown-item" href="#" onClick={handleOpenModalEdit}>
-                Переименовать
-              </button>
-
               <button
                 className="dropdown-item"
                 href="#"
                 onClick={handleOpenModalDelete}
               >
                 Удалить
+              </button>
+              <button
+                className="dropdown-item"
+                href="#"
+                onClick={handleOpenModalEdit}
+              >
+                Переименовать
               </button>
             </div>
           </div>
@@ -117,14 +120,13 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsName }) => {
         onSubmit={handleRemove}
       />
 
-      <EditChannelModal 
+      <EditChannelModal
         isOpen={isShowEditModal}
         onClose={handleCloseModalEdit}
         onSubmit={handleEdit}
         channelName={channel.name}
-        channelsName={channelsName}
-        />
-        
+        channelsNames={channelsNames}
+      />
     </li>
   );
 };

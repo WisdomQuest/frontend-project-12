@@ -1,11 +1,11 @@
-import { Header } from '../../components/header/header.jsx';
-import { Card } from './card/index.js';
+import { CardBody } from "./card/CardBody.jsx";
+import { CardFooter } from "./card/CardFooter.jsx";
 
 export const Login = () => {
   return (
-    <>
-      <Header />
-      <Card />
-    </>
+    <div className="card align-items-center d-flex justify-content-center">
+      <CardBody />
+      <CardFooter />
+    </div>
   );
 };

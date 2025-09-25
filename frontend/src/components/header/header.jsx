@@ -3,7 +3,7 @@ import {
   logout,
   selectCurrentToken,
 } from '../../modules/login/auth/authSlice.js';
-import { Button } from '../uikit/ui-button.jsx';
+import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
@@ -23,9 +23,11 @@ export const Header = () => {
 
   return (
     <div className="d-flex justify-content-between align-items-center no-wrap bg-white shadow">
-      <a href="/" onClick={handleLogoClick} className="navbar-brand">Hexlet Chat</a>
+      <a href="/" onClick={handleLogoClick} className="navbar-brand">
+        Hexlet Chat
+      </a>
       {isAuthenticated && (
-        <Button className="mb-3, w-100, btn-primary " onClick={handleLogout}>
+        <Button variant="primary" type="submit" onClick={handleLogout}>
           Выйти
         </Button>
       )}

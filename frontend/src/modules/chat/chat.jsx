@@ -1,4 +1,3 @@
-import { Header } from '../../components/header/header.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -38,7 +37,6 @@ export const Chat = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-      <Header />
       <div className=" container my-4 rounded h-100 shadow overflow-hidden ">
         <div className="row h-100">
           <ChannelList />

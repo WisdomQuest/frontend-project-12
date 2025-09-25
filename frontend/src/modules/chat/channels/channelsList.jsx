@@ -12,7 +12,7 @@ export const ChannelList = () => {
   const { data: channels = [], isLoading } = useGetChannelsQuery();
   const [addChannel] = useAddChannelMutation();
 
-  const channelsName = channels.map((channel) => channel.name);
+  const channelsNames = channels.map((channel) => channel.name);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -70,7 +70,7 @@ export const ChannelList = () => {
             channel={channel}
             isActive={currentChannelId === channel.id}
             onSelect={handleChannelSelect}
-            channelsName={channelsName}
+            channelsNames={channelsNames}
           />
         ))}
       </ul>
@@ -79,7 +79,7 @@ export const ChannelList = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onSubmit={handleAddChannel}
-        channelsName={channelsName}
+        channelsNames={channelsNames}
       />
     </div>
   );

@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { ChannelsValidationSchema } from '../../../../validation-shemas';
+import { ChannelsValidationSchema } from '../../../../validationShemas';
 
-const AddChanellModal = ({ isOpen, onClose, onSubmit, channelsName }) => {
+const AddChanellModal = ({ isOpen, onClose, onSubmit, channelsNames }) => {
   if (!isOpen) return null;
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -38,8 +38,11 @@ const AddChanellModal = ({ isOpen, onClose, onSubmit, channelsName }) => {
             initialValues={{
               chatName: '',
             }}
-            validationSchema={() => ChannelsValidationSchema(channelsName)}
+            validationSchema={() => ChannelsValidationSchema(channelsNames)}
             onSubmit={handleSubmit}
+            validateOnBlur={false}
+            validateOnMount={false}
+            validateOnChange={false}
           >
             {({ isSubmitting, errors, touched, resetForm }) => (
               <Form>

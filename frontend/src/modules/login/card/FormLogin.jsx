@@ -1,14 +1,12 @@
 import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import cn from 'classnames';
+import Button from 'react-bootstrap/Button';
 import { useVerifyTokenMutation } from '../auth/authApi.js';
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { setCredentials} from '../auth/authSlice.js';
-import { Button } from '../../../components/uikit/ui-button.jsx';
+import { setCredentials } from '../auth/authSlice.js';
 
 export const FormLogin = () => {
-
   const [login, { isLoading }] = useVerifyTokenMutation();
 
   const navigate = useNavigate();
@@ -85,10 +83,11 @@ export const FormLogin = () => {
                 Неверные имя пользователя или пароль
               </div>
             )}
+
             <Button
-              className={cn('mb-3, w-100, btn-primary', {
-                disabled: isLoading,
-              })}
+              variant="outline-primary"
+              type="submit"
+              disabled={isLoading}
             >
               Войти
             </Button>

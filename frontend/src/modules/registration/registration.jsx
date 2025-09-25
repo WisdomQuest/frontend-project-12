@@ -1,11 +1,11 @@
-import { Header } from '../../components/header/header.jsx';
-import { Card } from './card';
+import { FormRegister } from './FormRegister.jsx';
+import registerLogo from '../../assets/registerLogo.jpg';
 
 export const Registration = () => {
   return (
-    <>
-      <Header />
-      <Card />
-    </>
+    <div className="card align-items-center d-flex justify-content-center">
+      <img src={registerLogo} alt="register" />
+      <FormRegister />
+    </div>
   );
 };

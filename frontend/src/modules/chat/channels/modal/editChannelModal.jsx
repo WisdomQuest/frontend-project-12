@@ -1,23 +1,25 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik';
-import { ChannelsValidationSchema } from '../../../../validation-shemas';
+import { ChannelsValidationSchema } from '../../../../validationShemas';
 
 export const EditChannelModal = ({
   isOpen,
   onClose,
   onSubmit,
   channelName,
-  channelsName,
+  channelsNames,
 }) => {
   if (!isOpen) return null;
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       await onSubmit(values);
+      resetForm();
+      onClose();
     } catch (error) {
       console.error('Ошибка переименовании канала:', error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -28,9 +30,12 @@ export const EditChannelModal = ({
       </Modal.Header>
       <Modal.Body>
         <Formik
-          initialValues={{ chatName: channelName }}
+          initialValues={{ chatName: channelName ?? '' }}
           onSubmit={handleSubmit}
-          validationSchema={ChannelsValidationSchema(channelsName)}
+          validationSchema={ChannelsValidationSchema(channelsNames)}
+          validateOnBlur={false}
+          validateOnMount={false}
+          validateOnChange={false}
         >
           {({ isSubmitting, errors, touched, resetForm }) => (
             <FormikForm>
