@@ -1,6 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik';
 import { ChannelsValidationSchema } from '../../../../validationShemas';
+import { useTranslation } from 'react-i18next';
 
 export const EditChannelModal = ({
   isOpen,
@@ -8,7 +9,10 @@ export const EditChannelModal = ({
   onSubmit,
   channelName,
   channelsNames,
+  textHeader
 }) => {
+  const { t } = useTranslation();
+
   if (!isOpen) return null;
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -17,7 +21,7 @@ export const EditChannelModal = ({
       resetForm();
       onClose();
     } catch (error) {
-      console.error('Ошибка переименовании канала:', error);
+      console.error(t('auth.errors.connectionError'), error);
     } finally {
       setSubmitting(false);
     }
@@ -26,7 +30,7 @@ export const EditChannelModal = ({
   return (
     <Modal show={isOpen} onHide={onClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{textHeader}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -68,14 +72,14 @@ export const EditChannelModal = ({
                   }}
                   disabled={isSubmitting}
                 >
-                  Отменить
+                  {t('channels.modal.cancel')}
                 </button>
                 <button
                   type="submit"
                   className="btn btn-primary"
                   disabled={isSubmitting}
                 >
-                  Отправить
+                  {t('channels.modal.submit')}
                 </button>
               </div>
             </FormikForm>

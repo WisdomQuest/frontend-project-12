@@ -1,0 +1,49 @@
+{
+  "header": {
+    "logo": "Hexlet Chat",
+    "logout": "Выйти"
+  },
+  "auth": {
+    "registration": "Регистрация",
+    "login": "Войти",
+    "username": "Ваш ник",
+    "password": "пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "submit": "Войти",
+    "errors": {
+      "userExists": "Пользователь с таким именем уже существует",
+      "invalidCredentials": "Неверные имя пользователя или пароль",
+      "connectionError": "Ошибка соединения"
+    }
+  },
+  "channels": {
+    "title": "Каналы",
+    "add": "Добавить канал",
+    "rename": "Переименовать канал",
+    "delete": "Удалить канал",
+    "deleteConfirm": "Уверены?",
+    "modal": {
+      "addTitle": "Добавить канал",
+      "renameTitle": "Переименовать канал",
+      "deleteTitle": "Удалить канал",
+      "cancel": "Отменить",
+      "submit": "Отправить",
+      "delete": "Удалить"
+    },
+    "actions": {
+      "delete": "Удалить",
+      "rename": "Переименовать"
+    }
+  },
+  "messages": {
+    "placeholder": "Введите сообщение...",
+    "send": "Отправить",
+    "messageCount_one": "{{count}} сообщениe",
+    "messageCount_few": "{{count}} сообщения",
+    "messageCount_many": "{{count}} сообщений"
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "close": "Закрыть"
+  }
+}

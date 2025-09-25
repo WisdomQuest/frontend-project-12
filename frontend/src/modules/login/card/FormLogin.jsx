@@ -5,10 +5,11 @@ import { useVerifyTokenMutation } from '../auth/authApi.js';
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../auth/authSlice.js';
+import { useTranslation } from 'react-i18next';
 
 export const FormLogin = () => {
   const [login, { isLoading }] = useVerifyTokenMutation();
-
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -48,7 +49,7 @@ export const FormLogin = () => {
       navigate('/');
     } catch (err) {
       setShowError(true);
-      console.error('Ошибка соединения', err);
+      console.error(t('auth.errors.connectionError'), err);
     }
   };
 
@@ -60,13 +61,13 @@ export const FormLogin = () => {
       >
         {() => (
           <Form className="d-flex flex-column w-100 text-center m-5">
-            <h1>Войти</h1>
+            <h1>{t('auth.login')}</h1>
             <Field
               name="nickName"
               innerRef={nickNameRef}
               className="mb-3 required"
               autoFocus={true}
-              placeholder="Ваш ник"
+              placeholder={t('auth.username')}
               type="text"
               onKeyPress={(e) => handleKeyPress(e, 'nickName')}
             />
@@ -74,13 +75,13 @@ export const FormLogin = () => {
               name="password"
               innerRef={passwordRef}
               className="mb-3 required"
-              placeholder="пароль"
+              placeholder={t('auth.password')}
               type="password"
               onKeyPress={(e) => handleKeyPress(e, 'password')}
             />
             {showError && (
               <div className="invalid bg-danger text-white">
-                Неверные имя пользователя или пароль
+                {t('auth.errors.invalidCredentials')}
               </div>
             )}
 
@@ -89,7 +90,7 @@ export const FormLogin = () => {
               type="submit"
               disabled={isLoading}
             >
-              Войти
+              {t('auth.submit')}
             </Button>
           </Form>
         )}

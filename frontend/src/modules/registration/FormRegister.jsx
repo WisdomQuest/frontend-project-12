@@ -6,10 +6,11 @@ import Button from 'react-bootstrap/Button';
 import { singUpValidationSchema } from '../../validationShemas.js';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../login/auth/authSlice.js';
+import { useTranslation } from 'react-i18next';
 
 export const FormRegister = () => {
   const [register, { isLoading }] = useRegisterMutation();
-
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,12 +30,9 @@ export const FormRegister = () => {
       navigate('/');
     } catch (err) {
       if (err.status === 409) {
-        setFieldError(
-          'userNameExists',
-          'Пользователь с таким именем уже существует'
-        );
+        setFieldError('userNameExists', t('auth.errors.userExists'));
       } else {
-        console.error('Ошибка соединения', err);
+        console.error(t('auth.errors.connectionError'), err);
       }
     }
   };
@@ -53,13 +51,13 @@ export const FormRegister = () => {
       >
         {() => (
           <Form className="d-flex flex-column w-100 text-center m-5">
-            <h1>Регистрация</h1>
+            <h1>{t('auth.registration')}</h1>
             <Field
               name="nickName"
               innerRef={nickNameRef}
               className="mb-3"
               autoFocus={true}
-              placeholder="Ваш ник"
+              placeholder={t('auth.username')}
               type="text"
               onKeyPress={(e) => handleKeyPress(e, 'nickName')}
             />
@@ -72,7 +70,7 @@ export const FormRegister = () => {
               name="password"
               innerRef={passwordRef}
               className="mb-3"
-              placeholder="пароль"
+              placeholder={t('auth.password')}
               type="password"
               onKeyPress={(e) => handleKeyPress(e, 'password')}
             />
@@ -85,7 +83,7 @@ export const FormRegister = () => {
               name="passwordConfirm"
               innerRef={passwordConfirmRef}
               className="mb-3"
-              placeholder="Подтвердите пароль"
+              placeholder={t('auth.confirmPassword')}
               type="password"
               onKeyPress={(e) => handleKeyPress(e, 'passwordConfirm')}
             />
@@ -110,7 +108,7 @@ export const FormRegister = () => {
               type="submit"
               disabled={isLoading}
             >
-              Войти
+              {t('auth.submit')}
             </Button>
           </Form>
         )}

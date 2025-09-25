@@ -7,10 +7,12 @@ import cn from 'classnames';
 import { useState } from 'react';
 import { DeleteChannelModal } from './modal/deleteChannelModal.jsx';
 import { EditChannelModal } from './modal/editChannelModal.jsx';
+import { useTranslation } from 'react-i18next';
 
 const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const { t } = useTranslation();
 
   const [removeChannel] = useRemoveChannelMutation();
   const [editChannel] = useEditChannelMutation();
@@ -31,19 +33,6 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
     setIsShowEditModal(false);
   };
 
-  // const [showModal, setShowModal] = useState(false);
-
-  // const [removeChannel] = useRemoveChannelMutation();
-  // const [editChannel] = useEditChannelMutation();
-
-  // const handleOpenModal = () => {
-  //   setShowModal(true);
-  // };
-
-  // const handleCloseModal = () => {
-  //   setShowModal(false);
-  // };
-
   const handleSelect = () => {
     onSelect({ id: channel.id, name: channel.name });
   };
@@ -56,7 +45,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
       }).unwrap();
       handleCloseModalEdit();
     } catch (error) {
-      console.error('Ошибка при переименовании канала:', error);
+      console.error(t('auth.errors.connectionError'), error);
     }
   };
 
@@ -64,7 +53,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
     try {
       await removeChannel(channel.id).unwrap();
     } catch (error) {
-      console.error('Ошибка при удалении канала:', error);
+      console.error(t('auth.errors.connectionError'), error);
     }
   };
 
@@ -100,14 +89,14 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
                 href="#"
                 onClick={handleOpenModalDelete}
               >
-                Удалить
+                {t('channels.actions.delete')}
               </button>
               <button
                 className="dropdown-item"
                 href="#"
                 onClick={handleOpenModalEdit}
               >
-                Переименовать
+                {t('channels.actions.rename')}
               </button>
             </div>
           </div>
@@ -126,6 +115,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
         onSubmit={handleEdit}
         channelName={channel.name}
         channelsNames={channelsNames}
+        textHeader={t('channels.modal.renameTitle')}
       />
     </li>
   );

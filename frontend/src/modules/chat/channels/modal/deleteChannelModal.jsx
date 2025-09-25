@@ -1,12 +1,16 @@
 import { Button, Modal } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+
 export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
+  const { t } = useTranslation();
+
   if (!isOpen) return null;
 
   const handleSubmit = async () => {
     try {
       await onSubmit();
     } catch (error) {
-      console.error('Ошибка удаления канала:', error);
+      console.error(t('auth.errors.connectionError'), error);
     }
   };
 
@@ -17,16 +21,20 @@ export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
     >
       <Modal show={isOpen} onHide={onClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Удалить канал</Modal.Title>
+          <Modal.Title>{t('channels.modal.deleteTitle')}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <p>Уверены?</p>
+          <p>{t('channels.deleteConfirm')}</p>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={onClose}>Отменить</Button>
-          <Button variant="primary" onClick={handleSubmit}>Удалить</Button>
+          <Button variant="secondary" onClick={onClose}>
+            {t('channels.modal.cancel')}
+          </Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            {t('channels.modal.delete')}
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>

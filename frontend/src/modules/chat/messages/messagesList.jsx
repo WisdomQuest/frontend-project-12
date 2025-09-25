@@ -5,10 +5,11 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../login/auth/authSlice';
 import { SelectCurrentChannel } from '../channels/channelsSlice';
 import { ArrowIcon } from "../.././../assets/ArrowIcon";
-
+import { useTranslation } from 'react-i18next';
 
 export const MessageList = () => {
-  const { data: messages = [], } = useGetMessagesQuery();
+  const { data: messages = [] } = useGetMessagesQuery();
+  const { t } = useTranslation();
 
   const { id: currentChannelId, name: currentChannelName } =
     useSelector(SelectCurrentChannel);
@@ -31,7 +32,7 @@ export const MessageList = () => {
       }).unwrap();
       resetForm();
     } catch (error) {
-      console.error('Ошибка при создании сообщения:', error);
+      console.error(t('auth.errors.connectionError'), error);
     }
   };
 
@@ -46,8 +47,7 @@ export const MessageList = () => {
           <b>{currentChannelName}</b>
         </p>
         <span className="text-muted">
-          {' '}
-          {currentChanellMessages.length} сообщений
+          {t('messages.messageCount', { count: currentChanellMessages.length })}
         </span>
       </div>
       <div className="chat-messages overflow-auto px-5">
@@ -70,7 +70,7 @@ export const MessageList = () => {
                 name="message"
                 innerRef={messageRef}
                 className="border-0 p-0 ps-2 form-control"
-                placeholder="Введите сообщение..."
+                placeholder={t('messages.placeholder')}
                 autoComplete="off"
                 type="text"
               />
@@ -78,9 +78,10 @@ export const MessageList = () => {
                 type="submit"
                 disabled={isLoading || !values.message.trim()}
                 className="btn btn-outline-secondary"
+                title={t('messages.send')}
               >
                 <ArrowIcon /> 
-                <span className="visually-hidden">Отправить</span>
+                <span className="visually-hidden">{t('messages.send')}</span>
               </button>
             </Form>
           )}

@@ -1,13 +1,15 @@
 import { useGetChannelsQuery, useAddChannelMutation } from './channelsApi';
 import { useSelector, useDispatch } from 'react-redux';
 import ChannelItem from './ChannelItem';
-import AddChanellModal from './modal/addChannelModal';
 import { useState, useEffect } from 'react';
 import { SelectCurrentChannelId, setCurrentChannel } from './channelsSlice';
 import { PlusSquareIcon } from '../.././../assets/PlusSquareIcon';
+import { EditChannelModal } from './modal/editChannelModal.jsx';
+import { useTranslation } from 'react-i18next';
 
 export const ChannelList = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const { data: channels = [], isLoading } = useGetChannelsQuery();
   const [addChannel] = useAddChannelMutation();
@@ -46,19 +48,20 @@ export const ChannelList = () => {
       }).unwrap();
       dispatch(setCurrentChannel(channel));
     } catch (error) {
-      console.error('Ошибка при создании чата:', error);
+      console.error(t('auth.errors.connectionError'), error);
     }
   };
 
-  if (isLoading) return <div>Загрузка...</div>;
+  if (isLoading) return <div>{t('common.loading')}</div>;
 
   return (
     <div className=" bg-info-subtle h-100 border border-primary col">
       <div className="d-flex justify-content-between align-items-center mt-2">
-        <b>Каналы</b>
+        <b>{t('channels.title')}</b>
         <button
           onClick={handleOpenModal}
           className="btn text-primary p-0 btn-group-vertical"
+          title={t('channels.add')}
         >
           <PlusSquareIcon />
         </button>
@@ -75,11 +78,13 @@ export const ChannelList = () => {
         ))}
       </ul>
 
-      <AddChanellModal
+      <EditChannelModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onSubmit={handleAddChannel}
         channelsNames={channelsNames}
+        channelName={null}
+        textHeader={t('channels.modal.addTitle')}
       />
     </div>
   );
