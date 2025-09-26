@@ -22,3 +22,6 @@ develop:
 build:
 	rm -rf frontend/dist
 	npm run build
+
+clean: 
+	npm cache clean --force
