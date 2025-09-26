@@ -4,7 +4,7 @@ import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../login/auth/authSlice';
 import { SelectCurrentChannel } from '../channels/channelsSlice';
-import { ArrowIcon } from '../../../../assets/ArrowIcon';
+import {ArrowIcon} from '../../../assets/ArrowIcon';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
 
