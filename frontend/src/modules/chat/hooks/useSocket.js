@@ -16,7 +16,7 @@ export const useSocket = (action, refetch) => {
     if (!isInitializedRef.current) {
       isInitializedRef.current = true;
 
-      socketRef.current = io('http://localhost:5002', {
+      socketRef.current = io(import.meta.env.ENV=== 'test' ? 'http://localhost:5002': undefined, {
         transports: ['websocket', 'polling'],
       });
     }
