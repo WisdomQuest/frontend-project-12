@@ -67,7 +67,7 @@ export const FormLogin = () => {
               innerRef={nickNameRef}
               className="mb-3 required"
               autoFocus={true}
-              placeholder={t('auth.username')}
+              placeholder={t('auth.nickName')}
               type="text"
               onKeyPress={(e) => handleKeyPress(e, 'nickName')}
             />

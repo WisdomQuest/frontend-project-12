@@ -6,6 +6,10 @@ import { SelectCurrentChannelId, setCurrentChannel } from './channelsSlice';
 import { PlusSquareIcon } from '../.././../assets/PlusSquareIcon';
 import { EditChannelModal } from './modal/editChannelModal.jsx';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
+import {notifySuccess, notifyError} from './notify/notify.js';
+import * as filter from 'leo-profanity';
+
 
 export const ChannelList = () => {
   const dispatch = useDispatch();
@@ -19,6 +23,10 @@ export const ChannelList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const currentChannelId = useSelector(SelectCurrentChannelId);
+
+    useEffect(() => {
+      filter.loadDictionary('ru');
+    }, []);
 
   useEffect(() => {
     if (channels.length > 0 && !currentChannelId) {
@@ -42,13 +50,17 @@ export const ChannelList = () => {
 
   const handleAddChannel = async (values) => {
     try {
+      const cleanedchatName = filter.clean(values.chatName.trim());
       const channel = await addChannel({
-        name: values.chatName,
+        name: cleanedchatName,
         removable: true,
-      }).unwrap();
+      })
+        .unwrap()
+    notifySuccess(t('channels.toast.add'));
       dispatch(setCurrentChannel(channel));
     } catch (error) {
-      console.error(t('auth.errors.connectionError'), error);
+      console.error(error);
+      notifyError(t( 'channels.errors.connectionError'));
     }
   };
 
@@ -84,8 +96,9 @@ export const ChannelList = () => {
         onSubmit={handleAddChannel}
         channelsNames={channelsNames}
         channelName={null}
-        textHeader={t('channels.modal.addTitle')}
+        textHeaderModal={t('channels.modal.addTitle')}
       />
+      <ToastContainer />
     </div>
   );
 };

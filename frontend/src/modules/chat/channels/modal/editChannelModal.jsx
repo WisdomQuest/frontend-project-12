@@ -9,10 +9,10 @@ export const EditChannelModal = ({
   onSubmit,
   channelName,
   channelsNames,
-  textHeader
+  textHeaderModal,
 }) => {
   const { t } = useTranslation();
-
+  
   if (!isOpen) return null;
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -30,7 +30,7 @@ export const EditChannelModal = ({
   return (
     <Modal show={isOpen} onHide={onClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{textHeader}</Modal.Title>
+        <Modal.Title>{textHeaderModal}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik

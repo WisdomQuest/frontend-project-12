@@ -4,8 +4,9 @@ import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../login/auth/authSlice';
 import { SelectCurrentChannel } from '../channels/channelsSlice';
-import { ArrowIcon } from "../.././../assets/ArrowIcon";
+import { ArrowIcon } from '../.././../assets/ArrowIcon';
 import { useTranslation } from 'react-i18next';
+import * as filter from 'leo-profanity';
 
 export const MessageList = () => {
   const { data: messages = [] } = useGetMessagesQuery();
@@ -20,13 +21,18 @@ export const MessageList = () => {
   const messageRef = useRef(null);
 
   useEffect(() => {
+    filter.loadDictionary('ru');
+  }, []);
+
+  useEffect(() => {
     messageRef.current?.focus();
   }, [currentChannelId]);
 
   const handleAddMessage = async (values, { resetForm }) => {
     try {
+      const cleanedMessage = filter.clean(values.message.trim());
       await addMessage({
-        body: values.message,
+        body: cleanedMessage,
         channelId: currentChannelId,
         username: currentUser,
       }).unwrap();
@@ -80,7 +86,7 @@ export const MessageList = () => {
                 className="btn btn-outline-secondary"
                 title={t('messages.send')}
               >
-                <ArrowIcon /> 
+                <ArrowIcon />
                 <span className="visually-hidden">{t('messages.send')}</span>
               </button>
             </Form>

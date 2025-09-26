@@ -1,5 +1,4 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useRef } from 'react';
 import { useRegisterMutation } from './regApi.js';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -7,6 +6,7 @@ import { singUpValidationSchema } from '../../validationShemas.js';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../login/auth/authSlice.js';
 import { useTranslation } from 'react-i18next';
+import { useFormFocus } from './useFormFocus.js';
 
 export const FormRegister = () => {
   const [register, { isLoading }] = useRegisterMutation();
@@ -14,11 +14,11 @@ export const FormRegister = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const nickNameRef = useRef(null);
-  const passwordRef = useRef(null);
-  const passwordConfirmRef = useRef(null);
-
-  const handleKeyPress = () => {};
+  const { registerFieldRef, handleKeyPress } = useFormFocus([
+    'nickName',
+    'password',
+    'passwordConfirm',
+  ]);
 
   const handleRegister = async (values, { setFieldError }) => {
     try {
@@ -35,6 +35,10 @@ export const FormRegister = () => {
         console.error(t('auth.errors.connectionError'), err);
       }
     }
+  };
+
+  const createFieldRef = (fieldName) => (ref) => {
+    registerFieldRef(fieldName, ref);
   };
 
   return (
@@ -54,7 +58,7 @@ export const FormRegister = () => {
             <h1>{t('auth.registration')}</h1>
             <Field
               name="nickName"
-              innerRef={nickNameRef}
+              innerRef={createFieldRef('nickName')}
               className="mb-3"
               autoFocus={true}
               placeholder={t('auth.username')}
@@ -68,7 +72,7 @@ export const FormRegister = () => {
             />
             <Field
               name="password"
-              innerRef={passwordRef}
+              innerRef={createFieldRef('password')}
               className="mb-3"
               placeholder={t('auth.password')}
               type="password"
@@ -81,7 +85,7 @@ export const FormRegister = () => {
             />
             <Field
               name="passwordConfirm"
-              innerRef={passwordConfirmRef}
+              innerRef={createFieldRef('passwordConfirm')}
               className="mb-3"
               placeholder={t('auth.confirmPassword')}
               type="password"
@@ -108,7 +112,7 @@ export const FormRegister = () => {
               type="submit"
               disabled={isLoading}
             >
-              {t('auth.submit')}
+              {t('auth.registrationSubmit')}
             </Button>
           </Form>
         )}

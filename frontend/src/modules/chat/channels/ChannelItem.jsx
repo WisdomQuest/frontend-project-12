@@ -4,10 +4,12 @@ import {
 } from './channelsApi';
 import { Dropdown } from 'bootstrap';
 import cn from 'classnames';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DeleteChannelModal } from './modal/deleteChannelModal.jsx';
 import { EditChannelModal } from './modal/editChannelModal.jsx';
 import { useTranslation } from 'react-i18next';
+import * as filter from 'leo-profanity';
+import { notifySuccess, notifyError } from './notify/notify.js';
 
 const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
@@ -16,6 +18,10 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
 
   const [removeChannel] = useRemoveChannelMutation();
   const [editChannel] = useEditChannelMutation();
+
+  useEffect(() => {
+    filter.loadDictionary('ru');
+  }, []);
 
   const handleOpenModalDelete = () => {
     setIsShowDeleteModal(true);
@@ -39,21 +45,27 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
 
   const handleEdit = async (values) => {
     try {
+      const cleanedChatName = filter.clean(values.chatName.trim());
       await editChannel({
-        name: values.chatName,
+        name: cleanedChatName,
         id: channel.id,
       }).unwrap();
+      notifySuccess(t('channels.toast.rename'));
       handleCloseModalEdit();
     } catch (error) {
-      console.error(t('auth.errors.connectionError'), error);
+      console.error(error);
+      notifyError(t('channels.errors.connectionError'));
     }
   };
 
   const handleRemove = async () => {
     try {
       await removeChannel(channel.id).unwrap();
+      notifySuccess(t('channels.toast.delete'));
     } catch (error) {
-      console.error(t('auth.errors.connectionError'), error);
+      console.error(error);
+      handleCloseModalDelete();
+      notifyError(t('channels.errors.connectionError'));
     }
   };
 
@@ -115,7 +127,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
         onSubmit={handleEdit}
         channelName={channel.name}
         channelsNames={channelsNames}
-        textHeader={t('channels.modal.renameTitle')}
+        textHeaderModal={t('channels.modal.renameTitle')}
       />
     </li>
   );

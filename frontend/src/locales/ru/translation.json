@@ -6,10 +6,12 @@
   "auth": {
     "registration": "Регистрация",
     "login": "Войти",
-    "username": "Ваш ник",
-    "password": "пароль",
+    "username": "Имя пользователя",
+    "nickName": "Ваш ник",
+    "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
     "submit": "Войти",
+    "registrationSubmit": "Зарегистрироваться",
     "errors": {
       "userExists": "Пользователь с таким именем уже существует",
       "invalidCredentials": "Неверные имя пользователя или пароль",
@@ -22,6 +24,7 @@
     "rename": "Переименовать канал",
     "delete": "Удалить канал",
     "deleteConfirm": "Уверены?",
+    "errors": { "connectionError": "Ошибка соединения" },
     "modal": {
       "addTitle": "Добавить канал",
       "renameTitle": "Переименовать канал",
@@ -33,6 +36,11 @@
     "actions": {
       "delete": "Удалить",
       "rename": "Переименовать"
+    },
+    "toast": {
+      "delete": "Канал удален",
+      "rename": "Канал переименован",
+      "add": "Канал создан"
     }
   },
   "messages": {

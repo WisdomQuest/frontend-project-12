@@ -5,10 +5,12 @@ export const useSocket = (action, refetch) => {
   const socketRef = useRef(null);
   const isInitializedRef = useRef(false);
 
-  // Стабильная версия refetch с логированием
-  const stableRefetch = useCallback((data) => {
-    refetch(data);
-  }, [refetch]);
+  const stableRefetch = useCallback(
+    (data) => {
+      refetch(data);
+    },
+    [refetch]
+  );
 
   useEffect(() => {
     if (!isInitializedRef.current) {
@@ -28,7 +30,6 @@ export const useSocket = (action, refetch) => {
     };
   }, [action, stableRefetch]);
 
-  // Закрываем соединение при размонтировании
   useEffect(() => {
     return () => {
       if (socketRef.current && isInitializedRef.current) {
