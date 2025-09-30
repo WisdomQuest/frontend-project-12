@@ -1,12 +1,16 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useRegisterMutation } from './regApi.js';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import { singUpValidationSchema } from '../../validationShemas.js';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useDispatch } from 'react-redux';
+import { singUpValidationSchema } from '../../validationShemas.js';
 import { setCredentials } from '../login/auth/authSlice.js';
 import { useTranslation } from 'react-i18next';
 import { useFormFocus } from './useFormFocus.js';
+import { Formik } from 'formik';
 
 export const FormRegister = () => {
   const [register, { isLoading }] = useRegisterMutation();
@@ -14,7 +18,7 @@ export const FormRegister = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { registerFieldRef, handleKeyPress } = useFormFocus([
+  const { registerFieldRef, handleKeyDown } = useFormFocus([
     'nickName',
     'password',
     'passwordConfirm',
@@ -42,81 +46,118 @@ export const FormRegister = () => {
   };
 
   return (
-    <div>
-      <Formik
-        initialValues={{
-          nickName: '',
-          password: '',
-          passwordConfirm: '',
-          userNameExists: '',
-        }}
-        onSubmit={handleRegister}
-        validationSchema={singUpValidationSchema}
-      >
-        {() => (
-          <Form className="d-flex flex-column w-100 text-center m-5">
-            <h1>{t('auth.registration')}</h1>
-            <Field
-              name="nickName"
-              innerRef={createFieldRef('nickName')}
-              className="mb-3"
-              autoFocus={true}
-              placeholder={t('auth.username')}
-              type="text"
-              onKeyPress={(e) => handleKeyPress(e, 'nickName')}
-            />
-            <ErrorMessage
-              name="nickName"
-              component="div"
-              className="invalid bg-danger text-white rounded p-2 mt-2"
-            />
-            <Field
-              name="password"
-              innerRef={createFieldRef('password')}
-              className="mb-3"
-              placeholder={t('auth.password')}
-              type="password"
-              onKeyPress={(e) => handleKeyPress(e, 'password')}
-            />
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="invalid bg-danger text-white rounded p-2 mt-2"
-            />
-            <Field
-              name="passwordConfirm"
-              innerRef={createFieldRef('passwordConfirm')}
-              className="mb-3"
-              placeholder={t('auth.confirmPassword')}
-              type="password"
-              onKeyPress={(e) => handleKeyPress(e, 'passwordConfirm')}
-            />
-            <ErrorMessage
-              name="passwordConfirm"
-              component="div"
-              className="invalid bg-danger text-white rounded p-2 mt-2"
-            />
-            <ErrorMessage
-              name="userNameExists"
-              render={(msg) =>
-                msg ? (
-                  <div className="invalid bg-danger text-white rounded p-2 mt-2">
-                    {msg}
-                  </div>
-                ) : null
-              }
-            />
+    <Formik
+      initialValues={{
+        nickName: '',
+        password: '',
+        passwordConfirm: '',
+      }}
+      onSubmit={handleRegister}
+      validationSchema={singUpValidationSchema}
+    >
+      {({ handleSubmit, handleChange, values, touched, errors }) => (
+        <Form
+          noValidate
+          onSubmit={handleSubmit}
+          className="w-50 position-relative"
+        >
+          <h1 className="text-center mb-4">{t('auth.registration')}</h1>
 
-            <Button
-              variant="outline-primary"
-              type="submit"
-              disabled={isLoading}
+          <Row className="mb-3">
+            <Form.Group
+              as={Col}
+              controlId="validationFormikNickname"
+              className="position-relative"
             >
-              {t('auth.registrationSubmit')}
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+              <FloatingLabel
+                controlId="floatingName"
+                label={t('auth.username')}
+              >
+                <Form.Control
+                  type="text"
+                  name="nickName"
+                  value={values.nickName}
+                  onChange={handleChange}
+                  ref={createFieldRef('nickName')}
+                  autoFocus={true}
+                  placeholder={t('auth.username')}
+                  onKeyDown={(e) => handleKeyDown(e, 'nickName')}
+                  isInvalid={touched.nickName && !!errors.nickName}
+                />
+                <Form.Control.Feedback type="invalid" tooltip>
+                  {errors.nickName}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+            </Form.Group>
+          </Row>
+
+          <Row className="mb-3">
+            <Form.Group
+              as={Col}
+              controlId="validationFormikPassword"
+              className="position-relative"
+            >
+              <FloatingLabel
+                controlId="floatingPassword"
+                label={t('auth.password')}
+              >
+                <Form.Control
+                  type="password"
+                  name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  ref={createFieldRef('password')}
+                  placeholder={t('auth.password')}
+                  onKeyDown={(e) => handleKeyDown(e, 'password')}
+                  isInvalid={touched.password && !!errors.password}
+                />
+                <Form.Control.Feedback type="invalid" tooltip>
+                  {errors.password}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+            </Form.Group>
+          </Row>
+
+          <Row className="mb-3">
+            <Form.Group
+              as={Col}
+              controlId="validationFormikPasswordConfirm"
+              className="position-relative"
+            >
+              <FloatingLabel
+                controlId="floatingPasswordConfirm"
+                label={t('auth.confirmPassword')}
+              >
+                <Form.Control
+                  type="password"
+                  name="passwordConfirm"
+                  value={values.passwordConfirm}
+                  onChange={handleChange}
+                  ref={createFieldRef('passwordConfirm')}
+                  placeholder={t('auth.confirmPassword')}
+                  onKeyDown={(e) => handleKeyDown(e, 'passwordConfirm')}
+                  isInvalid={
+                    (touched.passwordConfirm && !!errors.passwordConfirm) ||
+                    !!errors.userNameExists
+                  }
+                />
+                <Form.Control.Feedback type="invalid" tooltip>
+                  {errors.passwordConfirm || errors.userNameExists}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+            </Form.Group>
+          </Row>
+
+          <Button
+            variant="outline-primary"
+            className="w-100"
+            type="submit"
+            disabled={isLoading}
+          >
+            {t('auth.registrationSubmit')}
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 };

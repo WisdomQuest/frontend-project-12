@@ -1,13 +1,19 @@
-import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useVerifyTokenMutation } from '../auth/authApi.js';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../auth/authSlice.js';
 import { useTranslation } from 'react-i18next';
+import * as formik from 'formik';
+import { useFormFocus } from '../../registration/useFormFocus.js';
 
 export const FormLogin = () => {
+  const { Formik } = formik;
   const [login, { isLoading }] = useVerifyTokenMutation();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -15,26 +21,13 @@ export const FormLogin = () => {
 
   const [showError, setShowError] = useState(false);
 
-  const nickNameRef = useRef(null);
-  const passwordRef = useRef(null);
+  const { registerFieldRef, handleKeyDown } = useFormFocus([
+    'nickName',
+    'password',
+  ]);
 
-  const handleKeyPress = (e, fieldName) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      const nickName = nickNameRef.current.value;
-      const password = passwordRef.current.value;
-
-      if (fieldName === 'nickName' && !password) {
-        passwordRef.current?.focus();
-      }
-
-      if (fieldName === 'password' && !nickName) {
-        nickNameRef.current?.focus();
-      }
-      if (nickName && password) {
-        handleLogin(nickName, password);
-      }
-    }
+  const createFieldRef = (fieldName) => (ref) => {
+    registerFieldRef(fieldName, ref);
   };
 
   const handleLogin = async (name, password) => {
@@ -54,47 +47,81 @@ export const FormLogin = () => {
   };
 
   return (
-    <div>
-      <Formik
-        initialValues={{ nickName: '', password: '' }}
-        onSubmit={(values) => handleLogin(values.nickName, values.password)}
-      >
-        {() => (
-          <Form className="d-flex flex-column w-100 text-center m-5">
-            <h1>{t('auth.login')}</h1>
-            <Field
-              name="nickName"
-              innerRef={nickNameRef}
-              className="mb-3 required"
-              autoFocus={true}
-              placeholder={t('auth.nickName')}
-              type="text"
-              onKeyPress={(e) => handleKeyPress(e, 'nickName')}
-            />
-            <Field
-              name="password"
-              innerRef={passwordRef}
-              className="mb-3 required"
-              placeholder={t('auth.password')}
-              type="password"
-              onKeyPress={(e) => handleKeyPress(e, 'password')}
-            />
-            {showError && (
-              <div className="invalid bg-danger text-white">
-                {t('auth.errors.invalidCredentials')}
-              </div>
-            )}
+    <Formik
+      initialValues={{ nickName: '', password: '' }}
+      onSubmit={(values) => handleLogin(values.nickName, values.password)}
+    >
+      {({ handleSubmit, handleChange, values, touched, errors }) => (
+        <Form
+          noValidate
+          onSubmit={handleSubmit}
+          className="col-12 col-md-6 mt-3 mt-md-0"
+        >
+          <h1 className="mb-4 text-center">{t('auth.login')}</h1>
 
-            <Button
-              variant="outline-primary"
-              type="submit"
-              disabled={isLoading}
+          <Row className="mb-3">
+            <Form.Group
+              as={Col}
+              controlId="validationFormikNicknameLogin"
+              className="position-relative"
             >
-              {t('auth.submit')}
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+              <FloatingLabel
+                controlId="floatingName"
+                label={t('auth.nickName')}
+              >
+                <Form.Control
+                  type="text"
+                  name="nickName"
+                  value={values.nickName}
+                  onChange={handleChange}
+                  ref={createFieldRef('nickName')}
+                  autoFocus={true}
+                  placeholder={t('auth.nickName')}
+                  onKeyDown={(e) => handleKeyDown(e, 'nickName')}
+                  isInvalid={touched.nickName && !!errors.nickName}
+                />
+              </FloatingLabel>
+            </Form.Group>
+          </Row>
+
+          <Row className="mb-3">
+            <Form.Group
+              as={Col}
+              controlId="validationFormikPasswordLogin"
+              className="position-relative"
+            >
+              <FloatingLabel
+                controlId="floatingPassword"
+                label={t('auth.password')}
+              >
+                <Form.Control
+                  type="password"
+                  name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  ref={createFieldRef('password')}
+                  placeholder={t('auth.password')}
+                  onKeyDown={(e) => handleKeyDown(e, 'password')}
+                  isInvalid={showError}
+                />
+
+                <Form.Control.Feedback type="invalid" tooltip>
+                  {t('auth.errors.invalidCredentials')}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+            </Form.Group>
+          </Row>
+
+          <Button
+            className="w-100 mb-3"
+            variant="outline-primary"
+            type="submit"
+            disabled={isLoading}
+          >
+            {t('auth.login')}
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 };

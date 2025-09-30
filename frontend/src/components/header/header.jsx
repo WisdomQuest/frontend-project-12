@@ -1,3 +1,5 @@
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   logout,
@@ -18,21 +20,21 @@ export const Header = () => {
     navigate('/');
   };
 
-  const handleLogoClick = (e) => {
-    e.preventDefault();
-    navigate('/');
-  };
-
   return (
-    <div className="d-flex justify-content-between align-items-center no-wrap bg-white shadow">
-      <a href="/" onClick={handleLogoClick} className="navbar-brand">
-        {t('header.logo')}
-      </a>
-      {isAuthenticated && (
-        <Button variant="primary" type="submit" onClick={handleLogout}>
-          {t('header.logout')}
-        </Button>
-      )}
-    </div>
+    <Navbar className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
+      <Container>
+        <Navbar.Brand href="/">{t('header.logo')}</Navbar.Brand>
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>
+            {isAuthenticated && (
+              <Button variant="primary" type="submit" onClick={handleLogout}>
+                {t('header.logout')}
+              </Button>
+            )}
+          </Navbar.Text>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
