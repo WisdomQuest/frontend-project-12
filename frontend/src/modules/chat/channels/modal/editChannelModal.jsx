@@ -1,7 +1,10 @@
 import Modal from 'react-bootstrap/Modal';
 import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import { ChannelsValidationSchema } from '../../../../validationShemas';
 import { useTranslation } from 'react-i18next';
+import { useRef, useEffect } from 'react';
 
 export const EditChannelModal = ({
   isOpen,
@@ -12,7 +15,14 @@ export const EditChannelModal = ({
   textHeaderModal,
 }) => {
   const { t } = useTranslation();
-  
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -28,7 +38,7 @@ export const EditChannelModal = ({
   };
 
   return (
-    <Modal show={isOpen} onHide={onClose}>
+    <Modal show={isOpen} onHide={onClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{textHeaderModal}</Modal.Title>
       </Modal.Header>
@@ -43,29 +53,26 @@ export const EditChannelModal = ({
         >
           {({ isSubmitting, errors, touched, resetForm }) => (
             <FormikForm>
-              <div className="modal-body">
-                <div className="mb-3">
-                  <Field
-                    type="text"
-                    name="chatName"
-                    autoFocus={true}
-                    className={`form-control ${
-                      errors.chatName && touched.chatName ? 'is-invalid' : ''
-                    }`}
-                  />
+              <Form.Group className="mb-3">
+                <Field name="chatName">
+                  {({ field }) => (
+                    <Form.Control
+                      {...field}
+                      ref={inputRef}
+                      type="text"
+                      isInvalid={errors.chatName && touched.chatName}
+                    />
+                  )}
+                </Field>
 
-                  <ErrorMessage
-                    name="chatName"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </div>
-              </div>
+                <Form.Control.Feedback type="invalid">
+                  <ErrorMessage name="chatName" />
+                </Form.Control.Feedback>
+              </Form.Group>
 
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
+              <div className="d-flex justify-content-end gap-2">
+                <Button
+                  variant="secondary"
                   onClick={() => {
                     resetForm();
                     onClose();
@@ -73,14 +80,10 @@ export const EditChannelModal = ({
                   disabled={isSubmitting}
                 >
                   {t('channels.modal.cancel')}
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isSubmitting}
-                >
+                </Button>
+                <Button variant="primary" type="submit" disabled={isSubmitting}>
                   {t('channels.modal.submit')}
-                </button>
+                </Button>
               </div>
             </FormikForm>
           )}

@@ -1,10 +1,13 @@
-import { useEffect, useRef } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { useEffect, useRef} from 'react';
+import { Formik } from 'formik';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
 import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../login/auth/authSlice';
 import { SelectCurrentChannel } from '../channels/channelsSlice';
-import {ArrowIcon} from '../../../assets/arrowIcon.jsx';
+import { ArrowIcon } from '../../../assets/arrowIcon.jsx';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
 
@@ -19,6 +22,11 @@ export const MessageList = () => {
   const [addMessage, { isLoading }] = useAddMessageMutation();
 
   const messageRef = useRef(null);
+  const messagesEndRef = useRef(null);
+
+    const currentChanellMessages = messages.filter(
+    (message) => message.channelId === currentChannelId
+  );
 
   useEffect(() => {
     filter.loadDictionary('ru');
@@ -27,6 +35,10 @@ export const MessageList = () => {
   useEffect(() => {
     messageRef.current?.focus();
   }, [currentChannelId]);
+
+  useEffect(() => {
+  messagesEndRef.current?.scrollIntoView();
+}, [currentChanellMessages]);
 
   const handleAddMessage = async (values, { resetForm }) => {
     try {
@@ -42,12 +54,10 @@ export const MessageList = () => {
     }
   };
 
-  const currentChanellMessages = messages.filter(
-    (message) => message.channelId === currentChannelId
-  );
+
 
   return (
-    <div className=" bg-warning-subtle col-10 d-flex flex-column">
+    <div className=" d-flex flex-column h-100">
       <div className="mb-4 p-3 shadow-sm small">
         <p className="m-0">
           <b>{currentChannelName}</b>
@@ -62,33 +72,40 @@ export const MessageList = () => {
             <b>{message.username}</b>: {message.body}
           </div>
         ))}
+        <div  ref={messagesEndRef} />
       </div>
 
       <div className="mt-auto px-5 py-3">
-        <Formik
-          initialValues={{ message: '' }}
-          onSubmit={handleAddMessage}
-          className="py-1 border rounded-2"
-        >
-          {({ values }) => (
-            <Form className=" w-100 text-center m-5 input-group">
-              <Field
-                name="message"
-                innerRef={messageRef}
-                className="border-0 p-0 ps-2 form-control"
-                placeholder={t('messages.placeholder')}
-                autoComplete="off"
-                type="text"
-              />
-              <button
-                type="submit"
-                disabled={isLoading || !values.message.trim()}
-                className="btn btn-outline-secondary"
-                title={t('messages.send')}
-              >
-                <ArrowIcon />
-                <span className="visually-hidden">{t('messages.send')}</span>
-              </button>
+        <Formik initialValues={{ message: '' }} onSubmit={handleAddMessage}>
+          {({ handleSubmit, handleChange, values }) => (
+            <Form
+              noValidate
+              onSubmit={handleSubmit}
+              className="py-1 border rounded-2"
+            >
+              <InputGroup>
+                <Form.Control
+                  className="border-0 p-0 ps-2 form-control"
+                  name="message"
+                  placeholder={t('messages.placeholder')}
+                  aria-label={t('messages.placeholder')}
+                  aria-describedby="basic-message"
+                  onChange={handleChange}
+                  value={values.message}
+                  ref={messageRef}
+                  autoComplete="off"
+                  type="text"
+                />
+                <Button
+                  variant="outline"
+                  type="submit"
+                  id="button-message"
+                  disabled={isLoading || !values.message.trim()}
+                >
+                  <ArrowIcon />
+                  <span className="visually-hidden">{t('messages.send')}</span>
+                </Button>
+              </InputGroup>
             </Form>
           )}
         </Formik>

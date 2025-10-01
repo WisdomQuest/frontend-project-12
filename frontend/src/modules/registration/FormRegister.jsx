@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { singUpValidationSchema } from '../../validationShemas.js';
 import { setCredentials } from '../login/auth/authSlice.js';
 import { useTranslation } from 'react-i18next';
-import { useFormFocus } from './useFormFocus.js';
+import { useFormFocus } from '../../hooks/useFormFocus.js';
 import { Formik } from 'formik';
 
 export const FormRegister = () => {

@@ -1,5 +1,4 @@
-
-  import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const baseUrl = '/api/v1/';
 
@@ -8,7 +7,7 @@ export const channelApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers, { getState }) => {
-    const token = getState().auth.token;
+      const token = getState().auth.token;
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
@@ -37,7 +36,11 @@ export const channelApi = createApi({
         method: 'PATCH',
         body: channel,
       }),
-      invalidatesTags: ['Channel'],
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Channel', id },
+        { type: 'Channel', id: 'LIST' },
+        { type: 'Message' },
+      ],
     }),
 
     removeChannel: builder.mutation({
@@ -45,7 +48,11 @@ export const channelApi = createApi({
         url: `/channels/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Channel', 'Message'],
+      invalidatesTags: (result, error, id) => [
+        { type: 'Channel', id },
+        { type: 'Channel', id: 'LIST' },
+        { type: 'Message' },
+      ],
     }),
   }),
 });

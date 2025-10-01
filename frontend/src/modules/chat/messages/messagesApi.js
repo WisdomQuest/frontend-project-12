@@ -14,11 +14,21 @@ export const messagesApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Channel','Message'],
+  tagTypes: ['Channel', 'Message'],
   endpoints: (builder) => ({
     getMessages: builder.query({
       query: () => '/messages',
-      providesTags: ['Message', 'Channel'],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'Message', id })),
+              { type: 'Message', id: 'LIST' },
+              { type: 'Channel', id: 'LIST' }, // Добавляем каналы
+            ]
+          : [
+              { type: 'Message', id: 'LIST' },
+              { type: 'Channel', id: 'LIST' },
+            ],
     }),
 
     addMessage: builder.mutation({
@@ -29,23 +39,6 @@ export const messagesApi = createApi({
       }),
       invalidatesTags: ['Message'],
     }),
-
-    // editMessage: builder.mutation({
-    //   query: ({ id, ...message }) => ({
-    //     url: `/messages/${id}`,
-    //     method: 'PATCH',
-    //     body: message,
-    //   }),
-    //   invalidatesTags: ['Message'],
-    // }),
-
-    // removeMessage: builder.mutation({
-    //   query: (id) => ({
-    //     url: `/messages/${id}`,
-    //     method: 'DELETE',
-    //   }),
-    //   invalidatesTags: ['Message'],
-    // }),
   }),
 });
 

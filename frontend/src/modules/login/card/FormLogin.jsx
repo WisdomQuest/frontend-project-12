@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { setCredentials } from '../auth/authSlice.js';
 import { useTranslation } from 'react-i18next';
 import * as formik from 'formik';
-import { useFormFocus } from '../../registration/useFormFocus.js';
+import { useFormFocus } from '../../../hooks/useFormFocus.js';
 
 export const FormLogin = () => {
   const { Formik } = formik;

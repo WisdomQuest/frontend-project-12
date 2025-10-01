@@ -1,4 +1,3 @@
-// import { baseApi } from '../../../shared/api.js';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const baseUrl = '/api/v1/';
@@ -7,10 +6,7 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ baseUrl }),
   prepareHeaders: (headers, { getState }) => {
-
     const token = getState().auth.token;
-    // const token = localStorage.getItem('token');
-    console.log('PrepareHeaders вызван! Токен:', token);
 
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);

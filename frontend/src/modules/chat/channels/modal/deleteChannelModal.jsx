@@ -16,10 +16,10 @@ export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
 
   return (
     <div
-      className="modal show"
+      className="modal show "
       style={{ display: 'block', position: 'initial' }}
     >
-      <Modal show={isOpen} onHide={onClose}>
+      <Modal show={isOpen} onHide={onClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>{t('channels.modal.deleteTitle')}</Modal.Title>
         </Modal.Header>

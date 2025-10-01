@@ -2,19 +2,26 @@ import {
   useRemoveChannelMutation,
   useEditChannelMutation,
 } from './channelsApi';
-import { Dropdown } from 'bootstrap';
-import cn from 'classnames';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { useState, useEffect } from 'react';
 import { DeleteChannelModal } from './modal/deleteChannelModal.jsx';
 import { EditChannelModal } from './modal/editChannelModal.jsx';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+
 import * as filter from 'leo-profanity';
 import { notifySuccess, notifyError } from './notify/notify.js';
+import { setCurrentChannel } from './channelsSlice';
 
 const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
 
   const [removeChannel] = useRemoveChannelMutation();
   const [editChannel] = useEditChannelMutation();
@@ -50,6 +57,11 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
         name: cleanedChatName,
         id: channel.id,
       }).unwrap();
+
+      if (isActive) {
+        dispatch(setCurrentChannel({ id: channel.id, name: cleanedChatName }));
+      }
+
       notifySuccess(t('channels.toast.rename'));
       handleCloseModalEdit();
     } catch (error) {
@@ -70,50 +82,37 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   };
 
   return (
-    <li className="nav-item">
-      <div className="btn-group w-100 d-flex">
-        <button
-          type="button"
-          className={cn('btn', 'w-100', 'text-start', 'rounded-0', {
-            'btn-secondary': isActive,
-            'text-truncate': !isActive,
-          })}
+    <ListGroup.Item className="p-0 border-0">
+      <Dropdown as={ButtonGroup} className="w-100">
+        <Button
+          variant={isActive ? 'secondary' : 'light'}
+          className="w-100 text-start rounded-0 text-truncate"
           onClick={handleSelect}
         >
           <span className="me-1"># </span>
           {channel.name}
-        </button>
+        </Button>
+
         {channel.removable && (
-          <div className=" btn-group">
-            <button
-              type="button"
-              className={cn('btn  dropdown-toggle dropdown-toggle-split', {
-                'btn-secondary': isActive,
-              })}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <span className="visually-hidden">Toggle Dropdown</span>
-            </button>
-            <div className="dropdown-menu">
-              <button
-                className="dropdown-item"
-                href="#"
-                onClick={handleOpenModalDelete}
-              >
+          <>
+            <Dropdown.Toggle
+              split
+              variant={isActive ? 'secondary' : 'outline-light'}
+              id={`dropdown-channel-${channel.id}`}
+              className="rounded-0"
+            />
+
+            <Dropdown.Menu>
+              <Dropdown.Item as="button" onClick={handleOpenModalDelete}>
                 {t('channels.actions.delete')}
-              </button>
-              <button
-                className="dropdown-item"
-                href="#"
-                onClick={handleOpenModalEdit}
-              >
+              </Dropdown.Item>
+              <Dropdown.Item as="button" onClick={handleOpenModalEdit}>
                 {t('channels.actions.rename')}
-              </button>
-            </div>
-          </div>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </>
         )}
-      </div>
+      </Dropdown>
 
       <DeleteChannelModal
         isOpen={isShowDeleteModal}
@@ -129,7 +128,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
         channelsNames={channelsNames}
         textHeaderModal={t('channels.modal.renameTitle')}
       />
-    </li>
+    </ListGroup.Item>
   );
 };
 

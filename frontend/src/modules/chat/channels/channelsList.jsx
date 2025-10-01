@@ -7,9 +7,8 @@ import { PlusSquareIcon } from '../.././../assets/PlusSquareIcon';
 import { EditChannelModal } from './modal/editChannelModal.jsx';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer } from 'react-toastify';
-import {notifySuccess, notifyError} from './notify/notify.js';
+import { notifySuccess, notifyError } from './notify/notify.js';
 import * as filter from 'leo-profanity';
-
 
 export const ChannelList = () => {
   const dispatch = useDispatch();
@@ -24,9 +23,9 @@ export const ChannelList = () => {
 
   const currentChannelId = useSelector(SelectCurrentChannelId);
 
-    useEffect(() => {
-      filter.loadDictionary('ru');
-    }, []);
+  useEffect(() => {
+    filter.loadDictionary('ru');
+  }, []);
 
   useEffect(() => {
     if (channels.length > 0 && !currentChannelId) {
@@ -54,21 +53,20 @@ export const ChannelList = () => {
       const channel = await addChannel({
         name: cleanedchatName,
         removable: true,
-      })
-        .unwrap()
-    notifySuccess(t('channels.toast.add'));
+      }).unwrap();
+      notifySuccess(t('channels.toast.add'));
       dispatch(setCurrentChannel(channel));
     } catch (error) {
       console.error(error);
-      notifyError(t( 'channels.errors.connectionError'));
+      notifyError(t('channels.errors.connectionError'));
     }
   };
 
   if (isLoading) return <div>{t('common.loading')}</div>;
 
   return (
-    <div className=" bg-info-subtle h-100 border border-primary col">
-      <div className="d-flex justify-content-between align-items-center mt-2">
+    <>
+      <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>{t('channels.title')}</b>
         <button
           onClick={handleOpenModal}
@@ -78,7 +76,7 @@ export const ChannelList = () => {
           <PlusSquareIcon />
         </button>
       </div>
-      <ul className="p-0 channels-list">
+      <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((channel) => (
           <ChannelItem
             key={channel.id}
@@ -99,6 +97,6 @@ export const ChannelList = () => {
         textHeaderModal={t('channels.modal.addTitle')}
       />
       <ToastContainer />
-    </div>
+    </>
   );
 };
