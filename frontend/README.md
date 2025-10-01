@@ -1,12 +1,65 @@
-# React + Vite
+# React Slack-чат
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Render](https://img.shields.io/badge/Render-Deployed-brightgreen)](https://frontend-project-12-5lhf.onrender.com)
 
-Currently, two official plugins are available:
+## О проекте
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**React Slack-чат** — это веб-приложение для обмена сообщениями в реальном времени, упрощенный аналог популярного мессенджера Slack.
 
-## Expanding the ESLint configuration
+**Цель проекта:** Показать работу с типовыми задачами фронтенд-разработчика: WebSockets, REST API, управление состоянием (Redux), роутинг, авторизация и деплой.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Функциональность
+
+- **💬 Обмен сообщениями в реальном времени** через WebSocket-соединение
+- **🔐 Система авторизации и аутентификации**
+- **📱 Адаптивный интерфейс**, построенный на компонентах React-Bootstrap
+- **⚛️ Управление состоянием приложения** через Redux Toolkit
+- **🛣️ Клиентский роутинг** с помощью React Router
+- **✅ Валидация форм** с использованием Formik
+- **👥 Создание и переключение между каналами**
+
+## 🛠 Технологический стек
+
+**Frontend:**
+
+- **React**
+- **Redux Toolkit**
+- **React Router**
+- **Formik**
+- **React-Bootstrap**
+- **Vite**
+
+**Development & Production:**
+
+- **Rollbar**
+- **Render**
+
+## 🚀 Быстрый старт
+
+### Предварительные требования
+
+Убедись, что у тебя установлены:
+
+- Node.js
+- npm или yarn
+
+### Установка и запуск
+
+1. **Клонируй репозиторий:**
+
+   ```
+   git clone git@github.com:WisdomQuest/frontend-project-12.git
+   cd frontend-project-12
+   ```
+
+2. Установка зависимостей:
+
+```
+npm install
+```
+
+3. Запуск:
+
+```
+make develop
+```
