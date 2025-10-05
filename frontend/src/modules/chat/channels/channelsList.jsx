@@ -8,7 +8,7 @@ import { EditChannelModal } from './modal/editChannelModal.jsx';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer } from 'react-toastify';
 import { notifySuccess, notifyError } from './notify/notify.js';
-import * as filter from 'leo-profanity';
+import filter from 'leo-profanity';
 
 export const ChannelList = () => {
   const dispatch = useDispatch();
@@ -22,10 +22,6 @@ export const ChannelList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const currentChannelId = useSelector(SelectCurrentChannelId);
-
-  useEffect(() => {
-    filter.loadDictionary('ru');
-  }, []);
 
   useEffect(() => {
     if (channels.length > 0 && !currentChannelId) {

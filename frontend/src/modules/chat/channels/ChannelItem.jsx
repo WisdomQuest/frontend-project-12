@@ -6,13 +6,12 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { DeleteChannelModal } from './modal/deleteChannelModal.jsx';
 import { EditChannelModal } from './modal/editChannelModal.jsx';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-
-import * as filter from 'leo-profanity';
+import filter from 'leo-profanity';
 import { notifySuccess, notifyError } from './notify/notify.js';
 import { setCurrentChannel } from './channelsSlice';
 
@@ -25,10 +24,6 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
 
   const [removeChannel] = useRemoveChannelMutation();
   const [editChannel] = useEditChannelMutation();
-
-  useEffect(() => {
-    filter.loadDictionary('ru');
-  }, []);
 
   const handleOpenModalDelete = () => {
     setIsShowDeleteModal(true);

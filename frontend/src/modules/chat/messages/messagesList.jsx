@@ -9,7 +9,7 @@ import { selectCurrentUser } from '../../login/auth/authSlice';
 import { SelectCurrentChannel } from '../channels/channelsSlice';
 import { ArrowIcon } from '../../../assets/arrowIcon.jsx';
 import { useTranslation } from 'react-i18next';
-import * as filter from 'leo-profanity';
+import filter from 'leo-profanity';
 
 export const MessageList = () => {
   const { data: messages = [] } = useGetMessagesQuery();
@@ -27,10 +27,6 @@ export const MessageList = () => {
     const currentChanellMessages = messages.filter(
     (message) => message.channelId === currentChannelId
   );
-
-  useEffect(() => {
-    filter.loadDictionary('ru');
-  }, []);
 
   useEffect(() => {
     messageRef.current?.focus();

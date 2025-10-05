@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { Provider, ErrorBoundary } from '@rollbar/react';
+import filter from 'leo-profanity';
 import App from './App.jsx';
 import resources from './locales/index.js';
 
@@ -10,8 +11,8 @@ const rollbarConfig = {
   captureUncaught: true,
   captureUnhandledRejections: true,
   server: {
-    root: "localhost:5002",
-    branch: "main"
+    root: 'localhost:5002',
+    branch: 'main',
   },
 };
 
@@ -26,6 +27,12 @@ const init = async () => {
       escapeValue: false,
     },
   });
+
+  try {
+    await filter.loadDictionary('ru');
+  } catch (err) {
+    console.error('Failed to load profanity dictionary', err);
+  }
 
   return (
     <Provider config={rollbarConfig}>
