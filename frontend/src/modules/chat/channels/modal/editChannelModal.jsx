@@ -6,6 +6,11 @@ import { ChannelsValidationSchema } from '../../../../validationShemas';
 import { useTranslation } from 'react-i18next';
 import { useRef, useEffect } from 'react';
 
+/**
+ *
+ * @param {{ isOpen: boolean, onClose: () => void, onSubmit: () => void, channelName: string, channelsNames: string[], textHeaderModal: string }} param0
+ * @returns
+ */
 export const EditChannelModal = ({
   isOpen,
   onClose,

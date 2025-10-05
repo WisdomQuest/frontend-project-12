@@ -1,6 +1,12 @@
 import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
+/**
+ *
+ * @param {{ isOpen: boolean, onClose: () => void, onSubmit: () => void }} param0
+ * @returns
+ */
+
 export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
   const { t } = useTranslation();
 

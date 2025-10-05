@@ -1,4 +1,4 @@
-import { useEffect, useRef} from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -24,8 +24,9 @@ export const MessageList = () => {
   const messageRef = useRef(null);
   const messagesEndRef = useRef(null);
 
-    const currentChanellMessages = messages.filter(
-    (message) => message.channelId === currentChannelId
+  const currentChannelMessages = useMemo(
+    () => messages.filter((message) => message.channelId === currentChannelId),
+    [messages, currentChannelId],
   );
 
   useEffect(() => {
@@ -33,8 +34,8 @@ export const MessageList = () => {
   }, [currentChannelId]);
 
   useEffect(() => {
-  messagesEndRef.current?.scrollIntoView();
-}, [currentChanellMessages]);
+    messagesEndRef.current?.scrollIntoView();
+  }, [currentChannelMessages]);
 
   const handleAddMessage = async (values, { resetForm }) => {
     try {
@@ -50,8 +51,6 @@ export const MessageList = () => {
     }
   };
 
-
-
   return (
     <div className=" d-flex flex-column h-100">
       <div className="mb-4 p-3 shadow-sm small">
@@ -59,16 +58,16 @@ export const MessageList = () => {
           <b>{currentChannelName}</b>
         </p>
         <span className="text-muted">
-          {t('messages.messageCount', { count: currentChanellMessages.length })}
+          {t('messages.messageCount', { count: currentChannelMessages.length })}
         </span>
       </div>
       <div className="chat-messages overflow-auto px-5">
-        {currentChanellMessages.map((message) => (
+        {currentChannelMessages.map((message) => (
           <div key={message.id} className="text-break mb-2">
             <b>{message.username}</b>: {message.body}
           </div>
         ))}
-        <div  ref={messagesEndRef} />
+        <div ref={messagesEndRef} />
       </div>
 
       <div className="mt-auto px-5 py-3">

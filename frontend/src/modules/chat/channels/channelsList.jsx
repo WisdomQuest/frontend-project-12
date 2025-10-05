@@ -1,7 +1,7 @@
 import { useGetChannelsQuery, useAddChannelMutation } from './channelsApi';
 import { useSelector, useDispatch } from 'react-redux';
 import ChannelItem from './ChannelItem';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { SelectCurrentChannelId, setCurrentChannel } from './channelsSlice';
 import { PlusSquareIcon } from '../.././../assets/PlusSquareIcon';
 import { EditChannelModal } from './modal/editChannelModal.jsx';
@@ -17,7 +17,10 @@ export const ChannelList = () => {
   const { data: channels = [], isLoading } = useGetChannelsQuery();
   const [addChannel] = useAddChannelMutation();
 
-  const channelsNames = channels.map((channel) => channel.name);
+  const channelsNames = useMemo(
+    () => channels.map((cnannel) => cnannel.name),
+    [channels],
+  );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

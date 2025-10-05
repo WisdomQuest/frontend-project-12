@@ -16,8 +16,7 @@ import { notifySuccess, notifyError } from './notify/notify.js';
 import { setCurrentChannel } from './channelsSlice';
 
 const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
-  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
-  const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const [modal, setModal] = useState({ delete: false, edit: false });
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -25,20 +24,12 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const [removeChannel] = useRemoveChannelMutation();
   const [editChannel] = useEditChannelMutation();
 
-  const handleOpenModalDelete = () => {
-    setIsShowDeleteModal(true);
+  const openModal = (type) => {
+    setModal((s) => ({ ...s, [type]: true }));
   };
 
-  const handleCloseModalDelete = () => {
-    setIsShowDeleteModal(false);
-  };
-
-  const handleOpenModalEdit = () => {
-    setIsShowEditModal(true);
-  };
-
-  const handleCloseModalEdit = () => {
-    setIsShowEditModal(false);
+  const closeModal = (type) => {
+    setModal((s) => ({ ...s, [type]: false }));
   };
 
   const handleSelect = () => {
@@ -58,7 +49,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
       }
 
       notifySuccess(t('channels.toast.rename'));
-      handleCloseModalEdit();
+      closeModal('edit');
     } catch (error) {
       console.error(error);
       notifyError(t('channels.errors.connectionError'));
@@ -69,9 +60,9 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
     try {
       await removeChannel(channel.id).unwrap();
       notifySuccess(t('channels.toast.delete'));
+      closeModal('delete');
     } catch (error) {
       console.error(error);
-      handleCloseModalDelete();
       notifyError(t('channels.errors.connectionError'));
     }
   };
@@ -98,10 +89,10 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
             />
 
             <Dropdown.Menu>
-              <Dropdown.Item as="button" onClick={handleOpenModalDelete}>
+              <Dropdown.Item as="button" onClick={() => openModal('delete')}>
                 {t('channels.actions.delete')}
               </Dropdown.Item>
-              <Dropdown.Item as="button" onClick={handleOpenModalEdit}>
+              <Dropdown.Item as="button" onClick={() => openModal('edit')}>
                 {t('channels.actions.rename')}
               </Dropdown.Item>
             </Dropdown.Menu>
@@ -110,14 +101,14 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
       </Dropdown>
 
       <DeleteChannelModal
-        isOpen={isShowDeleteModal}
-        onClose={handleCloseModalDelete}
+        isOpen={modal.delete}
+        onClose={() => closeModal('delete')}
         onSubmit={handleRemove}
       />
 
       <EditChannelModal
-        isOpen={isShowEditModal}
-        onClose={handleCloseModalEdit}
+        isOpen={modal.edit}
+        onClose={() => closeModal('edit')}
         onSubmit={handleEdit}
         channelName={channel.name}
         channelsNames={channelsNames}
