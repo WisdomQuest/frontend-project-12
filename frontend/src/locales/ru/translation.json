@@ -50,6 +50,7 @@
   },
   "messages": {
     "placeholder": "Введите сообщение...",
+    "newMessage": "Новое сообщение",
     "send": "Отправить",
     "messageCount_one": "{{count}} сообщениe",
     "messageCount_few": "{{count}} сообщения",

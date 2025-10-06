@@ -83,7 +83,7 @@ export const MessageList = () => {
                   className="border-0 p-0 ps-2 form-control"
                   name="message"
                   placeholder={t('messages.placeholder')}
-                  aria-label={t('messages.placeholder')}
+                  aria-label={t('messages.newMessage')}
                   aria-describedby="basic-message"
                   onChange={handleChange}
                   value={values.message}
