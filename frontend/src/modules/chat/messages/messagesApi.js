@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-const baseUrl = '/api/v1/';
+import { API_BASE_URL, API_ENDPOINTS } from '../../../constants/api.js';
+import { TAG_TYPES } from '../../../constants/tags.js';
 
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl,
+    baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
@@ -14,20 +14,20 @@ export const messagesApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Channel', 'Message'],
+  tagTypes: [TAG_TYPES.MESSAGE, TAG_TYPES.CHANNEL],
   endpoints: (builder) => ({
     getMessages: builder.query({
-      query: () => '/messages',
+      query: () => API_ENDPOINTS.MESSAGES,
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: 'Message', id })),
-              { type: 'Message', id: 'LIST' },
-              { type: 'Channel', id: 'LIST' }, // Добавляем каналы
+              ...result.map(({ id }) => ({ type: TAG_TYPES.MESSAGE, id })),
+              { type: TAG_TYPES.MESSAGE, id: 'LIST' },
+              { type: TAG_TYPES.CHANNEL, id: 'LIST' },
             ]
           : [
-              { type: 'Message', id: 'LIST' },
-              { type: 'Channel', id: 'LIST' },
+              { type: TAG_TYPES.MESSAGE, id: 'LIST' },
+              { type: TAG_TYPES.CHANNEL, id: 'LIST' },
             ],
     }),
 
@@ -37,7 +37,7 @@ export const messagesApi = createApi({
         method: 'POST',
         body: message,
       }),
-      invalidatesTags: ['Message'],
+      invalidatesTags: [{ type: TAG_TYPES.MESSAGE, id: 'LIST' }],
     }),
   }),
 });
@@ -45,6 +45,4 @@ export const messagesApi = createApi({
 export const {
   useGetMessagesQuery,
   useAddMessageMutation,
-  useEditMessageMutation,
-  useRemoveMessageMutation,
 } = messagesApi;

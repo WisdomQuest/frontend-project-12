@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-const baseUrl = '/api/v1/';
+import { API_BASE_URL, API_ENDPOINTS } from '../../../constants/api.js';
+import { TAG_TYPES } from '../../../constants/tags.js';
 
 export const channelApi = createApi({
   reducerPath: 'channelApi',
   baseQuery: fetchBaseQuery({
-    baseUrl,
+    baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
@@ -14,44 +14,44 @@ export const channelApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Channel', 'Message'],
+  tagTypes: [TAG_TYPES.CHANNEL, TAG_TYPES.MESSAGE],
   endpoints: (builder) => ({
     getChannels: builder.query({
-      query: () => '/channels',
-      providesTags: ['Channel'],
+      query: () => API_ENDPOINTS.CHANNELS,
+      providesTags: [TAG_TYPES.CHANNEL],
     }),
 
     addChannel: builder.mutation({
       query: (channel) => ({
-        url: '/channels',
+        url: API_ENDPOINTS.CHANNELS,
         method: 'POST',
         body: channel,
       }),
-      invalidatesTags: ['Channel'],
+      invalidatesTags: [TAG_TYPES.CHANNEL],
     }),
 
     editChannel: builder.mutation({
       query: ({ id, ...channel }) => ({
-        url: `/channels/${id}`,
+        url: `${API_ENDPOINTS.CHANNELS}/${id}`,
         method: 'PATCH',
         body: channel,
       }),
       invalidatesTags: (result, error, { id }) => [
-        { type: 'Channel', id },
-        { type: 'Channel', id: 'LIST' },
-        { type: 'Message' },
+        { type: TAG_TYPES.CHANNEL, id },
+        { type: TAG_TYPES.CHANNEL, id: 'LIST' },
+        { type: TAG_TYPES.MESSAGE },
       ],
     }),
 
     removeChannel: builder.mutation({
       query: (id) => ({
-        url: `/channels/${id}`,
+        url: `${API_ENDPOINTS.CHANNELS}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: (result, error, id) => [
-        { type: 'Channel', id },
-        { type: 'Channel', id: 'LIST' },
-        { type: 'Message' },
+        { type: TAG_TYPES.CHANNEL, id },
+        { type: TAG_TYPES.CHANNEL, id: 'LIST' },
+        { type: TAG_TYPES.MESSAGE },
       ],
     }),
   }),

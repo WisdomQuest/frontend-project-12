@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { useVerifyTokenMutation } from '../auth/authApi.js';
+import { useVerifyTokenMutation } from '../../registration/authApi.js';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../auth/authSlice.js';
