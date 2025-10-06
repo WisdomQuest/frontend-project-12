@@ -2,7 +2,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { ChannelsValidationSchema } from '../../../../validationShemas';
+import { createChannelsValidation } from '../../../../validationShemas';
 import { useTranslation } from 'react-i18next';
 import { useRef, useEffect } from 'react';
 
@@ -46,7 +46,7 @@ export const EditChannelModal = ({
         <Formik
           initialValues={{ chatName: channelName ?? '' }}
           onSubmit={handleSubmit}
-          validationSchema={ChannelsValidationSchema(channelsNames)}
+          validationSchema={createChannelsValidation(t, channelsNames)}
           validateOnBlur={false}
           validateOnMount={false}
           validateOnChange={false}
