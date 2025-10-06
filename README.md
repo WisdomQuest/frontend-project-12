@@ -1,5 +1,6 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/WisdomQuest/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/WisdomQuest/frontend-project-12/actions)
+[![github-actions](https://github.com/WisdomQuest/frontend-project-12/actions/workflows/github-actions.yml/badge.svg)](https://github.com/WisdomQuest/frontend-project-12/actions/workflows/github-actions.yml)
 
 # React Slack-чат
 [![Render](https://img.shields.io/badge/Render-Deployed-brightgreen)](https://frontend-project-12-5lhf.onrender.com)
