@@ -73,6 +73,7 @@ export const ChannelList = () => {
           title={t('channels.add')}
         >
           <PlusSquareIcon />
+          <span className="visually-hidden">{t('channels.plus')}</span>
         </button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
