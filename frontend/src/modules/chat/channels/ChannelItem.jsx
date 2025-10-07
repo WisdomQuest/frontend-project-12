@@ -86,9 +86,8 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
               variant={isActive ? 'secondary' : 'outline-light'}
               id={`dropdown-channel-${channel.id}`}
               className="rounded-0"
-              aria-label="Управление каналом"
             >
-              {/* <span className="visually-hidden">Управление каналом</span> */}
+              <span className="visually-hidden">{t('channels.ChannelManagement')}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item as="button" onClick={() => openModal('delete')}>
