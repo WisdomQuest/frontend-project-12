@@ -1,17 +1,17 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API_BASE_URL, API_ENDPOINTS } from '../../../constants/api.js';
-import { TAG_TYPES } from '../../../constants/tags.js';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { API_BASE_URL, API_ENDPOINTS } from '../../../constants/api.js'
+import { TAG_TYPES } from '../../../constants/tags.js'
 
 export const channelApi = createApi({
   reducerPath: 'channelApi',
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const token = getState().auth.token
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+        headers.set('Authorization', `Bearer ${token}`)
       }
-      return headers;
+      return headers
     },
   }),
   tagTypes: [TAG_TYPES.CHANNEL, TAG_TYPES.MESSAGE],
@@ -55,11 +55,11 @@ export const channelApi = createApi({
       ],
     }),
   }),
-});
+})
 
 export const {
   useGetChannelsQuery,
   useAddChannelMutation,
   useEditChannelMutation,
   useRemoveChannelMutation,
-} = channelApi;
+} = channelApi

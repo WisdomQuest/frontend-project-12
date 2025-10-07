@@ -1,10 +1,10 @@
-import Modal from 'react-bootstrap/Modal';
-import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import { createChannelsValidation } from '../../../../validationShemas';
-import { useTranslation } from 'react-i18next';
-import { useRef, useEffect } from 'react';
+import Modal from 'react-bootstrap/Modal'
+import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import { createChannelsValidation } from '../../../../validationShemas'
+import { useTranslation } from 'react-i18next'
+import { useRef, useEffect } from 'react'
 
 export const EditChannelModal = ({
   isOpen,
@@ -14,28 +14,28 @@ export const EditChannelModal = ({
   channelsNames,
   textHeaderModal,
 }) => {
-  const { t } = useTranslation();
-  const inputRef = useRef(null);
+  const { t } = useTranslation()
+  const inputRef = useRef(null)
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  }, [isOpen]);
+  }, [isOpen])
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      await onSubmit(values);
-      resetForm();
-      onClose();
+      await onSubmit(values)
+      resetForm()
+      onClose()
     } catch (error) {
-      console.error(t('auth.errors.connectionError'), error);
+      console.error(t('auth.errors.connectionError'), error)
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
@@ -78,8 +78,8 @@ export const EditChannelModal = ({
                 <Button
                   variant="secondary"
                   onClick={() => {
-                    resetForm();
-                    onClose();
+                    resetForm()
+                    onClose()
                   }}
                   disabled={isSubmitting}
                 >
@@ -94,5 +94,5 @@ export const EditChannelModal = ({
         </Formik>
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+}

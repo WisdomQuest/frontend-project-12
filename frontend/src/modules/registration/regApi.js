@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API_BASE_URL, API_ENDPOINTS } from '../../constants/api.js';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { API_BASE_URL, API_ENDPOINTS } from '../../constants/api.js'
 
 export const regApi = createApi({
   baseQuery: fetchBaseQuery({
@@ -15,6 +15,6 @@ export const regApi = createApi({
       }),
     }),
   }),
-});
+})
 
-export const { useRegisterMutation } = regApi;
+export const { useRegisterMutation } = regApi

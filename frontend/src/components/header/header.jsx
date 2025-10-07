@@ -1,24 +1,24 @@
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import { useDispatch, useSelector } from 'react-redux';
+import Container from 'react-bootstrap/Container'
+import Navbar from 'react-bootstrap/Navbar'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   logout,
   selectCurrentToken,
-} from '../../modules/login/auth/authSlice.js';
-import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+} from '../../modules/login/auth/authSlice.js'
+import Button from 'react-bootstrap/Button'
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export const Header = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isAuthenticated = !!useSelector(selectCurrentToken);
-  const { t } = useTranslation();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const isAuthenticated = !!useSelector(selectCurrentToken)
+  const { t } = useTranslation()
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate('/');
-  };
+    dispatch(logout())
+    navigate('/')
+  }
 
   return (
     <Navbar className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -36,5 +36,5 @@ export const Header = () => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  );
-};
+  )
+}

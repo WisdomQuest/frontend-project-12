@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 
 export const CardFooter = () => {
@@ -7,5 +7,5 @@ export const CardFooter = () => {
       <span className="m-2 pt-2">Нет аккаунта?</span>
       <Link to='/signup'>Регистрация</Link>
     </div>
-  );
-};
+  )
+}

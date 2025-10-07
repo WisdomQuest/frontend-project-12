@@ -1,50 +1,50 @@
-import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { useVerifyTokenMutation } from '../../registration/authApi.js';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setCredentials } from '../auth/authSlice.js';
-import { useTranslation } from 'react-i18next';
-import * as formik from 'formik';
-import { useFormFocus } from '../../../hooks/useFormFocus.js';
+import { useNavigate } from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import { useVerifyTokenMutation } from '../../registration/authApi.js'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setCredentials } from '../auth/authSlice.js'
+import { useTranslation } from 'react-i18next'
+import * as formik from 'formik'
+import { useFormFocus } from '../../../hooks/useFormFocus.js'
 
 export const FormLogin = () => {
-  const { Formik } = formik;
-  const [login, { isLoading }] = useVerifyTokenMutation();
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { Formik } = formik
+  const [login, { isLoading }] = useVerifyTokenMutation()
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const [showError, setShowError] = useState(false);
+  const [showError, setShowError] = useState(false)
 
   const { registerFieldRef, handleKeyDown } = useFormFocus([
     'nickName',
     'password',
-  ]);
+  ])
 
   const createFieldRef = (fieldName) => (ref) => {
-    registerFieldRef(fieldName, ref);
-  };
+    registerFieldRef(fieldName, ref)
+  }
 
   const handleLogin = async (name, password) => {
     try {
-      setShowError(false);
+      setShowError(false)
       const user = await login({
         username: name,
         password: password,
-      }).unwrap();
+      }).unwrap()
 
-      dispatch(setCredentials(user));
-      navigate('/');
+      dispatch(setCredentials(user))
+      navigate('/')
     } catch (err) {
-      setShowError(true);
-      console.error(t('auth.errors.connectionError'), err);
+      setShowError(true)
+      console.error(t('auth.errors.connectionError'), err)
     }
-  };
+  }
 
   return (
     <Formik
@@ -123,5 +123,5 @@ export const FormLogin = () => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}

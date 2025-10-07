@@ -1,7 +1,7 @@
-import ru from './ru/translation.json';
+import ru from './ru/translation.json'
 
 export default {
   ru: {
     translation: ru,
   },
-};
+}

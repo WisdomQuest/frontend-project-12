@@ -1,49 +1,49 @@
-import { useRegisterMutation } from './regApi.js';
-import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { useDispatch } from 'react-redux';
-import { createSignUpValidation  } from '../../validationShemas.js';
-import { setCredentials } from '../login/auth/authSlice.js';
-import { useTranslation } from 'react-i18next';
-import { useFormFocus } from '../../hooks/useFormFocus.js';
-import { Formik } from 'formik';
+import { useRegisterMutation } from './regApi.js'
+import { useNavigate } from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import { useDispatch } from 'react-redux'
+import { createSignUpValidation  } from '../../validationShemas.js'
+import { setCredentials } from '../login/auth/authSlice.js'
+import { useTranslation } from 'react-i18next'
+import { useFormFocus } from '../../hooks/useFormFocus.js'
+import { Formik } from 'formik'
 
 export const FormRegister = () => {
-  const [register, { isLoading }] = useRegisterMutation();
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [register, { isLoading }] = useRegisterMutation()
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const { registerFieldRef, handleKeyDown } = useFormFocus([
     'nickName',
     'password',
     'passwordConfirm',
-  ]);
+  ])
 
   const handleRegister = async (values, { setFieldError }) => {
     try {
       const user = await register({
         username: values.nickName,
         password: values.password,
-      }).unwrap();
-      dispatch(setCredentials(user));
-      navigate('/');
+      }).unwrap()
+      dispatch(setCredentials(user))
+      navigate('/')
     } catch (err) {
       if (err.status === 409) {
-        setFieldError('userNameExists', t('auth.errors.userExists'));
+        setFieldError('userNameExists', t('auth.errors.userExists'))
       } else {
-        console.error(t('auth.errors.connectionError'), err);
+        console.error(t('auth.errors.connectionError'), err)
       }
     }
-  };
+  }
 
   const createFieldRef = (fieldName) => (ref) => {
-    registerFieldRef(fieldName, ref);
-  };
+    registerFieldRef(fieldName, ref)
+  }
 
   return (
     <Formik
@@ -159,5 +159,5 @@ export const FormRegister = () => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}

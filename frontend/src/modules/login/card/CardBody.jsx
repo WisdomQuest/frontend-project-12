@@ -1,5 +1,5 @@
-import { FormLogin } from './FormLogin.jsx';
-import avatar from '../../../assets/loginLogo.jpg';
+import { FormLogin } from './FormLogin.jsx'
+import avatar from '../../../assets/loginLogo.jpg'
 
 export const CardBody = () => {
   return (
@@ -13,5 +13,5 @@ export const CardBody = () => {
       </div>
       <FormLogin />
     </>
-  );
-};
+  )
+}

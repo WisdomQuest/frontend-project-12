@@ -1,9 +1,9 @@
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { CardBody } from './card/CardBody.jsx';
-import { CardFooter } from './card/CardFooter.jsx';
+import Container from 'react-bootstrap/Container'
+import Card from 'react-bootstrap/Card'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { CardBody } from './card/CardBody.jsx'
+import { CardFooter } from './card/CardFooter.jsx'
 
 export const Login = () => {
   return (
@@ -21,5 +21,5 @@ export const Login = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}

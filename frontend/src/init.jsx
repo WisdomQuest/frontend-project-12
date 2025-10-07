@@ -1,9 +1,9 @@
-import i18next from 'i18next';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
-import { Provider, ErrorBoundary } from '@rollbar/react';
-import filter from 'leo-profanity';
-import App from './App.jsx';
-import resources from './locales/index.js';
+import i18next from 'i18next'
+import { I18nextProvider, initReactI18next } from 'react-i18next'
+import { Provider, ErrorBoundary } from '@rollbar/react'
+import filter from 'leo-profanity'
+import App from './App.jsx'
+import resources from './locales/index.js'
 
 const rollbarConfig = {
   accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
@@ -14,10 +14,10 @@ const rollbarConfig = {
     root: 'localhost:5002',
     branch: 'main',
   },
-};
+}
 
 const init = async () => {
-  const i18n = i18next.createInstance();
+  const i18n = i18next.createInstance()
 
   await i18n.use(initReactI18next).init({
     resources,
@@ -26,13 +26,13 @@ const init = async () => {
     interpolation: {
       escapeValue: false,
     },
-  });
+  })
 
   try {
-    await filter.loadDictionary('ru');
-    await filter.loadDictionary('en');
+    await filter.loadDictionary('ru')
+    await filter.loadDictionary('en')
   } catch (err) {
-    console.error('Failed to load profanity dictionary', err);
+    console.error('Failed to load profanity dictionary', err)
   }
 
   return (
@@ -43,7 +43,7 @@ const init = async () => {
         </I18nextProvider>
       </ErrorBoundary>
     </Provider>
-  );
-};
+  )
+}
 
-export default init;
+export default init

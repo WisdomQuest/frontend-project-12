@@ -1,18 +1,18 @@
-import { Button, Modal } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import { Button, Modal } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 
 export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   const handleSubmit = async () => {
     try {
-      await onSubmit();
+      await onSubmit()
     } catch (error) {
-      console.error(t('auth.errors.connectionError'), error);
+      console.error(t('auth.errors.connectionError'), error)
     }
-  };
+  }
 
   return (
     <div
@@ -38,5 +38,5 @@ export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
         </Modal.Footer>
       </Modal>
     </div>
-  );
-};
+  )
+}
