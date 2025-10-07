@@ -37,7 +37,8 @@
       "deleteTitle": "Удалить канал",
       "cancel": "Отменить",
       "submit": "Отправить",
-      "delete": "Удалить"
+      "delete": "Удалить",
+      "nameChannel": "Имя канала"
     },
     "actions": {
       "delete": "Удалить",

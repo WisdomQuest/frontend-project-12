@@ -60,10 +60,14 @@ export const EditChannelModal = ({
                       {...field}
                       ref={inputRef}
                       type="text"
+                      id="chatNameInput"
                       isInvalid={errors.chatName && touched.chatName}
                     />
                   )}
                 </Field>
+                <label htmlFor="chatNameInput" className="visually-hidden">
+                  {t('channels.modal.nameChannel')}
+                </label>
 
                 <Form.Control.Feedback type="invalid">
                   <ErrorMessage name="chatName" />
