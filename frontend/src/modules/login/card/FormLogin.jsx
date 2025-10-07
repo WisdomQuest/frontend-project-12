@@ -26,7 +26,7 @@ export const FormLogin = () => {
     'password',
   ])
 
-  const createFieldRef = (fieldName) => (ref) => {
+  const createFieldRef = fieldName => ref => {
     registerFieldRef(fieldName, ref)
   }
 
@@ -40,7 +40,8 @@ export const FormLogin = () => {
 
       dispatch(setCredentials(user))
       navigate('/')
-    } catch (err) {
+    }
+ catch (err) {
       setShowError(true)
       console.error(t('auth.errors.connectionError'), err)
     }
@@ -49,7 +50,7 @@ export const FormLogin = () => {
   return (
     <Formik
       initialValues={{ nickName: '', password: '' }}
-      onSubmit={(values) => handleLogin(values.nickName, values.password)}
+      onSubmit={values => handleLogin(values.nickName, values.password)}
     >
       {({ handleSubmit, handleChange, values, touched, errors }) => (
         <Form
@@ -77,7 +78,7 @@ export const FormLogin = () => {
                   ref={createFieldRef('nickName')}
                   autoFocus={true}
                   placeholder={t('auth.nickName')}
-                  onKeyDown={(e) => handleKeyDown(e, 'nickName')}
+                  onKeyDown={e => handleKeyDown(e, 'nickName')}
                   isInvalid={touched.nickName && !!errors.nickName}
                 />
               </FloatingLabel>
@@ -101,7 +102,7 @@ export const FormLogin = () => {
                   onChange={handleChange}
                   ref={createFieldRef('password')}
                   placeholder={t('auth.password')}
-                  onKeyDown={(e) => handleKeyDown(e, 'password')}
+                  onKeyDown={e => handleKeyDown(e, 'password')}
                   isInvalid={showError}
                 />
 

@@ -6,7 +6,7 @@ export const regApi = createApi({
     baseUrl: API_BASE_URL,
   }),
   reducerPath: 'regApi',
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     register: builder.mutation({
       query: ({ username, password }) => ({
         method: 'post',

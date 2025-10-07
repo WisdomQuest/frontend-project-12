@@ -15,14 +15,14 @@ export const channelApi = createApi({
     },
   }),
   tagTypes: [TAG_TYPES.CHANNEL, TAG_TYPES.MESSAGE],
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getChannels: builder.query({
       query: () => API_ENDPOINTS.CHANNELS,
       providesTags: [TAG_TYPES.CHANNEL],
     }),
 
     addChannel: builder.mutation({
-      query: (channel) => ({
+      query: channel => ({
         url: API_ENDPOINTS.CHANNELS,
         method: 'POST',
         body: channel,
@@ -44,7 +44,7 @@ export const channelApi = createApi({
     }),
 
     removeChannel: builder.mutation({
-      query: (id) => ({
+      query: id => ({
         url: `${API_ENDPOINTS.CHANNELS}/${id}`,
         method: 'DELETE',
       }),

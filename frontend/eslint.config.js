@@ -24,10 +24,10 @@ export default defineConfig([
       },
     },
     plugins: {
-      react: reactPlugin,
-      functional: functionalPlugin,
+      'react': reactPlugin,
+      'functional': functionalPlugin,
       'react-hooks': reactHooks,
-      import: importPlugin,
+      'import': importPlugin,
       'jsx-a11y': jsxA11y,
       'testing-library': testingLibrary,
       'react-refresh': reactRefresh,
@@ -41,6 +41,9 @@ export default defineConfig([
     extends: [js.configs.recommended].filter(Boolean),
     rules: {
       '@stylistic/semi': ['error', 'never'],
+      '@stylistic/comma-dangle': ['error', 'always-multiline'],
+      '@stylistic/arrow-parens': ['error', 'as-needed'],
+      '@stylistic/brace-style': ['error', 'stroustrup'],
       'import/extensions': 'off',
       'import/no-unresolved': 'off',
       'react/prop-types': 'off',

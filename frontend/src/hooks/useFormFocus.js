@@ -1,7 +1,7 @@
 import { useRef, useCallback } from 'react'
 import _ from 'lodash'
 
-export const useFormFocus = (fieldNames) => {
+export const useFormFocus = fieldNames => {
   const fieldRefs = useRef({})
 
   const registerFieldRef = useCallback((fieldName, ref) => {
@@ -35,13 +35,13 @@ export const useFormFocus = (fieldNames) => {
         }
       }
     },
-    [fieldNames]
+    [fieldNames],
   )
 
   const areAllFieldsFilled = useCallback(() => {
     return _.every(
       fieldRefs.current,
-      (ref) => ref && !_.isEmpty(_.trim(ref.value))
+      ref => ref && !_.isEmpty(_.trim(ref.value)),
     )
   }, [])
 

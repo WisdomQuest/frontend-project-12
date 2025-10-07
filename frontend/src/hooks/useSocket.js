@@ -6,17 +6,17 @@ export const useSocket = (action, refetch) => {
   const isInitializedRef = useRef(false)
 
   const stableRefetch = useCallback(
-    (data) => {
+    data => {
       refetch(data)
     },
-    [refetch]
+    [refetch],
   )
 
   useEffect(() => {
     if (!isInitializedRef.current) {
       isInitializedRef.current = true
 
-      socketRef.current = io(import.meta.env.ENV=== 'test' ? 'http://localhost:5002': undefined, {
+      socketRef.current = io(import.meta.env.ENV === 'test' ? 'http://localhost:5002' : undefined, {
         transports: ['websocket', 'polling'],
       })
     }

@@ -1,6 +1,6 @@
 import * as Yup from 'yup'
 
-export const createSignUpValidation = (t) =>
+export const createSignUpValidation = t =>
   Yup.object().shape({
     nickName: Yup.string()
       .min(3, t('auth.errors.nickNameLength'))

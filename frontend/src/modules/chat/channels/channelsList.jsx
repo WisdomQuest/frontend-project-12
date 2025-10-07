@@ -18,7 +18,7 @@ export const ChannelList = () => {
   const [addChannel] = useAddChannelMutation()
 
   const channelsNames = useMemo(
-    () => channels.map((cnannel) => cnannel.name),
+    () => channels.map(cnannel => cnannel.name),
     [channels],
   )
 
@@ -29,12 +29,12 @@ export const ChannelList = () => {
   useEffect(() => {
     if (channels.length > 0 && !currentChannelId) {
       dispatch(
-        setCurrentChannel({ id: channels[0].id, name: channels[0].name })
+        setCurrentChannel({ id: channels[0].id, name: channels[0].name }),
       )
     }
   }, [channels, currentChannelId, dispatch])
 
-  const handleChannelSelect = (channel) => {
+  const handleChannelSelect = channel => {
     dispatch(setCurrentChannel({ id: channel.id, name: channel.name }))
   }
 
@@ -46,7 +46,7 @@ export const ChannelList = () => {
     setIsModalOpen(false)
   }
 
-  const handleAddChannel = async (values) => {
+  const handleAddChannel = async values => {
     try {
       const cleanedchatName = filter.clean(values.chatName.trim())
       const channel = await addChannel({
@@ -55,7 +55,8 @@ export const ChannelList = () => {
       }).unwrap()
       notifySuccess(t('channels.toast.add'))
       dispatch(setCurrentChannel(channel))
-    } catch (error) {
+    }
+    catch (error) {
       console.error(error)
       notifyError(t('channels.errors.connectionError'))
     }
@@ -77,7 +78,7 @@ export const ChannelList = () => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        {channels.map((channel) => (
+        {channels.map(channel => (
           <ChannelItem
             key={channel.id}
             channel={channel}

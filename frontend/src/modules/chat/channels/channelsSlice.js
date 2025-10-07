@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   currentChannel: {
     name: null,
-    id: null
+    id: null,
   },
 }
 
@@ -14,7 +14,7 @@ const channelsSlice = createSlice({
     setCurrentChannel: (state, action) => {
       state.currentChannel = action.payload
     },
-    resetChannels: (state) => {
+    resetChannels: state => {
       state.currentChannel = { id: null, name: null }
     },
     handleChannelRemoval: (state, action) => {
@@ -32,7 +32,7 @@ export const {
   handleChannelRemoval,
 } = channelsSlice.actions
 
-export const SelectCurrentChannelId = (state) => state.channels.currentChannel.id
-export const SelectCurrentChannel = (state) => state.channels.currentChannel
+export const SelectCurrentChannelId = state => state.channels.currentChannel.id
+export const SelectCurrentChannel = state => state.channels.currentChannel
 
 export default channelsSlice.reducer

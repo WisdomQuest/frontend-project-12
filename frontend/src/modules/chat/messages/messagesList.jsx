@@ -25,7 +25,7 @@ export const MessageList = () => {
   const messagesEndRef = useRef(null)
 
   const currentChannelMessages = useMemo(
-    () => messages.filter((message) => message.channelId === currentChannelId),
+    () => messages.filter(message => message.channelId === currentChannelId),
     [messages, currentChannelId],
   )
 
@@ -46,7 +46,8 @@ export const MessageList = () => {
         username: currentUser,
       }).unwrap()
       resetForm()
-    } catch (error) {
+    }
+ catch (error) {
       console.error(t('auth.errors.connectionError'), error)
     }
   }
@@ -62,7 +63,7 @@ export const MessageList = () => {
         </span>
       </div>
       <div className="chat-messages overflow-auto px-5">
-        {currentChannelMessages.map((message) => (
+        {currentChannelMessages.map(message => (
           <div key={message.id} className="text-break mb-2">
             <b>{message.username}</b>: {message.body}
           </div>

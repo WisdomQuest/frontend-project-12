@@ -26,7 +26,7 @@ export const Chat = () => {
     }
   }, [isAuthenticated, navigate])
 
-  const handleRemoveChannel = (data) => {
+  const handleRemoveChannel = data => {
     refetchChannels()
     dispatch(handleChannelRemoval(data.id))
   }

@@ -31,7 +31,8 @@ const init = async () => {
   try {
     await filter.loadDictionary('ru')
     await filter.loadDictionary('en')
-  } catch (err) {
+  } 
+  catch (err) {
     console.error('Failed to load profanity dictionary', err)
   }
 

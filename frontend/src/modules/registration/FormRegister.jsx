@@ -32,16 +32,18 @@ export const FormRegister = () => {
       }).unwrap()
       dispatch(setCredentials(user))
       navigate('/')
-    } catch (err) {
+    }
+ catch (err) {
       if (err.status === 409) {
         setFieldError('userNameExists', t('auth.errors.userExists'))
-      } else {
+      }
+ else {
         console.error(t('auth.errors.connectionError'), err)
       }
     }
   }
 
-  const createFieldRef = (fieldName) => (ref) => {
+  const createFieldRef = fieldName => ref => {
     registerFieldRef(fieldName, ref)
   }
 
@@ -81,7 +83,7 @@ export const FormRegister = () => {
                   ref={createFieldRef('nickName')}
                   autoFocus={true}
                   placeholder={t('auth.username')}
-                  onKeyDown={(e) => handleKeyDown(e, 'nickName')}
+                  onKeyDown={e => handleKeyDown(e, 'nickName')}
                   isInvalid={touched.nickName && !!errors.nickName}
                 />
                 <Form.Control.Feedback type="invalid" tooltip>
@@ -108,7 +110,7 @@ export const FormRegister = () => {
                   onChange={handleChange}
                   ref={createFieldRef('password')}
                   placeholder={t('auth.password')}
-                  onKeyDown={(e) => handleKeyDown(e, 'password')}
+                  onKeyDown={e => handleKeyDown(e, 'password')}
                   isInvalid={touched.password && !!errors.password}
                 />
                 <Form.Control.Feedback type="invalid" tooltip>
@@ -135,7 +137,7 @@ export const FormRegister = () => {
                   onChange={handleChange}
                   ref={createFieldRef('passwordConfirm')}
                   placeholder={t('auth.confirmPassword')}
-                  onKeyDown={(e) => handleKeyDown(e, 'passwordConfirm')}
+                  onKeyDown={e => handleKeyDown(e, 'passwordConfirm')}
                   isInvalid={
                     (touched.passwordConfirm && !!errors.passwordConfirm) ||
                     !!errors.userNameExists

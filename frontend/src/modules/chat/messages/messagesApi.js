@@ -15,10 +15,10 @@ export const messagesApi = createApi({
     },
   }),
   tagTypes: [TAG_TYPES.MESSAGE, TAG_TYPES.CHANNEL],
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getMessages: builder.query({
       query: () => API_ENDPOINTS.MESSAGES,
-      providesTags: (result) =>
+      providesTags: result =>
         result
           ? [
               ...result.map(({ id }) => ({ type: TAG_TYPES.MESSAGE, id })),
@@ -32,7 +32,7 @@ export const messagesApi = createApi({
     }),
 
     addMessage: builder.mutation({
-      query: (message) => ({
+      query: message => ({
         url: '/messages',
         method: 'POST',
         body: message,
