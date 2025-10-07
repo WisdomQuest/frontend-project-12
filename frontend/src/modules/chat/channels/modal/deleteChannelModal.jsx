@@ -32,7 +32,7 @@ export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
           <Button variant="secondary" onClick={onClose}>
             {t('channels.modal.cancel')}
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
+          <Button variant="danger" onClick={handleSubmit}>
             {t('channels.modal.delete')}
           </Button>
         </Modal.Footer>
