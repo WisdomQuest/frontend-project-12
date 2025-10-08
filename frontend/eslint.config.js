@@ -42,8 +42,9 @@ export default defineConfig([
     rules: {
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/comma-dangle': ['error', 'always-multiline'],
-      '@stylistic/arrow-parens': ['error', 'always-multiline'],
       '@stylistic/brace-style': ['error', 'stroustrup'],
+      "quotes": ["error", "single", { "avoidEscape": true }],
+      "jsx-quotes": ["error", "prefer-double"],
       'import/extensions': 'off',
       'import/no-unresolved': 'off',
       'react/prop-types': 'off',

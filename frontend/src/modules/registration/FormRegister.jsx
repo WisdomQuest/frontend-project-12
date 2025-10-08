@@ -37,13 +37,13 @@ export const FormRegister = () => {
       if (err.status === 409) {
         setFieldError('userNameExists', t('auth.errors.userExists'))
       }
-    else {
+      else {
         console.error(t('auth.errors.connectionError'), err)
       }
     }
   }
 
-  const createFieldRef = (fieldName) => (ref) => {
+  const createFieldRef = fieldName => (ref) => {
     registerFieldRef(fieldName, ref)
   }
 

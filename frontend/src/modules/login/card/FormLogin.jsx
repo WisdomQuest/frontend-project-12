@@ -26,7 +26,7 @@ export const FormLogin = () => {
     'password',
   ])
 
-  const createFieldRef = (fieldName) => (ref) => {
+  const createFieldRef = fieldName => (ref) => {
     registerFieldRef(fieldName, ref)
   }
 

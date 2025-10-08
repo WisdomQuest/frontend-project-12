@@ -31,10 +31,10 @@ export const EditChannelModal = ({
       resetForm()
       onClose()
     }
- catch (error) {
+    catch (error) {
       console.error(t('auth.errors.connectionError'), error)
     }
- finally {
+    finally {
       setSubmitting(false)
     }
   }
