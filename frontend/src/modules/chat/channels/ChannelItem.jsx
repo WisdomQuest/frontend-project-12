@@ -24,11 +24,11 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const [removeChannel] = useRemoveChannelMutation()
   const [editChannel] = useEditChannelMutation()
 
-  const openModal = type => {
+  const openModal = (type) => {
     setModal(s => ({ ...s, [type]: true }))
   }
 
-  const closeModal = type => {
+  const closeModal = (type) => {
     setModal(s => ({ ...s, [type]: false }))
   }
 
@@ -36,7 +36,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
     onSelect({ id: channel.id, name: channel.name })
   }
 
-  const handleEdit = async values => {
+  const handleEdit = async (values) => {
     try {
       const cleanedChatName = filter.clean(values.chatName.trim())
       await editChannel({
@@ -51,7 +51,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
       notifySuccess(t('channels.toast.rename'))
       closeModal('edit')
     }
- catch (error) {
+    catch (error) {
       console.error(error)
       notifyError(t('channels.errors.connectionError'))
     }
@@ -63,7 +63,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
       notifySuccess(t('channels.toast.delete'))
       closeModal('delete')
     }
- catch (error) {
+    catch (error) {
       console.error(error)
       notifyError(t('channels.errors.connectionError'))
     }

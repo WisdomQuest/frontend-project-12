@@ -42,7 +42,7 @@ export default defineConfig([
     rules: {
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/comma-dangle': ['error', 'always-multiline'],
-      '@stylistic/arrow-parens': ['error', 'as-needed'],
+      '@stylistic/arrow-parens': ['error', 'always-multiline'],
       '@stylistic/brace-style': ['error', 'stroustrup'],
       'import/extensions': 'off',
       'import/no-unresolved': 'off',

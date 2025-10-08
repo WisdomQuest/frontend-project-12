@@ -1,7 +1,7 @@
 import { useRef, useCallback } from 'react'
 import _ from 'lodash'
 
-export const useFormFocus = fieldNames => {
+export const useFormFocus = (fieldNames) => {
   const fieldRefs = useRef({})
 
   const registerFieldRef = useCallback((fieldName, ref) => {

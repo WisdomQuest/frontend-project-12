@@ -10,7 +10,7 @@ export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
     try {
       await onSubmit()
     }
- catch (error) {
+    catch (error) {
       console.error(t('auth.errors.connectionError'), error)
     }
   }

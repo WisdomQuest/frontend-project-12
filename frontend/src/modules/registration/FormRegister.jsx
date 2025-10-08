@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import { useDispatch } from 'react-redux'
-import { createSignUpValidation  } from '../../validationShemas.js'
+import { createSignUpValidation } from '../../validationShemas.js'
 import { setCredentials } from '../login/auth/authSlice.js'
 import { useTranslation } from 'react-i18next'
 import { useFormFocus } from '../../hooks/useFormFocus.js'
@@ -33,17 +33,17 @@ export const FormRegister = () => {
       dispatch(setCredentials(user))
       navigate('/')
     }
- catch (err) {
+    catch (err) {
       if (err.status === 409) {
         setFieldError('userNameExists', t('auth.errors.userExists'))
       }
- else {
+    else {
         console.error(t('auth.errors.connectionError'), err)
       }
     }
   }
 
-  const createFieldRef = fieldName => ref => {
+  const createFieldRef = (fieldName) => (ref) => {
     registerFieldRef(fieldName, ref)
   }
 
@@ -139,8 +139,8 @@ export const FormRegister = () => {
                   placeholder={t('auth.confirmPassword')}
                   onKeyDown={e => handleKeyDown(e, 'passwordConfirm')}
                   isInvalid={
-                    (touched.passwordConfirm && !!errors.passwordConfirm) ||
-                    !!errors.userNameExists
+                    (touched.passwordConfirm && !!errors.passwordConfirm)
+                    || !!errors.userNameExists
                   }
                 />
                 <Form.Control.Feedback type="invalid" tooltip>

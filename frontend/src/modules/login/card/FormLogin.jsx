@@ -26,7 +26,7 @@ export const FormLogin = () => {
     'password',
   ])
 
-  const createFieldRef = fieldName => ref => {
+  const createFieldRef = (fieldName) => (ref) => {
     registerFieldRef(fieldName, ref)
   }
 
@@ -41,7 +41,7 @@ export const FormLogin = () => {
       dispatch(setCredentials(user))
       navigate('/')
     }
- catch (err) {
+    catch (err) {
       setShowError(true)
       console.error(t('auth.errors.connectionError'), err)
     }

@@ -34,7 +34,7 @@ export const ChannelList = () => {
     }
   }, [channels, currentChannelId, dispatch])
 
-  const handleChannelSelect = channel => {
+  const handleChannelSelect = (channel) => {
     dispatch(setCurrentChannel({ id: channel.id, name: channel.name }))
   }
 
@@ -46,7 +46,7 @@ export const ChannelList = () => {
     setIsModalOpen(false)
   }
 
-  const handleAddChannel = async values => {
+  const handleAddChannel = async (values) => {
     try {
       const cleanedchatName = filter.clean(values.chatName.trim())
       const channel = await addChannel({

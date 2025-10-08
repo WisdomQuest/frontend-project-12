@@ -15,8 +15,8 @@ export const MessageList = () => {
   const { data: messages = [] } = useGetMessagesQuery()
   const { t } = useTranslation()
 
-  const { id: currentChannelId, name: currentChannelName } =
-    useSelector(SelectCurrentChannel)
+  const { id: currentChannelId, name: currentChannelName }
+    = useSelector(SelectCurrentChannel)
 
   const currentUser = useSelector(selectCurrentUser)
   const [addMessage, { isLoading }] = useAddMessageMutation()
@@ -47,7 +47,7 @@ export const MessageList = () => {
       }).unwrap()
       resetForm()
     }
- catch (error) {
+    catch (error) {
       console.error(t('auth.errors.connectionError'), error)
     }
   }
@@ -65,7 +65,9 @@ export const MessageList = () => {
       <div className="chat-messages overflow-auto px-5">
         {currentChannelMessages.map(message => (
           <div key={message.id} className="text-break mb-2">
-            <b>{message.username}</b>: {message.body}
+            <b>{message.username}</b>
+            : 
+            {message.body}
           </div>
         ))}
         <div ref={messagesEndRef} />

@@ -14,7 +14,7 @@ const channelsSlice = createSlice({
     setCurrentChannel: (state, action) => {
       state.currentChannel = action.payload
     },
-    resetChannels: state => {
+    resetChannels: (state) => {
       state.currentChannel = { id: null, name: null }
     },
     handleChannelRemoval: (state, action) => {

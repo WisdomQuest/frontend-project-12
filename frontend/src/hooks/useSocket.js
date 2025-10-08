@@ -6,7 +6,7 @@ export const useSocket = (action, refetch) => {
   const isInitializedRef = useRef(false)
 
   const stableRefetch = useCallback(
-    data => {
+    (data) => {
       refetch(data)
     },
     [refetch],
