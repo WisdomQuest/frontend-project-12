@@ -43,6 +43,7 @@ export default defineConfig([
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/comma-dangle': ['error', 'always-multiline'],
       '@stylistic/brace-style': ['error', 'stroustrup'],
+      '@stylistic/eol-last': ['error', 'always'],
       'quotes': ['error', 'single', { avoidEscape: true }],
       'jsx-quotes': ['error', 'prefer-double'],
       'import/extensions': 'off',
