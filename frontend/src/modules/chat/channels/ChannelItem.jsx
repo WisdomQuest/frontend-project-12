@@ -107,6 +107,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
         isOpen={modal.delete}
         onClose={() => closeModal('delete')}
         onSubmit={handleRemove}
+        t={t}
       />
 
       <EditChannelModal
@@ -116,6 +117,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
         channelName={channel.name}
         channelsNames={channelsNames}
         textHeaderModal={t('channels.modal.renameTitle')}
+        t={t}
       />
     </ListGroup.Item>
   )

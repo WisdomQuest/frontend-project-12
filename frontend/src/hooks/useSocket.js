@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client'
 import { useEffect, useRef, useCallback } from 'react'
 
-export const useSocket = (action, refetch) => {
+export const useSocket = (action, refetch, url) => {
   const socketRef = useRef(null)
   const isInitializedRef = useRef(false)
 
@@ -16,7 +16,7 @@ export const useSocket = (action, refetch) => {
     if (!isInitializedRef.current) {
       isInitializedRef.current = true
 
-      socketRef.current = io(import.meta.env.ENV === 'test' ? 'http://localhost:5002' : undefined, {
+      socketRef.current = io(url, {
         transports: ['websocket', 'polling'],
       })
     }

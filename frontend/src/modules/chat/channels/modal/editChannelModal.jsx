@@ -3,7 +3,6 @@ import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { createChannelsValidation } from '../../../../validationShemas'
-import { useTranslation } from 'react-i18next'
 import { useRef, useEffect } from 'react'
 
 export const EditChannelModal = ({
@@ -13,8 +12,8 @@ export const EditChannelModal = ({
   channelName,
   channelsNames,
   textHeaderModal,
+  t,
 }) => {
-  const { t } = useTranslation()
   const inputRef = useRef(null)
 
   useEffect(() => {

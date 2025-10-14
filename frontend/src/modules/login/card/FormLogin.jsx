@@ -21,14 +21,10 @@ export const FormLogin = () => {
 
   const [showError, setShowError] = useState(false)
 
-  const { registerFieldRef, handleKeyDown } = useFormFocus([
+  const { registerRef, createKeyDownHandler } = useFormFocus([
     'nickName',
     'password',
   ])
-
-  const createFieldRef = fieldName => (ref) => {
-    registerFieldRef(fieldName, ref)
-  }
 
   const handleLogin = async (name, password) => {
     try {
@@ -75,10 +71,10 @@ export const FormLogin = () => {
                   name="nickName"
                   value={values.nickName}
                   onChange={handleChange}
-                  ref={createFieldRef('nickName')}
+                  ref={registerRef('nickName')}
                   autoFocus={true}
                   placeholder={t('auth.nickName')}
-                  onKeyDown={e => handleKeyDown(e, 'nickName')}
+                  onKeyDown={createKeyDownHandler('nickName', handleSubmit)}
                   isInvalid={touched.nickName && !!errors.nickName}
                 />
               </FloatingLabel>
@@ -100,9 +96,9 @@ export const FormLogin = () => {
                   name="password"
                   value={values.password}
                   onChange={handleChange}
-                  ref={createFieldRef('password')}
+                  ref={registerRef('password')}
                   placeholder={t('auth.password')}
-                  onKeyDown={e => handleKeyDown(e, 'password')}
+                  onKeyDown={createKeyDownHandler('password', handleSubmit)}
                   isInvalid={showError}
                 />
 

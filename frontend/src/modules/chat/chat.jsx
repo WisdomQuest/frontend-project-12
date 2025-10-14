@@ -1,42 +1,46 @@
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { selectIsAuthenticated } from '../../modules/login/auth/authSlice.js'
-import { ChannelList } from './channels/channelsList.jsx'
-import { MessageList } from './messages/messagesList.jsx'
-import { useSocket } from '../../hooks/useSocket.js'
-import { useGetMessagesQuery } from './messages/messagesApi'
-import { useGetChannelsQuery } from './channels/channelsApi'
-import { handleChannelRemoval } from './channels/channelsSlice.js'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectIsAuthenticated } from '../../modules/login/auth/authSlice.js';
+import { ChannelList } from './channels/channelsList.jsx';
+import { MessageList } from './messages/messagesList.jsx';
+import { useSocket } from '../../hooks/useSocket.js';
+import { useGetMessagesQuery } from './messages/messagesApi';
+import { useGetChannelsQuery } from './channels/channelsApi';
+import { handleChannelRemoval } from './channels/channelsSlice.js';
 
 export const Chat = () => {
-  const isAuthenticated = useSelector(selectIsAuthenticated)
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const { refetch: refetchMessages } = useGetMessagesQuery()
-  const { refetch: refetchChannels } = useGetChannelsQuery()
+  const { refetch: refetchMessages } = useGetMessagesQuery();
+  const { refetch: refetchChannels } = useGetChannelsQuery();
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login')
+      navigate('/login');
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, navigate]);
 
   const handleRemoveChannel = (data) => {
-    refetchChannels()
-    dispatch(handleChannelRemoval(data.id))
-  }
+    refetchChannels();
+    dispatch(handleChannelRemoval(data.id));
+  };
 
-  useSocket('newMessage', refetchMessages)
-  useSocket('newChannel', refetchChannels)
-  useSocket('renameChannel', refetchChannels)
-  useSocket('removeChannel', handleRemoveChannel)
+  const socketUrl =
+    import.meta.env.VITE_SOCKET_URL ||
+    (import.meta.env.ENV === 'test' ? 'http://localhost:5002' : undefined);
 
-  if (!isAuthenticated) return null
+  useSocket('newMessage', refetchMessages, socketUrl);
+  useSocket('newChannel', refetchChannels, socketUrl);
+  useSocket('renameChannel', refetchChannels, socketUrl);
+  useSocket('removeChannel', handleRemoveChannel, socketUrl);
+
+  if (!isAuthenticated) return null;
 
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
@@ -49,5 +53,5 @@ export const Chat = () => {
         </Col>
       </Row>
     </Container>
-  )
-}
+  );
+};

@@ -18,11 +18,8 @@ export const FormRegister = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const { registerFieldRef, handleKeyDown } = useFormFocus([
-    'nickName',
-    'password',
-    'passwordConfirm',
-  ])
+  const fieldNames = ['nickName', 'password', 'passwordConfirm']
+  const { registerRef, createKeyDownHandler } = useFormFocus(fieldNames)
 
   const handleRegister = async (values, { setFieldError }) => {
     try {
@@ -41,10 +38,6 @@ export const FormRegister = () => {
         console.error(t('auth.errors.connectionError'), err)
       }
     }
-  }
-
-  const createFieldRef = fieldName => (ref) => {
-    registerFieldRef(fieldName, ref)
   }
 
   return (
@@ -80,10 +73,10 @@ export const FormRegister = () => {
                   name="nickName"
                   value={values.nickName}
                   onChange={handleChange}
-                  ref={createFieldRef('nickName')}
+                  ref={registerRef('nickName')}
                   autoFocus={true}
                   placeholder={t('auth.username')}
-                  onKeyDown={e => handleKeyDown(e, 'nickName')}
+                  onKeyDown={createKeyDownHandler('nickName', handleSubmit)}
                   isInvalid={touched.nickName && !!errors.nickName}
                 />
                 <Form.Control.Feedback type="invalid" tooltip>
@@ -108,9 +101,9 @@ export const FormRegister = () => {
                   name="password"
                   value={values.password}
                   onChange={handleChange}
-                  ref={createFieldRef('password')}
+                  ref={registerRef('password')}
                   placeholder={t('auth.password')}
-                  onKeyDown={e => handleKeyDown(e, 'password')}
+                  onKeyDown={createKeyDownHandler('password', handleSubmit)}
                   isInvalid={touched.password && !!errors.password}
                 />
                 <Form.Control.Feedback type="invalid" tooltip>
@@ -135,9 +128,9 @@ export const FormRegister = () => {
                   name="passwordConfirm"
                   value={values.passwordConfirm}
                   onChange={handleChange}
-                  ref={createFieldRef('passwordConfirm')}
+                  ref={registerRef('passwordConfirm')}
                   placeholder={t('auth.confirmPassword')}
-                  onKeyDown={e => handleKeyDown(e, 'passwordConfirm')}
+                  onKeyDown={createKeyDownHandler('passwordConfirm', handleSubmit)}
                   isInvalid={
                     (touched.passwordConfirm && !!errors.passwordConfirm)
                     || !!errors.userNameExists

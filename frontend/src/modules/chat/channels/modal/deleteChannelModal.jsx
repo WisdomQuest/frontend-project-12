@@ -1,8 +1,6 @@
 import { Button, Modal } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
 
-export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
-  const { t } = useTranslation()
+export const DeleteChannelModal = ({ isOpen, onClose, onSubmit, t }) => {
 
   if (!isOpen) return null
 
@@ -16,10 +14,6 @@ export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
   }
 
   return (
-    <div
-      className="modal show "
-      style={{ display: 'block', position: 'initial' }}
-    >
       <Modal show={isOpen} onHide={onClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>{t('channels.modal.deleteTitle')}</Modal.Title>
@@ -38,6 +32,5 @@ export const DeleteChannelModal = ({ isOpen, onClose, onSubmit }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
   )
 }
