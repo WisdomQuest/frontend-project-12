@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { FormRegister } from './FormRegister.jsx'
-import registerLogo from '../../assets/registerLogo.jpg'
+import registerLogo from '../../assets/images/registerLogo.jpg'
 
 export const Registration = () => {
   return (

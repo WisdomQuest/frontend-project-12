@@ -1,7 +1,7 @@
 import {
   useRemoveChannelMutation,
   useEditChannelMutation,
-} from './channelsApi'
+} from './channelsApi.js'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import filter from 'leo-profanity'
 import { notifySuccess, notifyError } from './notify/notify.js'
-import { setCurrentChannel } from './channelsSlice'
+import { setCurrentChannel } from './channelsSlice.js'
 
 const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const [modal, setModal] = useState({ delete: false, edit: false })
@@ -25,11 +25,11 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const [editChannel] = useEditChannelMutation()
 
   const openModal = (type) => {
-    setModal(s => ({ ...s, [type]: true }))
+    setModal((s) => ({ ...s, [type]: true }))
   }
 
   const closeModal = (type) => {
-    setModal(s => ({ ...s, [type]: false }))
+    setModal((s) => ({ ...s, [type]: false }))
   }
 
   const handleSelect = () => {
@@ -50,8 +50,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
 
       notifySuccess(t('channels.toast.rename'))
       closeModal('edit')
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error)
       notifyError(t('channels.errors.connectionError'))
     }
@@ -62,8 +61,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
       await removeChannel(channel.id).unwrap()
       notifySuccess(t('channels.toast.delete'))
       closeModal('delete')
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error)
       notifyError(t('channels.errors.connectionError'))
     }
@@ -89,7 +87,9 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
               id={`dropdown-channel-${channel.id}`}
               className="rounded-0"
             >
-              <span className="visually-hidden">{t('channels.ChannelManagement')}</span>
+              <span className="visually-hidden">
+                {t('channels.ChannelManagement')}
+              </span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item as="button" onClick={() => openModal('delete')}>

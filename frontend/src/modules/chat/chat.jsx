@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectCurrentToken } from '../../modules/login/auth/authSlice.js'
+import { selectIsAuthenticated } from '../../modules/login/auth/authSlice.js'
 import { ChannelList } from './channels/channelsList.jsx'
 import { MessageList } from './messages/messagesList.jsx'
 import { useSocket } from '../../hooks/useSocket.js'
@@ -13,7 +13,7 @@ import { useGetChannelsQuery } from './channels/channelsApi'
 import { handleChannelRemoval } from './channels/channelsSlice.js'
 
 export const Chat = () => {
-  const isAuthenticated = !!useSelector(selectCurrentToken)
+  const isAuthenticated = useSelector(selectIsAuthenticated)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 

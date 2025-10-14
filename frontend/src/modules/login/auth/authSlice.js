@@ -17,13 +17,13 @@ const authSlice = createSlice({
       state.token = null
       state.user = null
       localStorage.removeItem('token')
-      localStorage.removeItem('username')
+      localStorage.removeItem('user')
     },
   },
 })
 
 export const { setCredentials, logout } = authSlice.actions
 export const selectCurrentUser = state => state.auth.user
-export const selectCurrentToken = state => state.auth.token
+export const selectIsAuthenticated = state => !!state.auth.token
 
 export default authSlice.reducer

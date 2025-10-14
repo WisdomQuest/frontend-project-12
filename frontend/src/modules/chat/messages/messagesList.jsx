@@ -7,7 +7,7 @@ import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi'
 import { useSelector } from 'react-redux'
 import { selectCurrentUser } from '../../login/auth/authSlice'
 import { SelectCurrentChannel } from '../channels/channelsSlice'
-import { ArrowIcon } from '../../../assets/arrowIcon.jsx'
+import { ArrowIcon } from '../../../assets/icons/arrowIcon.jsx'
 import { useTranslation } from 'react-i18next'
 import filter from 'leo-profanity'
 
@@ -56,7 +56,7 @@ export const MessageList = () => {
     <div className=" d-flex flex-column h-100">
       <div className="mb-4 p-3 shadow-sm small">
         <p className="m-0">
-          <b>{currentChannelName}</b>
+          <b># {currentChannelName}</b>
         </p>
         <span className="text-muted">
           {t('messages.messageCount', { count: currentChannelMessages.length })}
