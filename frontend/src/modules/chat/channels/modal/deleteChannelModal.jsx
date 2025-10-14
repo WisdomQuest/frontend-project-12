@@ -1,4 +1,6 @@
 import { Button, Modal } from 'react-bootstrap'
+import { notifyError } from '../notify/notify.js'
+
 
 export const DeleteChannelModal = ({ isOpen, onClose, onSubmit, t }) => {
 
@@ -10,6 +12,7 @@ export const DeleteChannelModal = ({ isOpen, onClose, onSubmit, t }) => {
     }
     catch (error) {
       console.error(t('auth.errors.connectionError'), error)
+      notifyError(t('channels.errors.unsuccessfulDelete'))
     }
   }
 

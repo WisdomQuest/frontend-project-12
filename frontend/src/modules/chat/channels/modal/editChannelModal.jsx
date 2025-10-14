@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { createChannelsValidation } from '../../../../validationShemas'
 import { useRef, useEffect } from 'react'
+import { notifyError } from '../notify/notify.js'
 
 export const EditChannelModal = ({
   isOpen,
@@ -13,6 +14,7 @@ export const EditChannelModal = ({
   channelsNames,
   textHeaderModal,
   t,
+  textErorr,
 }) => {
   const inputRef = useRef(null)
 
@@ -32,6 +34,7 @@ export const EditChannelModal = ({
     }
     catch (error) {
       console.error(t('auth.errors.connectionError'), error)
+      notifyError(t(textErorr))
     }
     finally {
       setSubmitting(false)

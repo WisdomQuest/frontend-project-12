@@ -95,6 +95,8 @@ export const ChannelList = () => {
         channelsNames={channelsNames}
         channelName={null}
         textHeaderModal={t('channels.modal.addTitle')}
+        t={t}
+        textErorr={'channels.errors.unsuccessfulAdd'}
       />
       <ToastContainer />
     </>

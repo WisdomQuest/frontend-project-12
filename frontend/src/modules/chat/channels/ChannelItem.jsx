@@ -118,6 +118,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
         channelsNames={channelsNames}
         textHeaderModal={t('channels.modal.renameTitle')}
         t={t}
+        textErorr={t('channels.errors.unsuccessfulRename')}
       />
     </ListGroup.Item>
   )

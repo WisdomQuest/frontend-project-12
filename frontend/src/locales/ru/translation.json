@@ -27,12 +27,17 @@
   "channels": {
     "title": "Каналы",
     "add": "Добавить канал",
-    "ChannelManagement":"Управление каналом",
+    "ChannelManagement": "Управление каналом",
     "plus": "+",
     "rename": "Переименовать канал",
     "delete": "Удалить канал",
     "deleteConfirm": "Уверены?",
-    "errors": { "connectionError": "Ошибка соединения" },
+    "errors": {
+      "connectionError": "Ошибка соединения",
+      "unsuccessfulRename": "Переименование не удалось",
+      "unsuccessfulDelete": "Удаление не удалось",
+      "unsuccessfulAdd": "Добавление не удалось"
+    },
     "modal": {
       "addTitle": "Добавить канал",
       "renameTitle": "Переименовать канал",
