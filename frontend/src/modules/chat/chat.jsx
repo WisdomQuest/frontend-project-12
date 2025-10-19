@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsAuthenticated } from '../../modules/login/auth/authSlice.js';
 import { ChannelList } from './channels/channelsList.jsx';
-import { MessageList } from './messages/messagesList.jsx';
+import { MessagePanel } from './messages/messagePanel.jsx';
 import { useSocket } from '../../hooks/useSocket.js';
 import { useGetMessagesQuery } from './messages/messagesApi';
 import { useGetChannelsQuery } from './channels/channelsApi';
@@ -49,7 +49,7 @@ export const Chat = () => {
           <ChannelList />
         </Col>
         <Col className="col p-0 h-100">
-          <MessageList />
+          <MessagePanel />
         </Col>
       </Row>
     </Container>

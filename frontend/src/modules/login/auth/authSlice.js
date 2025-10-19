@@ -10,14 +10,10 @@ const authSlice = createSlice({
     setCredentials: (state, { payload: { username, token } }) => {
       state.token = token
       state.user = username
-      localStorage.setItem('token', token)
-      localStorage.setItem('user', username)
     },
     logout: (state) => {
       state.token = null
       state.user = null
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
     },
   },
 })

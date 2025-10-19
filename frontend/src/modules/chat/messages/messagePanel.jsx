@@ -3,10 +3,10 @@ import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
-import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi';
+import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi.js';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../login/auth/authSlice';
-import { selectCurrentChannel } from '../channels/channelsSlice';
+import { selectCurrentUser } from '../../login/auth/authSlice.js';
+import { selectCurrentChannel } from '../channels/channelsSlice.js';
 import { ArrowIcon } from '../../../assets/icons/arrowIcon.jsx';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
@@ -18,7 +18,7 @@ const MessageItem = ({ message: { username, body } }) => (
   </div>
 );
 
-export const MessageList = () => {
+export const MessagePanel = () => {
   const { data: messages = [] } = useGetMessagesQuery();
   const { t } = useTranslation();
 

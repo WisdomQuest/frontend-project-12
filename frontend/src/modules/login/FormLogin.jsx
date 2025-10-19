@@ -4,16 +4,15 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
-import { useVerifyTokenMutation } from '../../registration/authApi.js'
+import { useVerifyTokenMutation } from '../registration/authApi.js'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setCredentials } from '../auth/authSlice.js'
+import { setCredentials } from './auth/authSlice.js'
 import { useTranslation } from 'react-i18next'
-import * as formik from 'formik'
-import { useFormFocus } from '../../../hooks/useFormFocus.js'
+import { Formik } from 'formik'
+import { useFormFocus } from '../../hooks/useFormFocus.js'
 
 export const FormLogin = () => {
-  const { Formik } = formik
   const [login, { isLoading }] = useVerifyTokenMutation()
   const { t } = useTranslation()
   const navigate = useNavigate()
