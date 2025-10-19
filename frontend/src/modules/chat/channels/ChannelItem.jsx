@@ -39,7 +39,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const handleEdit = useCallback(
     async (values) => {
       try {
-        const cleanedChatName = filter.clean(values.chatName.trim());
+        const cleanedChatName= filter.clean(values.chatName.trim());
         await editChannel({
           name: cleanedChatName,
           id: channel.id,
@@ -47,7 +47,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
 
         if (isActive) {
           dispatch(
-            setCurrentChannel({ id: channel.id, name: cleanedChatName })
+            setCurrentChannel({ id: channel.id, name: cleanedChatName})
           );
         }
 

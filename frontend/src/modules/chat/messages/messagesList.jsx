@@ -1,56 +1,63 @@
-import { useEffect, useRef, useMemo } from 'react'
-import { Formik } from 'formik'
-import Form from 'react-bootstrap/Form'
-import InputGroup from 'react-bootstrap/InputGroup'
-import Button from 'react-bootstrap/Button'
-import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi'
-import { useSelector } from 'react-redux'
-import { selectCurrentUser } from '../../login/auth/authSlice'
-import { SelectCurrentChannel } from '../channels/channelsSlice'
-import { ArrowIcon } from '../../../assets/icons/arrowIcon.jsx'
-import { useTranslation } from 'react-i18next'
-import filter from 'leo-profanity'
+import { useEffect, useRef, useMemo } from 'react';
+import { Formik } from 'formik';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
+import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../login/auth/authSlice';
+import { selectCurrentChannel } from '../channels/channelsSlice';
+import { ArrowIcon } from '../../../assets/icons/arrowIcon.jsx';
+import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
+import { notifyError } from '../channels/notify/notify.js';
+
+const MessageItem = ({ message: { username, body } }) => (
+  <div className="text-break mb-2">
+    <b>{username}</b>: {body}
+  </div>
+);
 
 export const MessageList = () => {
-  const { data: messages = [] } = useGetMessagesQuery()
-  const { t } = useTranslation()
+  const { data: messages = [] } = useGetMessagesQuery();
+  const { t } = useTranslation();
 
-  const { id: currentChannelId, name: currentChannelName }
-    = useSelector(SelectCurrentChannel)
+  const { id: currentChannelId, name: currentChannelName } =
+    useSelector(selectCurrentChannel);
 
-  const currentUser = useSelector(selectCurrentUser)
-  const [addMessage, { isLoading }] = useAddMessageMutation()
+  const currentUser = useSelector(selectCurrentUser);
+  const [addMessage, { isLoading }] = useAddMessageMutation();
 
-  const messageRef = useRef(null)
-  const messagesEndRef = useRef(null)
+  const messageRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
   const currentChannelMessages = useMemo(
-    () => messages.filter(message => message.channelId === currentChannelId),
-    [messages, currentChannelId],
-  )
+    () => messages.filter((message) => message.channelId === currentChannelId),
+    [messages, currentChannelId]
+  );
 
   useEffect(() => {
-    messageRef.current?.focus()
-  }, [currentChannelId])
+    messageRef.current?.focus();
+  }, [currentChannelId]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView()
-  }, [currentChannelMessages])
+    messagesEndRef.current?.scrollIntoView();
+  }, [currentChannelMessages]);
 
   const handleAddMessage = async (values, { resetForm }) => {
     try {
-      const cleanedMessage = filter.clean(values.message.trim())
+      const cleanedMessage = filter.clean(values.message.trim());
       await addMessage({
         body: cleanedMessage,
         channelId: currentChannelId,
         username: currentUser,
-      }).unwrap()
-      resetForm()
+      }).unwrap();
+      resetForm();
+    } catch (error) {
+      console.error(t('auth.errors.connectionError'), error);
+      notifyError(t('messages.errors.connectionError'));
     }
-    catch (error) {
-      console.error(t('auth.errors.connectionError'), error)
-    }
-  }
+  };
 
   return (
     <div className=" d-flex flex-column h-100">
@@ -63,12 +70,8 @@ export const MessageList = () => {
         </span>
       </div>
       <div className="chat-messages overflow-auto px-5">
-        {currentChannelMessages.map(message => (
-          <div key={message.id} className="text-break mb-2">
-            <b>{message.username}</b>
-            :
-            {message.body}
-          </div>
+        {currentChannelMessages.map((message) => (
+          <MessageItem key={message.id} message={message} />
         ))}
         <div ref={messagesEndRef} />
       </div>
@@ -109,5 +112,5 @@ export const MessageList = () => {
         </Formik>
       </div>
     </div>
-  )
-}
+  );
+};

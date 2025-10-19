@@ -2,7 +2,7 @@ import { useGetChannelsQuery, useAddChannelMutation } from './channelsApi';
 import { useSelector, useDispatch } from 'react-redux';
 import ChannelItem from './channelItem.jsx';
 import { useState, useEffect, useMemo } from 'react';
-import { SelectCurrentChannelId, setCurrentChannel } from './channelsSlice';
+import { selectCurrentChannelId, setCurrentChannel } from './channelsSlice';
 import { PlusSquareIcon } from '../../../assets/icons/plusSquareIcon.jsx';
 import { EditChannelModal } from './modal/editChannelModal.jsx';
 import { useTranslation } from 'react-i18next';
@@ -18,13 +18,13 @@ export const ChannelList = () => {
   const [addChannel] = useAddChannelMutation();
 
   const channelsNames = useMemo(
-    () => channels.map((cnannel) => cnannel.name),
+    () => channels.map((channel) => channel.name),
     [channels]
   );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const currentChannelId = useSelector(SelectCurrentChannelId);
+  const currentChannelId = useSelector(selectCurrentChannelId);
 
   useEffect(() => {
     if (channels.length > 0 && !currentChannelId) {
@@ -48,9 +48,9 @@ export const ChannelList = () => {
 
   const handleAddChannel = async (values) => {
     try {
-      const cleanedchatName = filter.clean(values.chatName.trim());
+      const cleanedChatName = filter.clean(values.chatName.trim());
       const channel = await addChannel({
-        name: cleanedchatName,
+        name: cleanedChatName,
         removable: true,
       }).unwrap();
       notifySuccess(t('channels.toast.add'));

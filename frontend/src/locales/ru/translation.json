@@ -61,6 +61,9 @@
     "placeholder": "Введите сообщение...",
     "newMessage": "Новое сообщение",
     "send": "Отправить",
+    "errors": {
+      "connectionError": "Ошибка соединения"
+    },
     "messageCount_one": "{{count}} сообщениe",
     "messageCount_few": "{{count}} сообщения",
     "messageCount_many": "{{count}} сообщений"

@@ -33,7 +33,7 @@ export const messagesApi = createApi({
 
     addMessage: builder.mutation({
       query: message => ({
-        url: '/messages',
+        url: API_ENDPOINTS.MESSAGES,
         method: 'POST',
         body: message,
       }),
