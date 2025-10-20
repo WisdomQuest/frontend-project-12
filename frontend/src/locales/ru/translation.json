@@ -8,7 +8,7 @@
     "NoAccount": "Нет аккаунта?",
     "login": "Войти",
     "username": "Имя пользователя",
-    "nickName": "Ваш ник",
+    "nickname": "Ваш ник",
     "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
     "submit": "Войти",
@@ -18,7 +18,7 @@
       "invalidCredentials": "Неверные имя пользователя или пароль",
       "connectionError": "Ошибка соединения",
       "requiredField": "Обязательное поле",
-      "nickNameLength": "от 3 до 20 символов",
+      "nicknameLength": "от 3 до 20 символов",
       "passwordMin": "Не менее 6 символов",
       "passwordsMatch": "Пароли должны совпадать",
       "uniqueChannel": "Должно быть уникальным"

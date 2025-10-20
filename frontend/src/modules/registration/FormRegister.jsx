@@ -1,49 +1,47 @@
-import { useRegisterMutation } from './regApi.js'
-import { useNavigate } from 'react-router-dom'
-import Button from 'react-bootstrap/Button'
-import Col from 'react-bootstrap/Col'
-import Form from 'react-bootstrap/Form'
-import Row from 'react-bootstrap/Row'
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
-import { useDispatch } from 'react-redux'
-import { createSignUpValidation } from '../../validationShemas.js'
-import { setCredentials } from '../login/auth/authSlice.js'
-import { useTranslation } from 'react-i18next'
-import { useFormFocus } from '../../hooks/useFormFocus.js'
-import { Formik } from 'formik'
+import { useRegisterMutation } from './regApi.js';
+import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { useDispatch } from 'react-redux';
+import { createSignUpValidation } from '../../validationShemas.js';
+import { setCredentials } from '../login/auth/authSlice.js';
+import { useTranslation } from 'react-i18next';
+import { useFormFocus } from '../../hooks/useFormFocus.js';
+import { Formik } from 'formik';
 
 export const FormRegister = () => {
-  const [register, { isLoading }] = useRegisterMutation()
-  const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const [register, { isLoading }] = useRegisterMutation();
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const fieldNames = ['nickName', 'password', 'passwordConfirm']
-  const { registerRef, createKeyDownHandler } = useFormFocus(fieldNames)
+  const fieldNames = ['nickname', 'password', 'passwordConfirm'];
+  const { registerRef, createKeyDownHandler } = useFormFocus(fieldNames);
 
   const handleRegister = async (values, { setFieldError }) => {
     try {
       const user = await register({
-        username: values.nickName,
+        username: values.nickname,
         password: values.password,
-      }).unwrap()
-      dispatch(setCredentials(user))
-      navigate('/')
-    }
-    catch (err) {
+      }).unwrap();
+      dispatch(setCredentials(user));
+      navigate('/');
+    } catch (err) {
       if (err.status === 409) {
-        setFieldError('userNameExists', t('auth.errors.userExists'))
-      }
-      else {
-        console.error(t('auth.errors.connectionError'), err)
+        setFieldError('userNameExists', t('auth.errors.userExists'));
+      } else {
+        console.error(t('auth.errors.connectionError'), err);
       }
     }
-  }
+  };
 
   return (
     <Formik
       initialValues={{
-        nickName: '',
+        nickname: '',
         password: '',
         passwordConfirm: '',
       }}
@@ -70,17 +68,17 @@ export const FormRegister = () => {
               >
                 <Form.Control
                   type="text"
-                  name="nickName"
-                  value={values.nickName}
+                  name="nickname"
+                  value={values.nickname}
                   onChange={handleChange}
-                  ref={registerRef('nickName')}
+                  ref={registerRef('nickname')}
                   autoFocus={true}
                   placeholder={t('auth.username')}
-                  onKeyDown={createKeyDownHandler('nickName', handleSubmit)}
-                  isInvalid={touched.nickName && !!errors.nickName}
+                  onKeyDown={createKeyDownHandler('nickname', handleSubmit)}
+                  isInvalid={touched.nickname && !!errors.nickname}
                 />
                 <Form.Control.Feedback type="invalid" tooltip>
-                  {errors.nickName}
+                  {errors.nickname}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>
@@ -130,10 +128,13 @@ export const FormRegister = () => {
                   onChange={handleChange}
                   ref={registerRef('passwordConfirm')}
                   placeholder={t('auth.confirmPassword')}
-                  onKeyDown={createKeyDownHandler('passwordConfirm', handleSubmit)}
+                  onKeyDown={createKeyDownHandler(
+                    'passwordConfirm',
+                    handleSubmit
+                  )}
                   isInvalid={
-                    (touched.passwordConfirm && !!errors.passwordConfirm)
-                    || !!errors.userNameExists
+                    (touched.passwordConfirm && !!errors.passwordConfirm) ||
+                    !!errors.userNameExists
                   }
                 />
                 <Form.Control.Feedback type="invalid" tooltip>
@@ -154,5 +155,5 @@ export const FormRegister = () => {
         </Form>
       )}
     </Formik>
-  )
-}
+  );
+};
