@@ -18,13 +18,13 @@ export const FormRegister = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const fieldNames = ['nickname', 'password', 'passwordConfirm'];
+  const fieldNames = ['username', 'password', 'passwordConfirm'];
   const { registerRef, createKeyDownHandler } = useFormFocus(fieldNames);
 
   const handleRegister = async (values, { setFieldError }) => {
     try {
       const user = await register({
-        username: values.nickname,
+        username: values.username,
         password: values.password,
       }).unwrap();
       dispatch(setCredentials(user));
@@ -41,7 +41,7 @@ export const FormRegister = () => {
   return (
     <Formik
       initialValues={{
-        nickname: '',
+        username: '',
         password: '',
         passwordConfirm: '',
       }}
@@ -59,7 +59,7 @@ export const FormRegister = () => {
           <Row className="mb-3">
             <Form.Group
               as={Col}
-              controlId="validationFormikNickname"
+              controlId="validationFormikusername"
               className="position-relative"
             >
               <FloatingLabel
@@ -68,17 +68,17 @@ export const FormRegister = () => {
               >
                 <Form.Control
                   type="text"
-                  name="nickname"
-                  value={values.nickname}
+                  name="username"
+                  value={values.username}
                   onChange={handleChange}
-                  ref={registerRef('nickname')}
+                  ref={registerRef('username')}
                   autoFocus={true}
                   placeholder={t('auth.username')}
-                  onKeyDown={createKeyDownHandler('nickname', handleSubmit)}
-                  isInvalid={touched.nickname && !!errors.nickname}
+                  onKeyDown={createKeyDownHandler('username', handleSubmit)}
+                  isInvalid={touched.username && !!errors.username}
                 />
                 <Form.Control.Feedback type="invalid" tooltip>
-                  {errors.nickname}
+                  {errors.username}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>

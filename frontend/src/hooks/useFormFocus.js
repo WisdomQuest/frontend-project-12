@@ -1,29 +1,39 @@
 import { useRef, useCallback } from 'react';
 
 export const useFormFocus = (fieldNames) => {
-  const refs = useRef({});
+  const fieldRefs = useRef({});
 
-  const registerRef = (fieldName) => (el) => {
-    refs.current[fieldName] = el;
-  };
+  const registerRef = useCallback((fieldName) => (element) => {
+    if (element) {
+      fieldRefs.current[fieldName] = element;
+    }
+  }, []);
+
+  const focusNextField = useCallback((currentFieldName) => {
+    const currentIndex = fieldNames.indexOf(currentFieldName);
+    const nextIndex = currentIndex + 1;
+
+    if (nextIndex < fieldNames.length) {
+      const nextFieldName = fieldNames[nextIndex];
+      fieldRefs.current[nextFieldName]?.focus();
+      return true;
+    }
+    return false;
+  }, [fieldNames]);
 
   const createKeyDownHandler = useCallback(
-    (fieldName, onSubmit) => (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
+    (fieldName, onSubmit) => (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
 
-        const currentIndex = fieldNames.indexOf(fieldName);
-        const nextIndex = currentIndex + 1;
-
-        if (nextIndex < fieldNames.length) {
-          const nextFieldName = fieldNames[nextIndex];
-          refs.current[nextFieldName]?.focus();
-        } else if (onSubmit) {
+        const hasNextField = focusNextField(fieldName);
+        
+        if (!hasNextField && onSubmit) {
           onSubmit();
         }
       }
     },
-    [fieldNames]
+    [focusNextField]
   );
 
   return {

@@ -22,16 +22,16 @@ export const FormLogin = () => {
   const [showError, setShowError] = useState(false);
 
   const { registerRef, createKeyDownHandler } = useFormFocus([
-    'nickname',
+    'username',
     'password',
   ]);
 
-  const handleLogin = async (name, password) => {
+  const handleLogin = async (username, password) => {
     try {
       setShowError(false);
       const user = await login({
-        username: name,
-        password: password,
+        username,
+        password,
       }).unwrap();
 
       dispatch(setCredentials(user));
@@ -44,8 +44,8 @@ export const FormLogin = () => {
 
   return (
     <Formik
-      initialValues={{ nickname: '', password: '' }}
-      onSubmit={(values) => handleLogin(values.nickname, values.password)}
+      initialValues={{ username: '', password: '' }}
+      onSubmit={(values) => handleLogin(values.username, values.password)}
       validationSchema={createLoginValidation(t)}
     >
       {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -59,7 +59,7 @@ export const FormLogin = () => {
           <Row className="mb-3">
             <Form.Group
               as={Col}
-              controlId="validationFormikNicknameLogin"
+              controlId="validationFormikusernameLogin"
               className="position-relative"
             >
               <FloatingLabel
@@ -68,20 +68,22 @@ export const FormLogin = () => {
               >
                 <Form.Control
                   type="text"
-                  name="nickname"
-                  value={values.nickname}
+                  name="username"
+                  value={values.username}
                   onChange={handleChange}
-                  ref={registerRef('nickname')}
+                  ref={registerRef('username')}
                   autoFocus={true}
                   placeholder={t('auth.nickname')}
-                  onKeyDown={createKeyDownHandler('nickname', handleSubmit)}
-                  isInvalid={touched.nickname && !!errors.nickname || showError}
+                  onKeyDown={createKeyDownHandler('username', handleSubmit)}
+                  isInvalid={
+                    (touched.username && !!errors.username) || showError
+                  }
                 />
-
-                <Form.Control.Feedback type="invalid" tooltip>
-                  {errors.nickname}
-                </Form.Control.Feedback>
-
+                {errors.username && (
+                  <Form.Control.Feedback type="invalid" tooltip>
+                    {errors.username}
+                  </Form.Control.Feedback>
+                )}
               </FloatingLabel>
             </Form.Group>
           </Row>
@@ -104,7 +106,9 @@ export const FormLogin = () => {
                   ref={registerRef('password')}
                   placeholder={t('auth.password')}
                   onKeyDown={createKeyDownHandler('password', handleSubmit)}
-                  isInvalid={(touched.password && !!errors.password) || showError}
+                  isInvalid={
+                    (touched.password && !!errors.password) || showError
+                  }
                 />
 
                 <Form.Control.Feedback type="invalid" tooltip>
