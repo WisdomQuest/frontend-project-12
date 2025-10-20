@@ -10,7 +10,7 @@ import { selectCurrentChannel } from '../channels/channelsSlice.js';
 import { ArrowIcon } from '../../../assets/icons/arrowIcon.jsx';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
-import { notifyError } from '../channels/notify/notify.js';
+import { notifyError } from '../../../common/notify/notify.js';
 
 const MessageItem = ({ message: { username, body } }) => (
   <div className="text-break mb-2">

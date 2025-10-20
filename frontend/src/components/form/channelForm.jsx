@@ -1,9 +1,9 @@
-import { useRef, useEffect } from 'react'
-import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import { createChannelsValidation } from '../../validationShemas.js'
-import { notifyError } from '../../modules/chat/channels/notify/notify.js'
+import { useRef, useEffect } from 'react';
+import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { createChannelsValidation } from '../../validationShemas.js';
+import { notifyError } from '../../common/notify/notify.js';
 
 export const ChannelForm = ({
   initialName = '',
@@ -13,24 +13,24 @@ export const ChannelForm = ({
   textError,
   onClose,
 }) => {
-  const inputRef = useRef(null)
+  const inputRef = useRef(null);
 
   useEffect(() => {
-    if (inputRef.current) inputRef.current.focus()
-  }, [])
+    if (inputRef.current) inputRef.current.focus();
+  }, []);
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      await onSubmit(values)
-      resetForm()
-      onClose()
+      await onSubmit(values);
+      resetForm();
+      onClose();
     } catch (error) {
-      console.error(t('auth.errors.connectionError'), error)
-      notifyError(t(textError))
+      console.error(t('auth.errors.connectionError'), error);
+      notifyError(t(textError));
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   return (
     <Formik
@@ -69,8 +69,8 @@ export const ChannelForm = ({
             <Button
               variant="secondary"
               onClick={() => {
-                resetForm()
-                onClose?.()
+                resetForm();
+                onClose?.();
               }}
               disabled={isSubmitting}
             >
@@ -83,5 +83,5 @@ export const ChannelForm = ({
         </FormikForm>
       )}
     </Formik>
-  )
-}
+  );
+};

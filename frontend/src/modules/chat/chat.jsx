@@ -1,10 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectIsAuthenticated } from '../../modules/login/auth/authSlice.js';
+import { useDispatch } from 'react-redux';
 import { ChannelList } from './channels/channelsList.jsx';
 import { MessagePanel } from './messages/messagePanel.jsx';
 import { useSocket } from '../../hooks/useSocket.js';
@@ -13,18 +10,11 @@ import { useGetChannelsQuery } from './channels/channelsApi';
 import { handleChannelRemoval } from './channels/channelsSlice.js';
 
 export const Chat = () => {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { refetch: refetchMessages } = useGetMessagesQuery();
   const { refetch: refetchChannels } = useGetChannelsQuery();
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [isAuthenticated, navigate]);
 
   const handleRemoveChannel = (data) => {
     refetchChannels();
@@ -39,8 +29,6 @@ export const Chat = () => {
   useSocket('newChannel', refetchChannels, socketUrl);
   useSocket('renameChannel', refetchChannels, socketUrl);
   useSocket('removeChannel', handleRemoveChannel, socketUrl);
-
-  if (!isAuthenticated) return null;
 
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">

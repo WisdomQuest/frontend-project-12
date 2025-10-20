@@ -12,7 +12,7 @@ import { EditChannelModal } from './modal/editChannelModal.jsx';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import filter from 'leo-profanity';
-import { notifySuccess, notifyError } from './notify/notify.js';
+import { notifySuccess, notifyError } from '../../../common/notify/notify.js';
 import { setCurrentChannel } from './channelsSlice.js';
 
 const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
@@ -39,7 +39,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const handleEdit = useCallback(
     async (values) => {
       try {
-        const cleanedChatName= filter.clean(values.chatName.trim());
+        const cleanedChatName = filter.clean(values.chatName.trim());
         await editChannel({
           name: cleanedChatName,
           id: channel.id,
@@ -47,7 +47,7 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
 
         if (isActive) {
           dispatch(
-            setCurrentChannel({ id: channel.id, name: cleanedChatName})
+            setCurrentChannel({ id: channel.id, name: cleanedChatName })
           );
         }
 

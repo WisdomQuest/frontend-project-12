@@ -7,7 +7,7 @@ import { PlusSquareIcon } from '../../../assets/icons/plusSquareIcon.jsx';
 import { EditChannelModal } from './modal/editChannelModal.jsx';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer } from 'react-toastify';
-import { notifySuccess, notifyError } from './notify/notify.js';
+import { notifySuccess, notifyError } from '../../../common/notify/notify.js';
 import filter from 'leo-profanity';
 
 export const ChannelList = () => {

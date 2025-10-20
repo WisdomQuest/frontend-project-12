@@ -11,6 +11,8 @@ import { setCredentials } from '../login/auth/authSlice.js';
 import { useTranslation } from 'react-i18next';
 import { useFormFocus } from '../../hooks/useFormFocus.js';
 import { Formik } from 'formik';
+import { notifyError } from '../../common/notify/notify.js';
+import { ToastContainer } from 'react-toastify';
 
 export const FormRegister = () => {
   const [register, { isLoading }] = useRegisterMutation();
@@ -33,7 +35,7 @@ export const FormRegister = () => {
       if (err.status === 409) {
         setFieldError('userNameExists', t('auth.errors.userExists'));
       } else {
-        console.error(t('auth.errors.connectionError'), err);
+        notifyError(t('auth.errors.connectionError'));
       }
     }
   };
@@ -75,10 +77,13 @@ export const FormRegister = () => {
                   autoFocus={true}
                   placeholder={t('auth.username')}
                   onKeyDown={createKeyDownHandler('username', handleSubmit)}
-                  isInvalid={touched.username && !!errors.username}
+                  isInvalid={
+                    (touched.username && !!errors.username) ||
+                    !!errors.userNameExists
+                  }
                 />
                 <Form.Control.Feedback type="invalid" tooltip>
-                  {errors.username}
+                  {errors.username || errors.userNameExists}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>
@@ -102,7 +107,10 @@ export const FormRegister = () => {
                   ref={registerRef('password')}
                   placeholder={t('auth.password')}
                   onKeyDown={createKeyDownHandler('password', handleSubmit)}
-                  isInvalid={touched.password && !!errors.password}
+                  isInvalid={
+                    (touched.password && !!errors.password) ||
+                    !!errors.userNameExists
+                  }
                 />
                 <Form.Control.Feedback type="invalid" tooltip>
                   {errors.password}
@@ -138,9 +146,13 @@ export const FormRegister = () => {
                   }
                 />
                 <Form.Control.Feedback type="invalid" tooltip>
-                  {errors.passwordConfirm || errors.userNameExists}
+                  {errors.passwordConfirm}
                 </Form.Control.Feedback>
               </FloatingLabel>
+
+              <Form.Control.Feedback type="invalid" tooltip>
+                {errors.userNameExists}
+              </Form.Control.Feedback>
             </Form.Group>
           </Row>
 
@@ -152,6 +164,7 @@ export const FormRegister = () => {
           >
             {t('auth.registrationSubmit')}
           </Button>
+          <ToastContainer />
         </Form>
       )}
     </Formik>
