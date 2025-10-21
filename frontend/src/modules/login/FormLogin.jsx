@@ -1,17 +1,14 @@
 import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useVerifyTokenMutation } from './auth/authApi.js';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from './auth/authSlice.js';
 import { useTranslation } from 'react-i18next';
-import { Formik } from 'formik';
+import { ToastContainer } from 'react-toastify';
+import { useState } from 'react';
+import { notifyError } from '../../common/notify/notify.js';
 import { useFormFocus } from '../../hooks/useFormFocus.js';
 import { createLoginValidation } from '../../validationShemas.js';
+import { AuthForm } from '../../components/form/AuthForm.jsx';
 
 export const FormLogin = () => {
   const [login, { isLoading }] = useVerifyTokenMutation();
@@ -19,16 +16,14 @@ export const FormLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [showError, setShowError] = useState(false);
+  const fieldNames = ['username', 'password'];
+  const { registerRef, createKeyDownHandler } = useFormFocus(fieldNames);
 
-  const { registerRef, createKeyDownHandler } = useFormFocus([
-    'username',
-    'password',
-  ]);
+  const [isInvalidField, setIsInvalidField] = useState(false);
 
-  const handleLogin = async (username, password) => {
+  const handleLogin = async ({ username, password }, { setFieldError }) => {
     try {
-      setShowError(false);
+      setIsInvalidField(false);
       const user = await login({
         username,
         password,
@@ -37,97 +32,46 @@ export const FormLogin = () => {
       dispatch(setCredentials(user));
       navigate('/');
     } catch (err) {
-      setShowError(true);
-      console.error(t('auth.errors.connectionError'), err);
+      if (err.status === 401) {
+        setIsInvalidField(true);
+        setFieldError('password', t('auth.errors.invalidCredentials'));
+      } else {
+        notifyError(t('auth.errors.connectionError'));
+      }
     }
   };
 
+  const fields = [
+    {
+      name: 'username',
+      type: 'text',
+      label: t('auth.nickname'),
+      placeholder: t('auth.nickname'),
+      autoComplete: 'username',
+    },
+    {
+      name: 'password',
+      type: 'password',
+      label: t('auth.password'),
+      placeholder: t('auth.password'),
+      autoComplete: 'current-password',
+    },
+  ];
+
   return (
-    <Formik
+    <AuthForm
       initialValues={{ username: '', password: '' }}
-      onSubmit={(values) => handleLogin(values.username, values.password)}
       validationSchema={createLoginValidation(t)}
+      onSubmit={handleLogin}
+      fields={fields}
+      title={t('auth.login')}
+      submitButtonText={t('auth.login')}
+      isLoading={isLoading}
+      registerRef={registerRef}
+      createKeyDownHandler={createKeyDownHandler}
+      isInvalidField={isInvalidField}
     >
-      {({ handleSubmit, handleChange, values, touched, errors }) => (
-        <Form
-          noValidate
-          onSubmit={handleSubmit}
-          className="col-12 col-md-6 mt-3 mt-md-0"
-        >
-          <h1 className="mb-4 text-center">{t('auth.login')}</h1>
-
-          <Row className="mb-3">
-            <Form.Group
-              as={Col}
-              controlId="validationFormikusernameLogin"
-              className="position-relative"
-            >
-              <FloatingLabel
-                controlId="floatingName"
-                label={t('auth.nickname')}
-              >
-                <Form.Control
-                  type="text"
-                  name="username"
-                  value={values.username}
-                  onChange={handleChange}
-                  ref={registerRef('username')}
-                  autoFocus={true}
-                  placeholder={t('auth.nickname')}
-                  onKeyDown={createKeyDownHandler('username', handleSubmit)}
-                  isInvalid={
-                    (touched.username && !!errors.username) || showError
-                  }
-                />
-                {errors.username && (
-                  <Form.Control.Feedback type="invalid" tooltip>
-                    {errors.username}
-                  </Form.Control.Feedback>
-                )}
-              </FloatingLabel>
-            </Form.Group>
-          </Row>
-
-          <Row className="mb-3">
-            <Form.Group
-              as={Col}
-              controlId="validationFormikPasswordLogin"
-              className="position-relative"
-            >
-              <FloatingLabel
-                controlId="floatingPassword"
-                label={t('auth.password')}
-              >
-                <Form.Control
-                  type="password"
-                  name="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  ref={registerRef('password')}
-                  placeholder={t('auth.password')}
-                  onKeyDown={createKeyDownHandler('password', handleSubmit)}
-                  isInvalid={
-                    (touched.password && !!errors.password) || showError
-                  }
-                />
-
-                <Form.Control.Feedback type="invalid" tooltip>
-                  {errors.password || t('auth.errors.invalidCredentials')}
-                </Form.Control.Feedback>
-              </FloatingLabel>
-            </Form.Group>
-          </Row>
-
-          <Button
-            className="w-100 mb-3"
-            variant="outline-primary"
-            type="submit"
-            disabled={isLoading}
-          >
-            {t('auth.login')}
-          </Button>
-        </Form>
-      )}
-    </Formik>
+      <ToastContainer />
+    </AuthForm>
   );
 };
