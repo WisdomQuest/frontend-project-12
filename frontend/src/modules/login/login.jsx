@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FormLogin } from './formLogin.jsx';
 import avatar from '../../assets/images/loginLogo.jpg';
+import { CircleAvater } from '../../common/circleAvater.jsx';
 
 export const Login = () => {
   const { t } = useTranslation();
@@ -15,10 +16,8 @@ export const Login = () => {
       <Row className="justify-content-center align-content-center h-100">
         <Col className="col-12 col-md-8 col-xxl-6">
           <Card className="shadow-sm ">
-            <Card.Body className="d-flex row p-5">
-              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <img src={avatar} alt="login" className="rounded-circle" />
-              </div>
+            <Card.Body className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
+              <CircleAvater src={avatar} alt={'login'} />
               <FormLogin />
             </Card.Body>
             <Card.Footer>

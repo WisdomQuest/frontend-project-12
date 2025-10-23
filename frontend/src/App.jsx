@@ -10,8 +10,8 @@ import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Provider store={store}>
+    <Provider store={store}>
+      <BrowserRouter>
         <Header />
         <Routes>
           <Route
@@ -26,8 +26,8 @@ const App = () => {
           <Route path="/signup" element={<Registration />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Provider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   );
 };
 

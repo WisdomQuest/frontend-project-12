@@ -6,11 +6,12 @@ import Button from 'react-bootstrap/Button';
 import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi.js';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../login/auth/authSlice.js';
-import { selectCurrentChannel } from '../channels/channelsSlice.js';
+import { selectCurrentChannelId } from '../channels/channelsSlice.js';
 import { ArrowIcon } from '../../../assets/icons/arrowIcon.jsx';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { notifyError } from '../../../common/notify/notify.js';
+import { useGetChannelsQuery } from '../channels/channelsApi.js';
 
 const MessageItem = ({ message: { username, body } }) => (
   <div className="text-break mb-2">
@@ -19,14 +20,28 @@ const MessageItem = ({ message: { username, body } }) => (
 );
 
 export const MessagePanel = () => {
-  const { data: messages = [] } = useGetMessagesQuery();
+  const { data: messages = [], isLoading: messagesLoading } =
+    useGetMessagesQuery();
+  const { data: channels = [], isLoading: channelsLoading } =
+    useGetChannelsQuery();
   const { t } = useTranslation();
 
-  const { id: currentChannelId, name: currentChannelName } =
-    useSelector(selectCurrentChannel);
+  const selectedChannelId = useSelector(selectCurrentChannelId);
+
+  const currentChannel = useMemo(
+    () =>
+      channels.find((channel) => channel.id === selectedChannelId) || {
+        name: '',
+        id: null,
+      },
+    [channels, selectedChannelId]
+  );
+  console.log(currentChannel);
+
+  const { id: currentChannelId, name: currentChannelName } = currentChannel;
 
   const currentUser = useSelector(selectCurrentUser);
-  const [addMessage, { isLoading }] = useAddMessageMutation();
+  const [addMessage, { isLoading: addIsLoading }] = useAddMessageMutation();
 
   const messageRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -58,6 +73,8 @@ export const MessagePanel = () => {
       notifyError(t('messages.errors.connectionError'));
     }
   };
+
+  if (messagesLoading || channelsLoading) return <div>{t('common.loading')}</div>;
 
   return (
     <div className=" d-flex flex-column h-100">
@@ -101,7 +118,7 @@ export const MessagePanel = () => {
                   variant="outline"
                   type="submit"
                   id="button-message"
-                  disabled={isLoading || !values.message.trim()}
+                  disabled={addIsLoading || !values.message.trim()}
                 >
                   <ArrowIcon />
                   <span className="visually-hidden">{t('messages.send')}</span>

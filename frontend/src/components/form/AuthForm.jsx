@@ -1,4 +1,3 @@
-// components/AuthForm.jsx
 import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
