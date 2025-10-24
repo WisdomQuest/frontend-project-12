@@ -1,9 +1,9 @@
-import { Formik } from 'formik';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Formik } from 'formik'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 export const AuthForm = ({
   initialValues,
@@ -68,7 +68,7 @@ export const AuthForm = ({
                     </FloatingLabel>
                   </Form.Group>
                 </Row>
-              )
+              ),
             )}
 
             <Button
@@ -84,5 +84,5 @@ export const AuthForm = ({
         </>
       )}
     </Formik>
-  );
-};
+  )
+}

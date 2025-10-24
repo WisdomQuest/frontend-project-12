@@ -1,67 +1,68 @@
-import { useGetChannelsQuery, useAddChannelMutation } from './channelsApi';
-import { useSelector, useDispatch } from 'react-redux';
-import ChannelItem from './channelItem.jsx';
-import { useState, useEffect, useMemo } from 'react';
-import { selectCurrentChannelId, setCurrentChannel } from './channelsSlice';
-import { PlusSquareIcon } from '../../../assets/icons/plusSquareIcon.jsx';
-import { EditChannelModal } from './modal/editChannelModal.jsx';
-import { useTranslation } from 'react-i18next';
-import { ToastContainer } from 'react-toastify';
-import { notifySuccess, notifyError } from '../../../common/notify/notify.js';
-import filter from 'leo-profanity';
+import { useGetChannelsQuery, useAddChannelMutation } from './channelsApi'
+import { useSelector, useDispatch } from 'react-redux'
+import ChannelItem from './channelItem.jsx'
+import { useState, useEffect, useMemo } from 'react'
+import { selectCurrentChannelId, setCurrentChannel } from './channelsSlice'
+import { PlusSquareIcon } from '../../../assets/icons/plusSquareIcon.jsx'
+import { EditChannelModal } from './modal/editChannelModal.jsx'
+import { useTranslation } from 'react-i18next'
+import { ToastContainer } from 'react-toastify'
+import { notifySuccess, notifyError } from '../../../common/notify/notify.js'
+import filter from 'leo-profanity'
 
 export const ChannelList = () => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
-  const { data: channels = [], isLoading } = useGetChannelsQuery();
-  const [addChannel] = useAddChannelMutation();
+  const { data: channels = [], isLoading } = useGetChannelsQuery()
+  const [addChannel] = useAddChannelMutation()
 
   const channelsNames = useMemo(
     () => channels.map((channel) => channel.name),
-    [channels]
-  );
+    [channels],
+  )
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const currentChannelId = useSelector(selectCurrentChannelId);
+  const currentChannelId = useSelector(selectCurrentChannelId)
 
   useEffect(() => {
     if (channels.length > 0 && !currentChannelId) {
       dispatch(
-        setCurrentChannel({ id: channels[0].id, name: channels[0].name })
-      );
+        setCurrentChannel({ id: channels[0].id, name: channels[0].name }),
+      )
     }
-  }, [channels, currentChannelId, dispatch]);
+  }, [channels, currentChannelId, dispatch])
 
   const handleChannelSelect = (channel) => {
-    dispatch(setCurrentChannel({ id: channel.id, name: channel.name }));
-  };
+    dispatch(setCurrentChannel({ id: channel.id, name: channel.name }))
+  }
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
+    setIsModalOpen(true)
+  }
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+    setIsModalOpen(false)
+  }
 
   const handleAddChannel = async (values) => {
     try {
-      const cleanedChatName = filter.clean(values.chatName.trim());
+      const cleanedChatName = filter.clean(values.chatName.trim())
       const channel = await addChannel({
         name: cleanedChatName,
         removable: true,
-      }).unwrap();
-      notifySuccess(t('channels.toast.add'));
-      dispatch(setCurrentChannel(channel));
-    } catch (error) {
-      console.error(error);
-      notifyError(t('channels.errors.connectionError'));
+      }).unwrap()
+      notifySuccess(t('channels.toast.add'))
+      dispatch(setCurrentChannel(channel))
     }
-  };
+    catch (error) {
+      console.error(error)
+      notifyError(t('channels.errors.connectionError'))
+    }
+  }
 
-  if (isLoading) return <div>{t('common.loading')}</div>;
+  if (isLoading) return <div>{t('common.loading')}</div>
 
   return (
     <>
@@ -100,5 +101,5 @@ export const ChannelList = () => {
       />
       <ToastContainer />
     </>
-  );
-};
+  )
+}

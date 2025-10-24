@@ -1,10 +1,10 @@
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { FormRegister } from './formRegister.jsx';
-import registerLogo from '../../assets/images/registerLogo.jpg';
-import { CircleAvater } from '../../common/circleAvater.jsx';
+import Container from 'react-bootstrap/Container'
+import Card from 'react-bootstrap/Card'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { FormRegister } from './formRegister.jsx'
+import registerLogo from '../../assets/images/registerLogo.jpg'
+import { CircleAvater } from '../../common/circleAvater.jsx'
 
 export const Registration = () => {
   return (
@@ -20,5 +20,5 @@ export const Registration = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}

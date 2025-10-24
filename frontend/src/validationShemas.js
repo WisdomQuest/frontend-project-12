@@ -1,4 +1,4 @@
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 
 export const createSignUpValidation = (t) =>
   Yup.object().shape({
@@ -12,13 +12,13 @@ export const createSignUpValidation = (t) =>
     passwordConfirm: Yup.string()
       .required(t('auth.errors.requiredField'))
       .oneOf([Yup.ref('password')], t('auth.errors.passwordsMatch')),
-  });
+  })
 
 export const createLoginValidation = (t) =>
   Yup.object().shape({
     username: Yup.string().required(t('auth.errors.requiredField')),
     password: Yup.string().required(t('auth.errors.requiredField')),
-  });
+  })
 
 export const createChannelsValidation = (t, channelsName = []) =>
   Yup.object().shape({
@@ -27,4 +27,4 @@ export const createChannelsValidation = (t, channelsName = []) =>
       .min(3, t('auth.errors.nicknameLength'))
       .max(20, t('auth.errors.nicknameLength'))
       .notOneOf(channelsName, t('auth.errors.uniqueChannel')),
-  });
+  })

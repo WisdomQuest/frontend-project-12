@@ -1,17 +1,18 @@
-import { Button, Modal } from 'react-bootstrap';
-import { notifyError } from '../../../../common/notify/notify.js';
+import { Button, Modal } from 'react-bootstrap'
+import { notifyError } from '../../../../common/notify/notify.js'
 
 export const DeleteChannelModal = ({ isOpen, onClose, onSubmit, t }) => {
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   const handleSubmit = async () => {
     try {
-      await onSubmit();
-    } catch (error) {
-      console.error(t('auth.errors.connectionError'), error);
-      notifyError(t('channels.errors.unsuccessfulDelete'));
+      await onSubmit()
     }
-  };
+    catch (error) {
+      console.error(t('auth.errors.connectionError'), error)
+      notifyError(t('channels.errors.unsuccessfulDelete'))
+    }
+  }
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
@@ -32,5 +33,5 @@ export const DeleteChannelModal = ({ isOpen, onClose, onSubmit, t }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
-};
+  )
+}

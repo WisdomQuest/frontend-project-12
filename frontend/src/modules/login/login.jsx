@@ -1,15 +1,15 @@
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { FormLogin } from './formLogin.jsx';
-import avatar from '../../assets/images/loginLogo.jpg';
-import { CircleAvater } from '../../common/circleAvater.jsx';
+import Container from 'react-bootstrap/Container'
+import Card from 'react-bootstrap/Card'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { FormLogin } from './formLogin.jsx'
+import avatar from '../../assets/images/loginLogo.jpg'
+import { CircleAvater } from '../../common/circleAvater.jsx'
 
 export const Login = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Container fluid className="h-100">
@@ -30,5 +30,5 @@ export const Login = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
