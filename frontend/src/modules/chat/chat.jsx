@@ -7,7 +7,7 @@ import { MessagePanel } from './messages/messagePanel.jsx'
 import { useSocket } from '../../hooks/useSocket.js'
 import { useGetMessagesQuery } from './messages/messagesApi'
 import { useGetChannelsQuery } from './channels/channelsApi'
-import { handleChannelRemoval } from './channels/channelsSlice.js'
+import { handleChannelRemoval, setCurrentChannel } from './channels/channelsSlice.js'
 
 export const Chat = () => {
   const dispatch = useDispatch()
@@ -21,13 +21,18 @@ export const Chat = () => {
     dispatch(handleChannelRemoval(data.id))
   }
 
+  const handleRenameChannel = (data) => {
+    refetchChannels()
+    dispatch(setCurrentChannel({ id: data.id, name: data.name }))
+  }
+
   const socketUrl =
     import.meta.env.VITE_SOCKET_URL ||
     (import.meta.env.ENV === 'test' ? 'http://localhost:5002' : undefined)
 
   useSocket('newMessage', refetchMessages, socketUrl)
   useSocket('newChannel', refetchChannels, socketUrl)
-  useSocket('renameChannel', refetchChannels, socketUrl)
+  useSocket('renameChannel', handleRenameChannel, socketUrl)
   useSocket('removeChannel', handleRemoveChannel, socketUrl)
 
   return (

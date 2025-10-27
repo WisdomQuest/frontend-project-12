@@ -6,12 +6,11 @@ import Button from 'react-bootstrap/Button'
 import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi.js'
 import { useSelector } from 'react-redux'
 import { selectCurrentUser } from '../../login/auth/authSlice.js'
-import { selectCurrentChannelId } from '../channels/channelsSlice.js'
+import { selectCurrentChannel } from '../channels/channelsSlice.js'
 import { ArrowIcon } from '../../../assets/icons/arrowIcon.jsx'
 import { useTranslation } from 'react-i18next'
 import filter from 'leo-profanity'
 import { notifyError } from '../../../common/notify/notify.js'
-import { useGetChannelsQuery } from '../channels/channelsApi.js'
 
 const MessageItem = ({ message: { username, body } }) => (
   <div className="text-break mb-2">
@@ -22,22 +21,10 @@ const MessageItem = ({ message: { username, body } }) => (
 export const MessagePanel = () => {
   const { data: messages = [], isLoading: messagesLoading } =
     useGetMessagesQuery()
-  const { data: channels = [], isLoading: channelsLoading } =
-    useGetChannelsQuery()
+
   const { t } = useTranslation()
 
-  const selectedChannelId = useSelector(selectCurrentChannelId)
-
-  const currentChannel = useMemo(
-    () =>
-      channels.find((channel) => channel.id === selectedChannelId) || {
-        name: '',
-        id: null,
-      },
-    [channels, selectedChannelId],
-  )
-
-  const { id: currentChannelId, name: currentChannelName } = currentChannel
+  const { id: currentChannelId, name: currentChannelName } = useSelector(selectCurrentChannel)
 
   const currentUser = useSelector(selectCurrentUser)
   const [addMessage, { isLoading: addIsLoading }] = useAddMessageMutation()
@@ -74,7 +61,7 @@ export const MessagePanel = () => {
     }
   }
 
-  if (messagesLoading || channelsLoading) return <div>{t('common.loading')}</div>
+  if (messagesLoading) return <div>{t('common.loading')}</div>
 
   return (
     <div className=" d-flex flex-column h-100">
