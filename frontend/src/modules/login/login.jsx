@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { FormLogin } from './formLog.jsx'
+import { FormLogin } from './formLogin.jsx'
 import avatar from '../../assets/images/loginLogo.jpg'
 import { CircleAvater } from '../../common/circleAvater.jsx'
 
