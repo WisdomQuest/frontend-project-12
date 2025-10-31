@@ -26,11 +26,11 @@ const channelsSlice = createSlice({
   },
 })
 
-export const { 
-  setCurrentChannel, 
-  resetChannels, 
+export const {
+  setCurrentChannel,
+  resetChannels,
   handleChannelRemoval,
-} 
+}
   = channelsSlice.actions
 
 export const selectCurrentChannelId = state =>

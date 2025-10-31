@@ -12,18 +12,22 @@ import { useTranslation } from 'react-i18next'
 import filter from 'leo-profanity'
 import { notifyError } from '../../../common/utils/notify.js'
 
-const MessageItem = ({ message: { username, body } }) => (
-  <div className="text-break mb-2">
-    <b>{username}</b>
-    : 
-    {body}
-  </div>
-)
+const MessageItem = ({ message: { username, body } }) => { 
+  const signColon =': '
+  return (
+    <div className="text-break mb-2">
+      <b>{username}</b>
+      {signColon}
+      {body}
+    </div>
+  )
+}
 
 export const MessagePanel = () => {
   const { data: messages = [], isLoading: messagesLoading } = useGetMessagesQuery()
 
   const { t } = useTranslation()
+  const signHash = '# '
 
   const { id: currentChannelId, name: currentChannelName } = useSelector(selectCurrentChannel)
 
@@ -69,7 +73,7 @@ export const MessagePanel = () => {
       <div className="mb-4 p-3 shadow-sm small">
         <p className="m-0">
           <b>
-            # 
+            {signHash}
             {currentChannelName}
           </b>
         </p>

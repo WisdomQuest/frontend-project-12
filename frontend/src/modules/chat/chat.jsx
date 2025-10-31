@@ -30,7 +30,7 @@ export const Chat = () => {
 
   const socketUrl
     = import.meta.env.VITE_SOCKET_URL
-    || (import.meta.env.ENV === 'test' ? 'http://localhost:5002' : undefined)
+      || (import.meta.env.ENV === 'test' ? 'http://localhost:5002' : undefined)
 
   useSocket('newMessage', refetchMessages, socketUrl)
   useSocket('newChannel', refetchChannels, socketUrl)
