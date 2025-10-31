@@ -12,8 +12,8 @@ import { useTranslation } from 'react-i18next'
 import filter from 'leo-profanity'
 import { notifyError } from '../../../common/utils/notify.js'
 
-const MessageItem = ({ message: { username, body } }) => { 
-  const signColon =': '
+const MessageItem = ({ message: { username, body } }) => {
+  const signColon = ': '
   return (
     <div className="text-break mb-2">
       <b>{username}</b>
