@@ -15,7 +15,7 @@ export const authApi = createApi({
     },
   }),
 
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     verifyToken: builder.mutation({
       query: ({ username, password }) => ({
         method: 'post',

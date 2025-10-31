@@ -16,7 +16,7 @@ export const store = configureStore({
     [regApi.reducerPath]: regApi.reducer,
     [messagesApi.reducerPath]: messagesApi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(
       authApi.middleware,
       regApi.middleware,

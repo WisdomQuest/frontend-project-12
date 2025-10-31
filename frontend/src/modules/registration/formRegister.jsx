@@ -5,7 +5,7 @@ import { setCredentials } from '../login/auth/authSlice.js'
 import { useTranslation } from 'react-i18next'
 import { useFormFocus } from '../../common/hooks/useFormFocus.js'
 import { createSignUpValidation } from '../../common/utils/validationShemas.js'
-import { AuthForm } from '../../common/components/form/authForm.jsx'
+import { AuthForm } from '../../common/components/form/authForm2.jsx'
 import { ToastContainer } from 'react-toastify'
 import { notifyError } from '../../common/utils/notify.js'
 
@@ -31,7 +31,7 @@ export const FormRegister = () => {
       if (err.status === 409) {
         setFieldError('username', t('auth.errors.userExists'))
       }
-    else {
+      else {
         notifyError(t('auth.errors.connectionError'))
       }
     }

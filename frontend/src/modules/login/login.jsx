@@ -17,7 +17,7 @@ export const Login = () => {
         <Col className="col-12 col-md-8 col-xxl-6">
           <Card className="shadow-sm ">
             <Card.Body className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
-              <CircleAvatar src={avatar} alt={'login'} />
+              <CircleAvatar src={avatar} alt="login" />
               <FormLogin />
             </Card.Body>
             <Card.Footer>

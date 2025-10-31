@@ -1,6 +1,6 @@
 import * as Yup from 'yup'
 
-export const createSignUpValidation = (t) =>
+export const createSignUpValidation = t =>
   Yup.object().shape({
     username: Yup.string()
       .min(3, t('auth.errors.nicknameLength'))
@@ -14,7 +14,7 @@ export const createSignUpValidation = (t) =>
       .oneOf([Yup.ref('password')], t('auth.errors.passwordsMatch')),
   })
 
-export const createLoginValidation = (t) =>
+export const createLoginValidation = t =>
   Yup.object().shape({
     username: Yup.string().required(t('auth.errors.requiredField')),
     password: Yup.string().required(t('auth.errors.requiredField')),

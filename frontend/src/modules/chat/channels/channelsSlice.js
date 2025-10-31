@@ -26,11 +26,15 @@ const channelsSlice = createSlice({
   },
 })
 
-export const { setCurrentChannel, resetChannels, handleChannelRemoval } =
-  channelsSlice.actions
+export const { 
+  setCurrentChannel, 
+  resetChannels, 
+  handleChannelRemoval,
+} 
+  = channelsSlice.actions
 
-export const selectCurrentChannelId = (state) =>
+export const selectCurrentChannelId = state =>
   state.channels.currentChannel.id
-export const selectCurrentChannel = (state) => state.channels.currentChannel
+export const selectCurrentChannel = state => state.channels.currentChannel
 
 export default channelsSlice.reducer

@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { notifyError } from '../../common/utils/notify.js'
 import { useFormFocus } from '../../common/hooks/useFormFocus.js'
 import { createLoginValidation } from '../../common/utils/validationShemas.js'
-import { AuthForm } from '../../common/components/form/authForm.jsx'
+import { AuthForm } from '../../common/components/form/authForm2.jsx'
 
 export const FormLogin = () => {
   const [login, { isLoading }] = useVerifyTokenMutation()
@@ -37,7 +37,7 @@ export const FormLogin = () => {
         setIsInvalidField(true)
         setFieldError('password', t('auth.errors.invalidCredentials'))
       }
-    else {
+      else {
         notifyError(t('auth.errors.connectionError'))
       }
     }

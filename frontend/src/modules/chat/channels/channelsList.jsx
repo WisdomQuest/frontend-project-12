@@ -18,7 +18,7 @@ export const ChannelList = () => {
   const [addChannel] = useAddChannelMutation()
 
   const channelsNames = useMemo(
-    () => channels.map((channel) => channel.name),
+    () => channels.map(channel => channel.name),
     [channels],
   )
 
@@ -78,7 +78,7 @@ export const ChannelList = () => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        {channels.map((channel) => (
+        {channels.map(channel => (
           <ChannelItem
             key={channel.id}
             channel={channel}
@@ -97,7 +97,7 @@ export const ChannelList = () => {
         channelName={null}
         textHeaderModal={t('channels.modal.addTitle')}
         t={t}
-        textErorr={'channels.errors.unsuccessfulAdd'}
+        textErorr={t('channels.errors.unsuccessfulAdd')}
       />
       <ToastContainer />
     </>

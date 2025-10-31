@@ -25,11 +25,11 @@ const ChannelItem = ({ channel, isActive, onSelect, channelsNames }) => {
   const [editChannel] = useEditChannelMutation()
 
   const openModal = (type) => {
-    setModal((s) => ({ ...s, [type]: true }))
+    setModal(s => ({ ...s, [type]: true }))
   }
 
   const closeModal = (type) => {
-    setModal((s) => ({ ...s, [type]: false }))
+    setModal(s => ({ ...s, [type]: false }))
   }
 
   const handleSelect = () => {

@@ -28,9 +28,9 @@ export const Chat = () => {
     dispatch(setCurrentChannel({ id: data.id, name: data.name }))
   }
 
-  const socketUrl =
-    import.meta.env.VITE_SOCKET_URL ||
-    (import.meta.env.ENV === 'test' ? 'http://localhost:5002' : undefined)
+  const socketUrl
+    = import.meta.env.VITE_SOCKET_URL
+    || (import.meta.env.ENV === 'test' ? 'http://localhost:5002' : undefined)
 
   useSocket('newMessage', refetchMessages, socketUrl)
   useSocket('newChannel', refetchChannels, socketUrl)

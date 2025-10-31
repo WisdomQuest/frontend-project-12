@@ -3,7 +3,7 @@ import { useRef, useCallback } from 'react'
 export const useFormFocus = (fieldNames) => {
   const fieldRefs = useRef({})
 
-  const registerRef = useCallback((fieldName) => (element) => {
+  const registerRef = useCallback(fieldName => (element) => {
     if (element) {
       fieldRefs.current[fieldName] = element
     }
@@ -27,7 +27,7 @@ export const useFormFocus = (fieldNames) => {
         event.preventDefault()
 
         const hasNextField = focusNextField(fieldName)
-        
+
         if (!hasNextField && onSubmit) {
           onSubmit()
         }
