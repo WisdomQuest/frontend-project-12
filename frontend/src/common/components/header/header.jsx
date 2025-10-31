@@ -1,13 +1,12 @@
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
-import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   logout,
   selectIsAuthenticated,
 } from '../../../modules/login/auth/authSlice.js'
 import Button from 'react-bootstrap/Button'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 export const Header = () => {

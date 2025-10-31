@@ -1,39 +1,41 @@
-import { useRegisterMutation } from './regApi.js';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setCredentials } from '../login/auth/authSlice.js';
-import { useTranslation } from 'react-i18next';
-import { useFormFocus } from '../../common/hooks/useFormFocus.js';
-import { createSignUpValidation } from '../../common/utils/validationShemas.js';
-import { AuthForm } from '../../common/components/form/authForm2.jsx';
-import { ToastContainer } from 'react-toastify';
-import { notifyError } from '../../common/utils/notify.js';
+import { useRegisterMutation } from './regApi.js'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setCredentials } from '../login/auth/authSlice.js'
+import { useTranslation } from 'react-i18next'
+import { useFormFocus } from '../../common/hooks/useFormFocus.js'
+import { createSignUpValidation } from '../../common/utils/validationShemas.js'
+import { AuthForm } from '../../common/components/form/authForm.jsx'
+import { ToastContainer } from 'react-toastify'
+import { notifyError } from '../../common/utils/notify.js'
 
 export const FormRegister = () => {
-  const [register, { isLoading }] = useRegisterMutation();
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [register, { isLoading }] = useRegisterMutation()
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const fieldNames = ['username', 'password', 'passwordConfirm'];
-  const { registerRef, createKeyDownHandler } = useFormFocus(fieldNames);
+  const fieldNames = ['username', 'password', 'passwordConfirm']
+  const { registerRef, createKeyDownHandler } = useFormFocus(fieldNames)
 
   const handleRegister = async ({ username, password }, { setFieldError }) => {
     try {
       const user = await register({
         username,
         password,
-      }).unwrap();
-      dispatch(setCredentials(user));
-      navigate('/');
-    } catch (err) {
+      }).unwrap()
+      dispatch(setCredentials(user))
+      navigate('/')
+    }
+    catch (err) {
       if (err.status === 409) {
-        setFieldError('username', t('auth.errors.userExists'));
-      } else {
-        notifyError(t('auth.errors.connectionError'));
+        setFieldError('username', t('auth.errors.userExists'))
+      }
+    else {
+        notifyError(t('auth.errors.connectionError'))
       }
     }
-  };
+  }
 
   const fields = [
     {
@@ -57,7 +59,7 @@ export const FormRegister = () => {
       placeholder: t('auth.confirmPassword'),
       autoComplete: 'new-password',
     },
-  ];
+  ]
 
   return (
     <AuthForm
@@ -77,5 +79,5 @@ export const FormRegister = () => {
     >
       <ToastContainer />
     </AuthForm>
-  );
-};
+  )
+}

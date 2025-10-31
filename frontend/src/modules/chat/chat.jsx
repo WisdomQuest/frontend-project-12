@@ -1,41 +1,41 @@
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { useDispatch } from 'react-redux';
-import { ChannelList } from './channels/channelsList.jsx';
-import { MessagePanel } from './messages/messagePanel.jsx';
-import { useSocket } from '../../common/hooks/useSocket.js';
-import { useGetMessagesQuery } from './messages/messagesApi';
-import { useGetChannelsQuery } from './channels/channelsApi';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { useDispatch } from 'react-redux'
+import { ChannelList } from './channels/channelsList.jsx'
+import { MessagePanel } from './messages/messagePanel.jsx'
+import { useSocket } from '../../common/hooks/useSocket.js'
+import { useGetMessagesQuery } from './messages/messagesApi'
+import { useGetChannelsQuery } from './channels/channelsApi'
 import {
   handleChannelRemoval,
   setCurrentChannel,
-} from './channels/channelsSlice.js';
+} from './channels/channelsSlice.js'
 
 export const Chat = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const { refetch: refetchMessages } = useGetMessagesQuery();
-  const { refetch: refetchChannels } = useGetChannelsQuery();
+  const { refetch: refetchMessages } = useGetMessagesQuery()
+  const { refetch: refetchChannels } = useGetChannelsQuery()
 
   const handleRemoveChannel = (data) => {
-    refetchChannels();
-    dispatch(handleChannelRemoval(data.id));
-  };
+    refetchChannels()
+    dispatch(handleChannelRemoval(data.id))
+  }
 
   const handleRenameChannel = (data) => {
-    refetchChannels();
-    dispatch(setCurrentChannel({ id: data.id, name: data.name }));
-  };
+    refetchChannels()
+    dispatch(setCurrentChannel({ id: data.id, name: data.name }))
+  }
 
   const socketUrl =
     import.meta.env.VITE_SOCKET_URL ||
-    (import.meta.env.ENV === 'test' ? 'http://localhost:5002' : undefined);
+    (import.meta.env.ENV === 'test' ? 'http://localhost:5002' : undefined)
 
-  useSocket('newMessage', refetchMessages, socketUrl);
-  useSocket('newChannel', refetchChannels, socketUrl);
-  useSocket('renameChannel', handleRenameChannel, socketUrl);
-  useSocket('removeChannel', handleRemoveChannel, socketUrl);
+  useSocket('newMessage', refetchMessages, socketUrl)
+  useSocket('newChannel', refetchChannels, socketUrl)
+  useSocket('renameChannel', handleRenameChannel, socketUrl)
+  useSocket('removeChannel', handleRemoveChannel, socketUrl)
 
   return (
     <Container className="h-100 my-3 overflow-hidden rounded shadow ">
@@ -48,5 +48,5 @@ export const Chat = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}

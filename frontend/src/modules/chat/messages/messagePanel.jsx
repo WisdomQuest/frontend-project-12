@@ -1,67 +1,68 @@
-import { useEffect, useRef, useMemo } from 'react';
-import { Formik } from 'formik';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
-import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi.js';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../login/auth/authSlice.js';
-import { selectCurrentChannel } from '../channels/channelsSlice.js';
-import { ArrowIcon } from '../../../assets/icons/arrowIcon.jsx';
-import { useTranslation } from 'react-i18next';
-import filter from 'leo-profanity';
-import { notifyError } from '../../../common/utils/notify.js';
+import { useEffect, useRef, useMemo } from 'react'
+import { Formik } from 'formik'
+import Form from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
+import Button from 'react-bootstrap/Button'
+import { useGetMessagesQuery, useAddMessageMutation } from './messagesApi.js'
+import { useSelector } from 'react-redux'
+import { selectCurrentUser } from '../../login/auth/authSlice.js'
+import { selectCurrentChannel } from '../channels/channelsSlice.js'
+import { ArrowIcon } from '../../../assets/icons/arrowIcon.jsx'
+import { useTranslation } from 'react-i18next'
+import filter from 'leo-profanity'
+import { notifyError } from '../../../common/utils/notify.js'
 
 const MessageItem = ({ message: { username, body } }) => (
   <div className="text-break mb-2">
     <b>{username}</b>: {body}
   </div>
-);
+)
 
 export const MessagePanel = () => {
   const { data: messages = [], isLoading: messagesLoading } =
-    useGetMessagesQuery();
+    useGetMessagesQuery()
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const { id: currentChannelId, name: currentChannelName } =
-    useSelector(selectCurrentChannel);
+    useSelector(selectCurrentChannel)
 
-  const currentUser = useSelector(selectCurrentUser);
-  const [addMessage, { isLoading: addIsLoading }] = useAddMessageMutation();
+  const currentUser = useSelector(selectCurrentUser)
+  const [addMessage, { isLoading: addIsLoading }] = useAddMessageMutation()
 
-  const messageRef = useRef(null);
-  const messagesEndRef = useRef(null);
+  const messageRef = useRef(null)
+  const messagesEndRef = useRef(null)
 
   const currentChannelMessages = useMemo(
     () => messages.filter((message) => message.channelId === currentChannelId),
-    [messages, currentChannelId]
-  );
+    [messages, currentChannelId],
+  )
 
   useEffect(() => {
-    messageRef.current?.focus();
-  }, [currentChannelId]);
+    messageRef.current?.focus()
+  }, [currentChannelId])
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView();
-  }, [currentChannelMessages]);
+    messagesEndRef.current?.scrollIntoView()
+  }, [currentChannelMessages])
 
   const handleAddMessage = async (values, { resetForm }) => {
     try {
-      const cleanedMessage = filter.clean(values.message.trim());
+      const cleanedMessage = filter.clean(values.message.trim())
       await addMessage({
         body: cleanedMessage,
         channelId: currentChannelId,
         username: currentUser,
-      }).unwrap();
-      resetForm();
-    } catch (error) {
-      console.error(t('auth.errors.connectionError'), error);
-      notifyError(t('messages.errors.connectionError'));
+      }).unwrap()
+      resetForm()
     }
-  };
+    catch (error) {
+      console.error(t('auth.errors.connectionError'), error)
+      notifyError(t('messages.errors.connectionError'))
+    }
+  }
 
-  if (messagesLoading) return <div>{t('common.loading')}</div>;
+  if (messagesLoading) return <div>{t('common.loading')}</div>
 
   return (
     <div className=" d-flex flex-column h-100">
@@ -116,5 +117,5 @@ export const MessagePanel = () => {
         </Formik>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,5 +1,5 @@
-import Modal from 'react-bootstrap/Modal';
-import { ChannelForm } from '../../../../common/components/form/channelForm.jsx';
+import Modal from 'react-bootstrap/Modal'
+import { ChannelForm } from '../../../../common/components/form/channelForm.jsx'
 
 export const EditChannelModal = ({
   isOpen,
@@ -11,7 +11,7 @@ export const EditChannelModal = ({
   t,
   textErorr,
 }) => {
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
@@ -29,5 +29,5 @@ export const EditChannelModal = ({
         />
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+}
