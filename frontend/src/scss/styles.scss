@@ -1,2 +1,8 @@
 // Import all of Bootstrap’s CSS
-@import "bootstrap/scss/bootstrap";
+@import 'bootstrap/scss/bootstrap';
+
+@media (max-width: 430px) {
+  body {
+    font-size: 0.75rem;
+  }
+}

@@ -29,7 +29,7 @@ export const AuthForm = ({
           <Form
             noValidate
             onSubmit={handleSubmit}
-            className="w-50 position-relative"
+            className="w-100 position-relative"
           >
             <h1 className="text-center mb-4">{title}</h1>
 

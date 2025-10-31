@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   logout,
   selectIsAuthenticated,
-} from '../../modules/login/auth/authSlice.js'
+} from '../../../modules/login/auth/authSlice.js'
 import Button from 'react-bootstrap/Button'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'

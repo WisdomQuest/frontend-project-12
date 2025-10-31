@@ -2,8 +2,8 @@ import { useRef, useEffect } from 'react'
 import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { createChannelsValidation } from '../../validationShemas.js'
-import { notifyError } from '../../common/notify/notify.js'
+import { createChannelsValidation } from '../../utils/validationShemas.js'
+import { notifyError } from '../../utils/notify.js'
 
 export const ChannelForm = ({
   initialName = '',
