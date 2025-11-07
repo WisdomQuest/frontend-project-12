@@ -1,4 +1,4 @@
-import { createApi} from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { API_ENDPOINTS } from '../../../constants/api.js'
 import { TAG_TYPES } from '../../../constants/tags.js'
 import { baseQueryWithReauth } from '../../../common/baseQuery.js'
