@@ -1,19 +1,11 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { API_BASE_URL, API_ENDPOINTS } from '../../../constants/api.js'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { API_ENDPOINTS } from '../../../constants/api.js'
 import { TAG_TYPES } from '../../../constants/tags.js'
+import { baseQueryWithReauth } from '../../../common/baseQuery.js'
 
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: API_BASE_URL,
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
-      }
-      return headers
-    },
-  }),
+  baseQuery: baseQueryWithReauth,
   tagTypes: [TAG_TYPES.MESSAGE, TAG_TYPES.CHANNEL],
   endpoints: builder => ({
     getMessages: builder.query({
